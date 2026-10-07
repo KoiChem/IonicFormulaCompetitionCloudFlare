@@ -32,3 +32,13 @@ Independent review found a stale-ready generation race. The native D1 regression
 QR/browser detail: actual jsQR decoded the teacher's generated SVG rendered into a synthetic canvas camera stream, reached nickname entry, and all stream tracks ended. Camera-denied UI recovered through Close. Deferred submission also reached final results and per-question review at 390px without horizontal overflow. Synthetic video proves browser scanner logic, not camera optics or physical-device permissions.
 
 Final remote regression: 13/13 passed (78.26s), including stale ready→cancel→generation 2. Existing candidate D1 was rechecked empty before migration, then applied baseline39 statements (5.69ms SQL). Candidate database is schema-only; no production rooms were migrated.
+
+## Published candidate
+
+- GitHub main: 9cd613d98e62ce4157f762a2904b6d7555a98ba3. [GitHub CI](https://github.com/KoiChem/IonicFormulaCompetitionCloudFlare/actions/runs/37697767088) succeeded.
+- Wrangler publication: Worker version 57ec3489-0b64-4580-b46e-03666081690d, startup2ms. [Public candidate](https://ionicformulacompetition.taiyakiyaita.workers.dev/).
+- Live health200 matches commit9cd613d, d1Ready=true, capacities D1Class50 / activeSupabase42 / Mate4. `/api` and `/api/rooms` JSON404; POST health405.
+- Live JS/CSS SHA256 exactly match the built files. Public mobile home at390×844 renders without horizontal overflow.
+- Public browser discovered existing Supabase CORS rejects the Cloudflare origin. Static/health publication is verified, but competitive frontend usability is blocked by that existing service configuration. Additive CORS/OAuth redirect changes require user scope confirmation; no existing Supabase setting has been changed at this point.
+- Workers Builds connected target repository/main, build verify:cloudflare, deploy deploy:cloudflare, using the existing build token. Dashboard retains a Git-account disconnected warning; GitHub reauthentication has been requested. Automatic build is not claimed verified. This release used Wrangler CLI.
+- Dedicated test D1 confirmed rooms0 / operations0 and no FK violations after scoped cleanup. Candidate migration repeated no-op.
