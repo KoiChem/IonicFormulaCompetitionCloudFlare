@@ -1,0 +1,59 @@
+{
+  "engine": "PostgreSQL17",
+  "mixedWorkers": true,
+  "cancelReady": [
+    {
+      "readyFirst": false,
+      "statuses": [
+        200,
+        409
+      ],
+      "state": "WAITING",
+      "countdownAfterReleaseMs": null
+    },
+    {
+      "readyFirst": true,
+      "statuses": [
+        200,
+        409
+      ],
+      "state": "COUNTDOWN",
+      "countdownAfterReleaseMs": 5005
+    }
+  ],
+  "joinStart": [
+    {
+      "joinFirst": false,
+      "statuses": [
+        200,
+        409
+      ],
+      "count": 1,
+      "state": "PREPARING"
+    },
+    {
+      "joinFirst": true,
+      "statuses": [
+        201,
+        409
+      ],
+      "count": 2,
+      "state": "WAITING"
+    }
+  ],
+  "simultaneousReady": {
+    "revision": 4,
+    "state": "COUNTDOWN"
+  },
+  "outboxReplacement": {
+    "oldAckPreservedNew": true,
+    "resent": 1
+  },
+  "concurrentCapacity": {
+    "attempts": 43,
+    "accepted": 42,
+    "rejected": 1,
+    "uniqueJoinedOrders": 42,
+    "parallelReplaySameParticipant": true
+  }
+}

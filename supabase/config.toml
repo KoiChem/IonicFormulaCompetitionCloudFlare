@@ -1,0 +1,13 @@
+project_id = "ionic-formula-competition-github"
+[functions.competition]
+verify_jwt = false
+# The gateway verifies each JWT against this project's Auth endpoint; this
+# supports asymmetric signing keys while never trusting a decoded JWT alone.
+
+[auth]
+site_url = "https://koichem.github.io/IonicFormulaCompetition/"
+additional_redirect_urls = ["https://koichem.github.io/IonicFormulaCompetition/", "http://127.0.0.1:5173/IonicFormulaCompetition/"]
+enable_anonymous_sign_ins = true
+
+[auth.rate_limit]
+anonymous_users = 300

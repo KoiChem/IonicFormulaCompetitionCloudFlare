@@ -1,0 +1,1396 @@
+{
+  "version": "6",
+  "dialect": "sqlite",
+  "id": "135e44a5-1336-4ee4-ab99-6480d1bbf035",
+  "prevId": "381dc2d5-8d06-44b1-9e3c-0b72fa9c8772",
+  "tables": {
+    "command_receipts": {
+      "name": "command_receipts",
+      "columns": {
+        "room_id": {
+          "name": "room_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "actor_id": {
+          "name": "actor_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "request_id": {
+          "name": "request_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "body_hash": {
+          "name": "body_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "result_code": {
+          "name": "result_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "result_json": {
+          "name": "result_json",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "processed_at_ms": {
+          "name": "processed_at_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "expires_at_ms": {
+          "name": "expires_at_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "command_receipts_expiry_idx": {
+          "name": "command_receipts_expiry_idx",
+          "columns": [
+            "expires_at_ms"
+          ],
+          "isUnique": false
+        },
+        "command_receipts_actor_window_idx": {
+          "name": "command_receipts_actor_window_idx",
+          "columns": [
+            "room_id",
+            "actor_id",
+            "processed_at_ms"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "command_receipts_room_id_rooms_id_fk": {
+          "name": "command_receipts_room_id_rooms_id_fk",
+          "tableFrom": "command_receipts",
+          "tableTo": "rooms",
+          "columnsFrom": [
+            "room_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "command_receipts_room_id_actor_id_request_id_pk": {
+          "columns": [
+            "room_id",
+            "actor_id",
+            "request_id"
+          ],
+          "name": "command_receipts_room_id_actor_id_request_id_pk"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "command_receipts_json_check": {
+          "name": "command_receipts_json_check",
+          "value": "json_valid(\"command_receipts\".\"result_json\")"
+        },
+        "command_receipts_time_check": {
+          "name": "command_receipts_time_check",
+          "value": "\"command_receipts\".\"processed_at_ms\" >= 0 AND \"command_receipts\".\"expires_at_ms\" >= \"command_receipts\".\"processed_at_ms\""
+        }
+      }
+    },
+    "creation_receipts": {
+      "name": "creation_receipts",
+      "columns": {
+        "actor_key_hash": {
+          "name": "actor_key_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "request_id": {
+          "name": "request_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "body_hash": {
+          "name": "body_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "room_id": {
+          "name": "room_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "result_json": {
+          "name": "result_json",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "processed_at_ms": {
+          "name": "processed_at_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "expires_at_ms": {
+          "name": "expires_at_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "creation_receipts_expiry_idx": {
+          "name": "creation_receipts_expiry_idx",
+          "columns": [
+            "expires_at_ms"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "creation_receipts_room_id_rooms_id_fk": {
+          "name": "creation_receipts_room_id_rooms_id_fk",
+          "tableFrom": "creation_receipts",
+          "tableTo": "rooms",
+          "columnsFrom": [
+            "room_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "creation_receipts_actor_key_hash_request_id_pk": {
+          "columns": [
+            "actor_key_hash",
+            "request_id"
+          ],
+          "name": "creation_receipts_actor_key_hash_request_id_pk"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "creation_receipts_json_check": {
+          "name": "creation_receipts_json_check",
+          "value": "json_valid(\"creation_receipts\".\"result_json\")"
+        },
+        "creation_receipts_time_check": {
+          "name": "creation_receipts_time_check",
+          "value": "\"creation_receipts\".\"processed_at_ms\" >= 0 AND \"creation_receipts\".\"expires_at_ms\" >= \"creation_receipts\".\"processed_at_ms\""
+        }
+      }
+    },
+    "final_results": {
+      "name": "final_results",
+      "columns": {
+        "room_id": {
+          "name": "room_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "participant_id": {
+          "name": "participant_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "correct_count": {
+          "name": "correct_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "elapsed_cs": {
+          "name": "elapsed_cs",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "rank": {
+          "name": "rank",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "finish_reason": {
+          "name": "finish_reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "final_results_room_rank_idx": {
+          "name": "final_results_room_rank_idx",
+          "columns": [
+            "room_id",
+            "rank"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "final_results_room_id_participant_id_participants_room_id_id_fk": {
+          "name": "final_results_room_id_participant_id_participants_room_id_id_fk",
+          "tableFrom": "final_results",
+          "tableTo": "participants",
+          "columnsFrom": [
+            "room_id",
+            "participant_id"
+          ],
+          "columnsTo": [
+            "room_id",
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "final_results_room_id_participant_id_pk": {
+          "columns": [
+            "room_id",
+            "participant_id"
+          ],
+          "name": "final_results_room_id_participant_id_pk"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "final_results_score_check": {
+          "name": "final_results_score_check",
+          "value": "\"final_results\".\"correct_count\" >= 0 AND \"final_results\".\"elapsed_cs\" >= 0 AND \"final_results\".\"rank\" > 0"
+        },
+        "final_results_reason_check": {
+          "name": "final_results_reason_check",
+          "value": "\"final_results\".\"finish_reason\" IN ('completed', 'timeout', 'cancelled', 'interrupted')"
+        }
+      }
+    },
+    "operation_attempts": {
+      "name": "operation_attempts",
+      "columns": {
+        "room_id": {
+          "name": "room_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "actor_id": {
+          "name": "actor_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "operation": {
+          "name": "operation",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "request_id": {
+          "name": "request_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "body_hash": {
+          "name": "body_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "outcome_code": {
+          "name": "outcome_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "outcome_status": {
+          "name": "outcome_status",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "retry_after_seconds": {
+          "name": "retry_after_seconds",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "processed_at_ms": {
+          "name": "processed_at_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "expires_at_ms": {
+          "name": "expires_at_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "operation_attempts_actor_window_idx": {
+          "name": "operation_attempts_actor_window_idx",
+          "columns": [
+            "room_id",
+            "actor_id",
+            "operation",
+            "processed_at_ms"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "operation_attempts_room_id_rooms_id_fk": {
+          "name": "operation_attempts_room_id_rooms_id_fk",
+          "tableFrom": "operation_attempts",
+          "tableTo": "rooms",
+          "columnsFrom": [
+            "room_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "operation_attempts_room_id_actor_id_participants_room_id_id_fk": {
+          "name": "operation_attempts_room_id_actor_id_participants_room_id_id_fk",
+          "tableFrom": "operation_attempts",
+          "tableTo": "participants",
+          "columnsFrom": [
+            "room_id",
+            "actor_id"
+          ],
+          "columnsTo": [
+            "room_id",
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "operation_attempts_room_id_actor_id_operation_request_id_pk": {
+          "columns": [
+            "room_id",
+            "actor_id",
+            "operation",
+            "request_id"
+          ],
+          "name": "operation_attempts_room_id_actor_id_operation_request_id_pk"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "operation_attempts_operation_check": {
+          "name": "operation_attempts_operation_check",
+          "value": "\"operation_attempts\".\"operation\" IN ('player_action')"
+        },
+        "operation_attempts_time_check": {
+          "name": "operation_attempts_time_check",
+          "value": "\"operation_attempts\".\"processed_at_ms\" >= 0 AND \"operation_attempts\".\"expires_at_ms\" >= \"operation_attempts\".\"processed_at_ms\""
+        }
+      }
+    },
+    "participant_fields": {
+      "name": "participant_fields",
+      "columns": {
+        "room_id": {
+          "name": "room_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "participant_id": {
+          "name": "participant_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "question_id": {
+          "name": "question_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "field_id": {
+          "name": "field_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "state": {
+          "name": "state",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'pending'"
+        },
+        "resolved_at_ms": {
+          "name": "resolved_at_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "attempt_count": {
+          "name": "attempt_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "last_answer_json": {
+          "name": "last_answer_json",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "last_answer_correct": {
+          "name": "last_answer_correct",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "last_command_id": {
+          "name": "last_command_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "participant_fields_progress_idx": {
+          "name": "participant_fields_progress_idx",
+          "columns": [
+            "room_id",
+            "participant_id",
+            "question_id",
+            "state"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "participant_fields_room_id_participant_id_participants_room_id_id_fk": {
+          "name": "participant_fields_room_id_participant_id_participants_room_id_id_fk",
+          "tableFrom": "participant_fields",
+          "tableTo": "participants",
+          "columnsFrom": [
+            "room_id",
+            "participant_id"
+          ],
+          "columnsTo": [
+            "room_id",
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "participant_fields_room_id_question_id_room_questions_room_id_question_id_fk": {
+          "name": "participant_fields_room_id_question_id_room_questions_room_id_question_id_fk",
+          "tableFrom": "participant_fields",
+          "tableTo": "room_questions",
+          "columnsFrom": [
+            "room_id",
+            "question_id"
+          ],
+          "columnsTo": [
+            "room_id",
+            "question_id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "participant_fields_room_id_participant_id_question_id_field_id_pk": {
+          "columns": [
+            "room_id",
+            "participant_id",
+            "question_id",
+            "field_id"
+          ],
+          "name": "participant_fields_room_id_participant_id_question_id_field_id_pk"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "participant_fields_id_check": {
+          "name": "participant_fields_id_check",
+          "value": "\"participant_fields\".\"field_id\" IN ('formula', 'name')"
+        },
+        "participant_fields_state_check": {
+          "name": "participant_fields_state_check",
+          "value": "\"participant_fields\".\"state\" IN ('pending', 'correct', 'passed', 'unanswered')"
+        },
+        "participant_fields_attempt_check": {
+          "name": "participant_fields_attempt_check",
+          "value": "\"participant_fields\".\"attempt_count\" >= 0"
+        },
+        "participant_fields_last_answer_json_check": {
+          "name": "participant_fields_last_answer_json_check",
+          "value": "\"participant_fields\".\"last_answer_json\" IS NULL OR json_valid(\"participant_fields\".\"last_answer_json\")"
+        },
+        "participant_fields_last_answer_correct_check": {
+          "name": "participant_fields_last_answer_correct_check",
+          "value": "\"participant_fields\".\"last_answer_correct\" IS NULL OR \"participant_fields\".\"last_answer_correct\" IN (0, 1)"
+        }
+      }
+    },
+    "participants": {
+      "name": "participants",
+      "columns": {
+        "room_id": {
+          "name": "room_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "token_hash": {
+          "name": "token_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "nickname": {
+          "name": "nickname",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "nickname_key": {
+          "name": "nickname_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "joined_at_ms": {
+          "name": "joined_at_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "joined_order": {
+          "name": "joined_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'ACTIVE'"
+        },
+        "current_ordinal": {
+          "name": "current_ordinal",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "correct_count": {
+          "name": "correct_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "resolved_question_count": {
+          "name": "resolved_question_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "revision": {
+          "name": "revision",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "last_command_id": {
+          "name": "last_command_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "finished_at_ms": {
+          "name": "finished_at_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "accepted_elapsed_ms": {
+          "name": "accepted_elapsed_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "wait_credit_ms": {
+          "name": "wait_credit_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "last_action_request_id": {
+          "name": "last_action_request_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "elapsed_cs": {
+          "name": "elapsed_cs",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "timing_source": {
+          "name": "timing_source",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'client'"
+        }
+      },
+      "indexes": {
+        "participants_token_unique": {
+          "name": "participants_token_unique",
+          "columns": [
+            "room_id",
+            "token_hash"
+          ],
+          "isUnique": true
+        },
+        "participants_nickname_unique": {
+          "name": "participants_nickname_unique",
+          "columns": [
+            "room_id",
+            "nickname_key"
+          ],
+          "isUnique": true
+        },
+        "participants_order_unique": {
+          "name": "participants_order_unique",
+          "columns": [
+            "room_id",
+            "joined_order"
+          ],
+          "isUnique": true
+        },
+        "participants_room_status_idx": {
+          "name": "participants_room_status_idx",
+          "columns": [
+            "room_id",
+            "status"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "participants_room_id_rooms_id_fk": {
+          "name": "participants_room_id_rooms_id_fk",
+          "tableFrom": "participants",
+          "tableTo": "rooms",
+          "columnsFrom": [
+            "room_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "participants_room_id_id_pk": {
+          "columns": [
+            "room_id",
+            "id"
+          ],
+          "name": "participants_room_id_id_pk"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "participants_joined_check": {
+          "name": "participants_joined_check",
+          "value": "\"participants\".\"joined_at_ms\" >= 0 AND \"participants\".\"joined_order\" > 0"
+        },
+        "participants_status_check": {
+          "name": "participants_status_check",
+          "value": "\"participants\".\"status\" IN ('ACTIVE', 'FINISHED', 'REMOVED')"
+        },
+        "participants_progress_check": {
+          "name": "participants_progress_check",
+          "value": "\"participants\".\"current_ordinal\" >= 0 AND \"participants\".\"correct_count\" >= 0 AND \"participants\".\"resolved_question_count\" >= 0"
+        },
+        "participants_revision_check": {
+          "name": "participants_revision_check",
+          "value": "\"participants\".\"revision\" >= 0"
+        },
+        "participants_elapsed_check": {
+          "name": "participants_elapsed_check",
+          "value": "\"participants\".\"accepted_elapsed_ms\" >= 0 AND \"participants\".\"elapsed_cs\" >= 0"
+        },
+        "participants_wait_credit_check": {
+          "name": "participants_wait_credit_check",
+          "value": "\"participants\".\"wait_credit_ms\" >= 0 AND \"participants\".\"wait_credit_ms\" <= \"participants\".\"accepted_elapsed_ms\""
+        },
+        "participants_timing_check": {
+          "name": "participants_timing_check",
+          "value": "\"participants\".\"timing_source\" IN ('client', 'server_fallback', 'timeout')"
+        }
+      }
+    },
+    "room_questions": {
+      "name": "room_questions",
+      "columns": {
+        "room_id": {
+          "name": "room_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "question_id": {
+          "name": "question_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "ordinal": {
+          "name": "ordinal",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "public_payload_json": {
+          "name": "public_payload_json",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "answer_snapshot_json": {
+          "name": "answer_snapshot_json",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "field_spec_json": {
+          "name": "field_spec_json",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "max_score": {
+          "name": "max_score",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "room_questions_ordinal_unique": {
+          "name": "room_questions_ordinal_unique",
+          "columns": [
+            "room_id",
+            "ordinal"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "room_questions_room_id_rooms_id_fk": {
+          "name": "room_questions_room_id_rooms_id_fk",
+          "tableFrom": "room_questions",
+          "tableTo": "rooms",
+          "columnsFrom": [
+            "room_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "room_questions_room_id_question_id_pk": {
+          "columns": [
+            "room_id",
+            "question_id"
+          ],
+          "name": "room_questions_room_id_question_id_pk"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "room_questions_ordinal_check": {
+          "name": "room_questions_ordinal_check",
+          "value": "\"room_questions\".\"ordinal\" >= 0"
+        },
+        "room_questions_public_json_check": {
+          "name": "room_questions_public_json_check",
+          "value": "json_valid(\"room_questions\".\"public_payload_json\")"
+        },
+        "room_questions_answer_json_check": {
+          "name": "room_questions_answer_json_check",
+          "value": "json_valid(\"room_questions\".\"answer_snapshot_json\")"
+        },
+        "room_questions_fields_json_check": {
+          "name": "room_questions_fields_json_check",
+          "value": "json_valid(\"room_questions\".\"field_spec_json\")"
+        },
+        "room_questions_score_check": {
+          "name": "room_questions_score_check",
+          "value": "\"room_questions\".\"max_score\" > 0"
+        }
+      }
+    },
+    "rooms": {
+      "name": "rooms",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "public_id": {
+          "name": "public_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "join_code": {
+          "name": "join_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "kind": {
+          "name": "kind",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "owner_teacher_id": {
+          "name": "owner_teacher_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "mate_host_id": {
+          "name": "mate_host_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "settings_json": {
+          "name": "settings_json",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "game_id": {
+          "name": "game_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "game_version": {
+          "name": "game_version",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "dataset_version": {
+          "name": "dataset_version",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "state": {
+          "name": "state",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'WAITING'"
+        },
+        "revision": {
+          "name": "revision",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "max_score": {
+          "name": "max_score",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at_ms": {
+          "name": "created_at_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "start_at_ms": {
+          "name": "start_at_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "deadline_at_ms": {
+          "name": "deadline_at_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "ended_at_ms": {
+          "name": "ended_at_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "end_reason": {
+          "name": "end_reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'normal'"
+        },
+        "expires_at_ms": {
+          "name": "expires_at_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "last_command_id": {
+          "name": "last_command_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "rooms_public_id_unique": {
+          "name": "rooms_public_id_unique",
+          "columns": [
+            "public_id"
+          ],
+          "isUnique": true
+        },
+        "rooms_join_code_unique": {
+          "name": "rooms_join_code_unique",
+          "columns": [
+            "join_code"
+          ],
+          "isUnique": true
+        },
+        "rooms_owner_active_idx": {
+          "name": "rooms_owner_active_idx",
+          "columns": [
+            "owner_teacher_id",
+            "state",
+            "expires_at_ms"
+          ],
+          "isUnique": false
+        },
+        "rooms_expires_idx": {
+          "name": "rooms_expires_idx",
+          "columns": [
+            "expires_at_ms"
+          ],
+          "isUnique": false
+        },
+        "rooms_state_deadline_idx": {
+          "name": "rooms_state_deadline_idx",
+          "columns": [
+            "state",
+            "deadline_at_ms"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "rooms_kind_check": {
+          "name": "rooms_kind_check",
+          "value": "\"rooms\".\"kind\" IN ('class', 'mate')"
+        },
+        "rooms_state_check": {
+          "name": "rooms_state_check",
+          "value": "\"rooms\".\"state\" IN ('CREATED', 'WAITING', 'COUNTDOWN', 'RUNNING', 'FINISHED', 'CANCELLED', 'EXPIRED')"
+        },
+        "rooms_revision_check": {
+          "name": "rooms_revision_check",
+          "value": "\"rooms\".\"revision\" >= 0"
+        },
+        "rooms_score_check": {
+          "name": "rooms_score_check",
+          "value": "\"rooms\".\"max_score\" > 0"
+        },
+        "rooms_created_check": {
+          "name": "rooms_created_check",
+          "value": "\"rooms\".\"created_at_ms\" >= 0"
+        },
+        "rooms_expiry_check": {
+          "name": "rooms_expiry_check",
+          "value": "\"rooms\".\"expires_at_ms\" >= \"rooms\".\"created_at_ms\""
+        },
+        "rooms_owner_check": {
+          "name": "rooms_owner_check",
+          "value": "(\"rooms\".\"kind\" = 'class' AND \"rooms\".\"owner_teacher_id\" IS NOT NULL AND \"rooms\".\"mate_host_id\" IS NULL) OR (\"rooms\".\"kind\" = 'mate' AND \"rooms\".\"owner_teacher_id\" IS NULL AND \"rooms\".\"mate_host_id\" IS NOT NULL)"
+        },
+        "rooms_schedule_check": {
+          "name": "rooms_schedule_check",
+          "value": "\"rooms\".\"deadline_at_ms\" IS NULL OR (\"rooms\".\"start_at_ms\" IS NOT NULL AND \"rooms\".\"deadline_at_ms\" > \"rooms\".\"start_at_ms\")"
+        },
+        "rooms_end_reason_check": {
+          "name": "rooms_end_reason_check",
+          "value": "\"rooms\".\"end_reason\" IN ('normal', 'interrupted')"
+        }
+      }
+    },
+    "site_setting_receipts": {
+      "name": "site_setting_receipts",
+      "columns": {
+        "teacher_id": {
+          "name": "teacher_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "request_id": {
+          "name": "request_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "body_hash": {
+          "name": "body_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "result_json": {
+          "name": "result_json",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "processed_at_ms": {
+          "name": "processed_at_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "expires_at_ms": {
+          "name": "expires_at_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "site_setting_receipts_expiry_idx": {
+          "name": "site_setting_receipts_expiry_idx",
+          "columns": [
+            "expires_at_ms"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "site_setting_receipts_teacher_id_request_id_pk": {
+          "columns": [
+            "teacher_id",
+            "request_id"
+          ],
+          "name": "site_setting_receipts_teacher_id_request_id_pk"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "site_setting_receipts_json_check": {
+          "name": "site_setting_receipts_json_check",
+          "value": "json_valid(\"site_setting_receipts\".\"result_json\")"
+        },
+        "site_setting_receipts_time_check": {
+          "name": "site_setting_receipts_time_check",
+          "value": "\"site_setting_receipts\".\"processed_at_ms\" >= 0 AND \"site_setting_receipts\".\"expires_at_ms\" >= \"site_setting_receipts\".\"processed_at_ms\""
+        }
+      }
+    },
+    "site_settings": {
+      "name": "site_settings",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "mate_match_enabled": {
+          "name": "mate_match_enabled",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 1
+        },
+        "revision": {
+          "name": "revision",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "updated_at_ms": {
+          "name": "updated_at_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "last_command_id": {
+          "name": "last_command_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "site_settings_singleton_check": {
+          "name": "site_settings_singleton_check",
+          "value": "\"site_settings\".\"id\" = 1"
+        },
+        "site_settings_mate_check": {
+          "name": "site_settings_mate_check",
+          "value": "\"site_settings\".\"mate_match_enabled\" IN (0, 1)"
+        },
+        "site_settings_revision_check": {
+          "name": "site_settings_revision_check",
+          "value": "\"site_settings\".\"revision\" >= 0"
+        },
+        "site_settings_updated_check": {
+          "name": "site_settings_updated_check",
+          "value": "\"site_settings\".\"updated_at_ms\" >= 0"
+        }
+      }
+    },
+    "teacher_allowlist": {
+      "name": "teacher_allowlist",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "emails_json": {
+          "name": "emails_json",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'[]'"
+        },
+        "revision": {
+          "name": "revision",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "last_request_id": {
+          "name": "last_request_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "last_body_hash": {
+          "name": "last_body_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "teacher_allowlist_singleton": {
+          "name": "teacher_allowlist_singleton",
+          "value": "\"teacher_allowlist\".\"id\" = 1"
+        },
+        "teacher_allowlist_revision": {
+          "name": "teacher_allowlist_revision",
+          "value": "\"teacher_allowlist\".\"revision\" >= 0"
+        },
+        "teacher_allowlist_json": {
+          "name": "teacher_allowlist_json",
+          "value": "json_valid(\"teacher_allowlist\".\"emails_json\") AND json_type(\"teacher_allowlist\".\"emails_json\") = 'array'"
+        }
+      }
+    }
+  },
+  "views": {},
+  "enums": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "indexes": {}
+  }
+}

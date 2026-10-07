@@ -1,0 +1,473 @@
+{
+  "size": 42,
+  "distinctAuthenticatedUsers": 42,
+  "missingUsers": 0,
+  "joinAllUiMs": 4954,
+  "rows": [
+    {
+      "i": 0,
+      "ms": 1972,
+      "ok": true
+    },
+    {
+      "i": 1,
+      "ms": 1475,
+      "ok": true
+    },
+    {
+      "i": 2,
+      "ms": 2431,
+      "ok": true
+    },
+    {
+      "i": 3,
+      "ms": 2511,
+      "ok": true
+    },
+    {
+      "i": 4,
+      "ms": 1112,
+      "ok": true
+    },
+    {
+      "i": 5,
+      "ms": 3677,
+      "ok": true
+    },
+    {
+      "i": 6,
+      "ms": 1675,
+      "ok": true
+    },
+    {
+      "i": 7,
+      "ms": 2615,
+      "ok": true
+    },
+    {
+      "i": 8,
+      "ms": 1007,
+      "ok": true
+    },
+    {
+      "i": 9,
+      "ms": 1298,
+      "ok": true
+    },
+    {
+      "i": 10,
+      "ms": 2461,
+      "ok": true
+    },
+    {
+      "i": 11,
+      "ms": 2214,
+      "ok": true
+    },
+    {
+      "i": 12,
+      "ms": 2358,
+      "ok": true
+    },
+    {
+      "i": 13,
+      "ms": 2489,
+      "ok": true
+    },
+    {
+      "i": 14,
+      "ms": 1369,
+      "ok": true
+    },
+    {
+      "i": 15,
+      "ms": 2036,
+      "ok": true
+    },
+    {
+      "i": 16,
+      "ms": 1737,
+      "ok": true
+    },
+    {
+      "i": 17,
+      "ms": 1189,
+      "ok": true
+    },
+    {
+      "i": 18,
+      "ms": 2735,
+      "ok": true
+    },
+    {
+      "i": 19,
+      "ms": 2324,
+      "ok": true
+    },
+    {
+      "i": 20,
+      "ms": 2847,
+      "ok": true
+    },
+    {
+      "i": 21,
+      "ms": 1522,
+      "ok": true
+    },
+    {
+      "i": 22,
+      "ms": 923,
+      "ok": true
+    },
+    {
+      "i": 23,
+      "ms": 2544,
+      "ok": true
+    },
+    {
+      "i": 24,
+      "ms": 1819,
+      "ok": true
+    },
+    {
+      "i": 25,
+      "ms": 2365,
+      "ok": true
+    },
+    {
+      "i": 26,
+      "ms": 2116,
+      "ok": true
+    },
+    {
+      "i": 27,
+      "ms": 2227,
+      "ok": true
+    },
+    {
+      "i": 28,
+      "ms": 2665,
+      "ok": true
+    },
+    {
+      "i": 29,
+      "ms": 2798,
+      "ok": true
+    },
+    {
+      "i": 30,
+      "ms": 2295,
+      "ok": true
+    },
+    {
+      "i": 31,
+      "ms": 2559,
+      "ok": true
+    },
+    {
+      "i": 32,
+      "ms": 2502,
+      "ok": true
+    },
+    {
+      "i": 33,
+      "ms": 2641,
+      "ok": true
+    },
+    {
+      "i": 34,
+      "ms": 2744,
+      "ok": true
+    },
+    {
+      "i": 35,
+      "ms": 2604,
+      "ok": true
+    },
+    {
+      "i": 36,
+      "ms": 4910,
+      "ok": true
+    },
+    {
+      "i": 37,
+      "ms": 2893,
+      "ok": true
+    },
+    {
+      "i": 38,
+      "ms": 2768,
+      "ok": true
+    },
+    {
+      "i": 39,
+      "ms": 1892,
+      "ok": true
+    },
+    {
+      "i": 40,
+      "ms": 2685,
+      "ok": true
+    },
+    {
+      "i": 41,
+      "ms": 2853,
+      "ok": true
+    }
+  ],
+  "joinRequests": [
+    {
+      "i": 22,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 668
+    },
+    {
+      "i": 8,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 735
+    },
+    {
+      "i": 4,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 844
+    },
+    {
+      "i": 17,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 929
+    },
+    {
+      "i": 9,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 1027
+    },
+    {
+      "i": 14,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 1105
+    },
+    {
+      "i": 1,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 1207
+    },
+    {
+      "i": 21,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 1198
+    },
+    {
+      "i": 6,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 1411
+    },
+    {
+      "i": 16,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 1436
+    },
+    {
+      "i": 24,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 1569
+    },
+    {
+      "i": 39,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 1507
+    },
+    {
+      "i": 0,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 1807
+    },
+    {
+      "i": 15,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 1728
+    },
+    {
+      "i": 26,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 1823
+    },
+    {
+      "i": 11,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 1942
+    },
+    {
+      "i": 27,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 1973
+    },
+    {
+      "i": 30,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 1932
+    },
+    {
+      "i": 19,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 1957
+    },
+    {
+      "i": 12,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 2048
+    },
+    {
+      "i": 25,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 1997
+    },
+    {
+      "i": 2,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 2204
+    },
+    {
+      "i": 10,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 2184
+    },
+    {
+      "i": 13,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 2168
+    },
+    {
+      "i": 3,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 2239
+    },
+    {
+      "i": 32,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 2192
+    },
+    {
+      "i": 23,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 2256
+    },
+    {
+      "i": 31,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 2257
+    },
+    {
+      "i": 7,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 2339
+    },
+    {
+      "i": 35,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 2243
+    },
+    {
+      "i": 33,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 2272
+    },
+    {
+      "i": 28,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 2279
+    },
+    {
+      "i": 40,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 2300
+    },
+    {
+      "i": 18,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 2370
+    },
+    {
+      "i": 34,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 2363
+    },
+    {
+      "i": 38,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 2383
+    },
+    {
+      "i": 29,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 2432
+    },
+    {
+      "i": 20,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 2465
+    },
+    {
+      "i": 41,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 2469
+    },
+    {
+      "i": 37,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 2513
+    },
+    {
+      "i": 5,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 3398
+    },
+    {
+      "i": 36,
+      "path": "/functions/v1/competition/api/rooms/be1136a3-fa72-4a14-884c-802b727626cd/join",
+      "status": 201,
+      "ms": 4521
+    }
+  ],
+  "errors": []
+}

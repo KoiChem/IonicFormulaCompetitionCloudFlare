@@ -1,0 +1,15 @@
+[
+  {
+    "created_at": 1790857420110,
+    "entrypoint_path": "file:///tmp/user_fn_slktkbpvvsfpflnmpuvr_40be4200-b80a-4190-9734-42c256b63203_27/source/supabase/functions/competition/index.ts",
+    "ezbr_sha256": "4fb71e2f4485e41955727ccf9ca623dfcdf061d571d1f296181a3694f192bfee",
+    "id": "40be4200-b80a-4190-9734-42c256b63203",
+    "import_map": false,
+    "name": "competition",
+    "slug": "competition",
+    "status": "ACTIVE",
+    "updated_at": 1791374814785,
+    "verify_jwt": false,
+    "version": 27
+  }
+]

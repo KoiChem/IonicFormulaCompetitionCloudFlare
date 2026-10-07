@@ -1,0 +1,1727 @@
+{
+  "phase": "stage1",
+  "aborts": 15,
+  "samples": [
+    {
+      "size": 20,
+      "round": 1,
+      "joinMs": [
+        536,
+        793,
+        1058,
+        1321,
+        1591,
+        1874,
+        2157,
+        2416,
+        2702,
+        2988,
+        3278,
+        3561,
+        3840,
+        4117,
+        4385,
+        4660,
+        4947,
+        5219,
+        5501,
+        5784
+      ],
+      "joinAllMs": 5786,
+      "startMs": 675,
+      "statusMs": 397,
+      "replayMs": 493,
+      "readyMs": 5380
+    },
+    {
+      "size": 20,
+      "round": 2,
+      "joinMs": [
+        529,
+        796,
+        1057,
+        1318,
+        1595,
+        1886,
+        2169,
+        2437,
+        2704,
+        2986,
+        3264,
+        3538,
+        3818,
+        4083,
+        4352,
+        4627,
+        4903,
+        5183,
+        5459,
+        5738
+      ],
+      "joinAllMs": 5739,
+      "startMs": 682,
+      "statusMs": 384,
+      "replayMs": 492,
+      "readyMs": 5537
+    },
+    {
+      "size": 42,
+      "round": 1,
+      "joinMs": [
+        527,
+        794,
+        1063,
+        1336,
+        1598,
+        1865,
+        2122,
+        2384,
+        2646,
+        2909,
+        3201,
+        3462,
+        3756,
+        4025,
+        4289,
+        4552,
+        4817,
+        5147,
+        5421,
+        5700,
+        5979,
+        6259,
+        6522,
+        6806,
+        7077,
+        7356,
+        7629,
+        7892,
+        8166,
+        8443,
+        8710,
+        8987,
+        9265,
+        9547,
+        9812,
+        10074,
+        10341,
+        10631,
+        10925,
+        11210,
+        11513,
+        11784
+      ],
+      "joinAllMs": 11785,
+      "startMs": 705,
+      "statusMs": 401,
+      "replayMs": 499,
+      "readyMs": 11230
+    },
+    {
+      "size": 42,
+      "round": 2,
+      "joinMs": [
+        554,
+        831,
+        1112,
+        1390,
+        1654,
+        1928,
+        2208,
+        2476,
+        2753,
+        3046,
+        3336,
+        3625,
+        3923,
+        4223,
+        4500,
+        4788,
+        5076,
+        5359,
+        5626,
+        5907,
+        6198,
+        6485,
+        6766,
+        7045,
+        7353,
+        7645,
+        7956,
+        8242,
+        8529,
+        8820,
+        9101,
+        9382,
+        9656,
+        9922,
+        10212,
+        10504,
+        10788,
+        11073,
+        11372,
+        11694,
+        11967,
+        12247
+      ],
+      "joinAllMs": 12249,
+      "startMs": 701,
+      "statusMs": 399,
+      "replayMs": 478,
+      "readyMs": 11307
+    }
+  ],
+  "controlDelayMs": 10,
+  "commandMetrics": [
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 13,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "legacy",
+      "applicationDbCalls": 19,
+      "transactionControlCalls": 9
+    }
+  ],
+  "join20": {
+    "p50": 2988,
+    "p95": 5501,
+    "max": 5784
+  },
+  "join42": {
+    "p50": 6198,
+    "p95": 11513,
+    "max": 12247
+  },
+  "allJoin20": {
+    "p50": 5739,
+    "p95": 5786,
+    "max": 5786
+  },
+  "allJoin42": {
+    "p50": 11785,
+    "p95": 12249,
+    "max": 12249
+  },
+  "status20": {
+    "p50": 384,
+    "p95": 397,
+    "max": 397
+  },
+  "status42": {
+    "p50": 399,
+    "p95": 401,
+    "max": 401
+  },
+  "replay20": {
+    "p50": 492,
+    "p95": 493,
+    "max": 493
+  },
+  "replay42": {
+    "p50": 478,
+    "p95": 499,
+    "max": 499
+  },
+  "engine": "PostgreSQL 17",
+  "queryDelayMs": 10,
+  "authDelayMs": 200,
+  "roundsPerSize": 2,
+  "pools": 3,
+  "flush": false,
+  "start20": {
+    "p95": 682,
+    "max": 682
+  },
+  "start42": {
+    "p95": 705,
+    "max": 705
+  },
+  "ready20": {
+    "p95": 5537,
+    "max": 5537
+  },
+  "ready42": {
+    "p95": 11307,
+    "max": 11307
+  }
+}

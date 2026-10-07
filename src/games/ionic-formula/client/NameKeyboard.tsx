@@ -1,0 +1,19 @@
+"use client";
+import { useEffect, useRef } from "react";
+import type { Difficulty } from "../shared/types";
+const COMPLEX_SHORTCUTS = ["ジ", "トリ", "テトラ", "ヘキサ", "アンミン", "シアニド", "クロリド", "ヒドロキシド"];
+export function NameKeyboard({ value, onChange, disabled, kind, onSubmit = () => {}, showSubmit = true, focusKey, complexEnabled = false, difficulty = "normal" }: { value: string; onChange(value: string): void; disabled?: boolean; kind: "ion" | "compound"; onSubmit?(): void; showSubmit?: boolean; focusKey?: string; complexEnabled?: boolean; difficulty?: Difficulty }) {
+  const input = useRef<HTMLInputElement>(null);
+  const focusedKey = useRef<string | undefined>(undefined);
+  useEffect(() => {
+    if (disabled || !focusKey || focusedKey.current === focusKey) return;
+    focusedKey.current = focusKey;
+    input.current?.focus({ preventScroll: true });
+  }, [disabled, focusKey]);
+  const composing = useRef(false);
+  const compositionEndedAt = useRef(0);
+  const insert = (text: string) => { const element = input.current; if (!element) return; const start = element.selectionStart ?? value.length; const end = element.selectionEnd ?? start; onChange(value.slice(0, start) + text + value.slice(end)); requestAnimationFrame(() => { element.focus({ preventScroll: true }); element.setSelectionRange(start + text.length, start + text.length); }); };
+  const backspace = () => { const element = input.current; if (!element) return; const start = element.selectionStart ?? value.length; const end = element.selectionEnd ?? start; if (start === 0 && end === 0) return; onChange(value.slice(0, start === end ? start - 1 : start) + value.slice(end)); requestAnimationFrame(() => { element.focus({ preventScroll: true }); element.setSelectionRange(start === end ? start - 1 : start, start === end ? start - 1 : start); }); };
+  const canSubmit = () => showSubmit && !disabled && Boolean(value.trim()) && !composing.current && Date.now() - compositionEndedAt.current >= 80;
+  return <><div className={`name-composer ${showSubmit ? "" : "without-submit"}`}><input ref={input} type="text" inputMode="text" enterKeyHint={showSubmit ? "done" : "next"} aria-label={kind === "ion" ? "イオン名" : "化合物名"} placeholder={kind === "ion" ? "イオン名" : "化合物名"} value={value} disabled={disabled} maxLength={128} autoCapitalize="sentences" autoComplete="off" spellCheck={false} onChange={event => onChange(event.target.value)} onCompositionStart={() => { composing.current = true; }} onCompositionEnd={() => { composing.current = false; compositionEndedAt.current = Date.now(); }} onKeyDown={event => { if (event.key === "Enter" && canSubmit() && !event.nativeEvent.isComposing && event.nativeEvent.keyCode !== 229) { event.preventDefault(); onSubmit(); } }}/>{showSubmit && <button type="button" className="answer-submit" aria-label="解答をチェック" disabled={disabled || !value.trim()} onClick={() => { if (canSubmit()) onSubmit(); }}>チェック</button>}</div><div className={`name-shortcuts ${kind === "ion" ? "ion-name-entry" : "compound-name-entry"}`} aria-label="名称入力補助">{["(Ⅰ)", "(Ⅱ)", "(Ⅲ)", "(Ⅳ)", ...(kind === "ion" ? ["イオン"] : [])].map(text => <button type="button" key={text} disabled={disabled} onPointerDown={event => event.preventDefault()} onClick={() => insert(text)}>{text}</button>)}<button type="button" aria-label="1文字削除" disabled={disabled} onPointerDown={event => event.preventDefault()} onClick={backspace}>⌫</button><button type="button" disabled={disabled} onPointerDown={event => event.preventDefault()} onClick={() => { onChange(""); input.current?.focus({ preventScroll: true }); }}>クリア</button></div>{complexEnabled && difficulty === "normal" && <div className="name-shortcuts complex-name-shortcuts" aria-label="錯イオン名称の入力補助">{COMPLEX_SHORTCUTS.map(text => <button type="button" key={text} disabled={disabled} onPointerDown={event => event.preventDefault()} onClick={() => insert(text)}>{text}</button>)}</div>}</>;
+}

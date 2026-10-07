@@ -1,0 +1,30 @@
+import postgres from 'postgres';
+import {postgresTransactions} from '../../src/platform/postgres-runtime';
+import {createSupabaseGateway} from '../../src/platform/supabase-gateway';
+import {flushRoomEvents} from '../../src/platform/realtime-outbox';
+import {writeFileSync} from 'node:fs';
+const connection=process.env.TEST_DATABASE_URL;
+if(!connection||new URL(connection).hostname!=='127.0.0.1'||new URL(connection).pathname!=='/ionic_timeout_validation')throw new Error('Requires local validation DB');
+const sql=postgres(connection,{ssl:false,max:2,prepare:false});
+const transact=postgresTransactions(connection,{ssl:false});const inspect=postgresTransactions(connection,{ssl:false});
+const room=(await sql`SELECT r.id,r.public_id,r.revision,c.request_id FROM rooms r JOIN command_receipts c ON c.room_id=r.id AND c.actor_id='v2-prepare:'||r.id AND EXISTS (SELECT 1 FROM v2_room_manifests m WHERE m.room_id=r.id AND m.state='COLLECTING') LIMIT 1`)[0];if(!room)throw new Error('Run classroom load first');
+const master={id:'11111111-1111-4111-8111-111111111111',email:'teacher@example.com',email_confirmed_at:'2026-10-01',is_anonymous:false,identities:[{provider:'google'}]};
+const gateway=createSupabaseGateway({transact,inspect,verifyUser:async()=>master,masterEmail:master.email,allowedOrigins:['https://koichem.github.io'],flush:async()=>{}});
+async function status(){const response=await gateway(new Request(`https://local/api/rooms/${room.public_id}/start-status?requestId=${room.request_id}`,{headers:{origin:'https://koichem.github.io'}}));if(response.status!==200)throw new Error(await response.text());return response.json();}
+let release!:()=>void;let locked!:()=>void;const lockReady=new Promise<void>(r=>locked=r);const held=new Promise<void>(r=>release=r);
+const command=transact('room:'+room.public_id,async db=>{await db.prepare('UPDATE rooms SET revision=revision+1 WHERE id=?').bind(room.id).run();locked();await held;});await lockReady;
+const started=Date.now();const snapshot=await status();const statusWhileLockedMs=Date.now()-started;
+if(snapshot.room.revision!==Number(room.revision)||statusWhileLockedMs>=1000)throw new Error('Read snapshot blocked or saw uncommitted update');release();await command;
+const eventId=crypto.randomUUID();const topic=(await sql`SELECT epoch,control_revision FROM app_room_topics WHERE room_id=${room.id}`)[0];
+await sql`UPDATE app_room_topics SET sent_control_ms=0,sent_progress_ms=0 WHERE room_id=${room.id}`;
+await sql`INSERT INTO app_outbox(room_id,kind,revision,payload_json,event_id) VALUES(${room.id},'control',${Number(topic.control_revision)+1},${JSON.stringify({eventId,roomId:room.public_id,epoch:Number(topic.epoch),revision:Number(topic.control_revision)+1,roomRevision:Number(room.revision)+1,participants:[{nickname:'legacy secret'}]})},${eventId}) ON CONFLICT(room_id,kind) DO UPDATE SET event_id=excluded.event_id,payload_json=excluded.payload_json,lease_until_ms=0`;
+const pids=new Set<number>();let active=0;
+const measured:typeof transact=(scope,run,metrics)=>transact(scope,async db=>{const pid=await db.prepare('SELECT pg_backend_pid() AS pid').first<{pid:number}>();pids.add(pid!.pid);active++;try{return await run(db);}finally{active--;}},metrics);
+let sendStarted!:()=>void;const sending=new Promise<void>(r=>sendStarted=r);let senderActive=-1;let transactionBackends=-1;let releaseSend!:()=>void;const sendHold=new Promise<void>(r=>releaseSend=r);
+const flush=flushRoomEvents(measured,room.public_id,async(_topic,_event,payload)=>{if(JSON.stringify(payload).includes('legacy secret'))throw new Error('Privacy leak');senderActive=active;const backends=await sql`SELECT count(*)::int AS n FROM pg_stat_activity WHERE pid=ANY(${[...pids]}::int[]) AND xact_start IS NOT NULL`;transactionBackends=backends[0].n;sendStarted();await sendHold;});await sending;
+const duringSend=Date.now();await transact('room:'+room.public_id,db=>db.prepare('SELECT revision FROM rooms WHERE id=?').bind(room.id).first());await status();const unrelatedWorkMs=Date.now()-duringSend;
+if(senderActive!==0||transactionBackends!==0||unrelatedWorkMs>=1000)throw new Error('Network wait held a DB resource');await new Promise(resolve=>setTimeout(resolve,3000));releaseSend();await flush;
+const before=(await sql`SELECT revision FROM rooms WHERE id=${room.id}`)[0].revision;
+try{await transact('room:'+room.public_id,async db=>{await db.prepare('UPDATE rooms SET revision=revision+1 WHERE id=?').bind(room.id).run();await db.prepare(`INSERT INTO room_questions SELECT * FROM room_questions WHERE room_id=?`).bind(room.id).run();});throw new Error('Expected constraint failure');}catch(error){if((error as any).code!=='23505')throw error;}
+if((await sql`SELECT revision FROM rooms WHERE id=${room.id}`)[0].revision!==before)throw new Error('Partial commit');
+const result={statusWhileLockedMs,unrelatedWorkMs,senderActive,transactionBackends,rollback:'verified'};writeFileSync('/private/tmp/ionic-timeout-concurrency-result.json',JSON.stringify(result,null,2));console.log(result);await sql.end();process.exit(0);

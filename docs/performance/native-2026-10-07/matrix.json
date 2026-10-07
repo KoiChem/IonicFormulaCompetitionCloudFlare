@@ -1,0 +1,27 @@
+{
+  "mixedNativeLegacy": true,
+  "engine": "PostgreSQL 17",
+  "queryDelayMs": 0,
+  "authDelayMs": 0,
+  "roundsPerSize": 4,
+  "runtimes": 2,
+  "poolsPerRuntime": 3,
+  "simultaneousRooms": 2,
+  "flush": true,
+  "httpDelayMs": 30,
+  "sends": 97,
+  "injectedFailures": 1,
+  "workerRecovery": "verified",
+  "startAll": {
+    "p95": 55,
+    "max": 55
+  },
+  "ready20": {
+    "p95": 125,
+    "max": 125
+  },
+  "ready42": {
+    "p95": 110,
+    "max": 110
+  }
+}

@@ -1,0 +1,1 @@
+CREATE INDEX `command_receipts_actor_window_idx` ON `command_receipts` (`room_id`,`actor_id`,`processed_at_ms`);

@@ -1,0 +1,1727 @@
+{
+  "phase": "native",
+  "aborts": 0,
+  "samples": [
+    {
+      "size": 20,
+      "round": 1,
+      "joinMs": [
+        340,
+        409,
+        476,
+        542,
+        609,
+        679,
+        745,
+        817,
+        886,
+        963,
+        1032,
+        1097,
+        1168,
+        1237,
+        1308,
+        1377,
+        1448,
+        1522,
+        1596,
+        1672
+      ],
+      "joinAllMs": 1675,
+      "startMs": 695,
+      "statusMs": 412,
+      "replayMs": 498,
+      "readyMs": 2810
+    },
+    {
+      "size": 20,
+      "round": 2,
+      "joinMs": [
+        338,
+        409,
+        477,
+        545,
+        616,
+        689,
+        760,
+        830,
+        903,
+        969,
+        1039,
+        1105,
+        1172,
+        1245,
+        1316,
+        1385,
+        1458,
+        1535,
+        1605,
+        1679
+      ],
+      "joinAllMs": 1680,
+      "startMs": 670,
+      "statusMs": 394,
+      "replayMs": 502,
+      "readyMs": 2757
+    },
+    {
+      "size": 42,
+      "round": 1,
+      "joinMs": [
+        329,
+        396,
+        464,
+        531,
+        600,
+        669,
+        736,
+        804,
+        870,
+        935,
+        1004,
+        1071,
+        1138,
+        1202,
+        1270,
+        1338,
+        1406,
+        1479,
+        1549,
+        1619,
+        1688,
+        1765,
+        1835,
+        1910,
+        1982,
+        2051,
+        2119,
+        2187,
+        2255,
+        2323,
+        2392,
+        2465,
+        2537,
+        2608,
+        2678,
+        2747,
+        2816,
+        2889,
+        2962,
+        3037,
+        3105,
+        3174
+      ],
+      "joinAllMs": 3176,
+      "startMs": 660,
+      "statusMs": 389,
+      "replayMs": 472,
+      "readyMs": 5473
+    },
+    {
+      "size": 42,
+      "round": 2,
+      "joinMs": [
+        328,
+        396,
+        465,
+        606,
+        674,
+        743,
+        811,
+        876,
+        942,
+        1006,
+        1074,
+        1146,
+        1212,
+        1279,
+        1348,
+        1416,
+        1482,
+        1547,
+        1613,
+        1679,
+        1748,
+        1814,
+        1879,
+        1945,
+        2013,
+        2082,
+        2150,
+        2222,
+        2287,
+        2351,
+        2418,
+        2486,
+        2551,
+        2616,
+        2684,
+        2752,
+        2820,
+        2888,
+        2957,
+        3023,
+        3093,
+        3163
+      ],
+      "joinAllMs": 3165,
+      "startMs": 664,
+      "statusMs": 389,
+      "replayMs": 471,
+      "readyMs": 5403
+    }
+  ],
+  "controlDelayMs": 10,
+  "commandMetrics": [
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "join",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    },
+    {
+      "route": "ready",
+      "path": "native",
+      "applicationDbCalls": 2,
+      "transactionControlCalls": 9
+    }
+  ],
+  "join20": {
+    "p50": 969,
+    "p95": 1605,
+    "max": 1679
+  },
+  "join42": {
+    "p50": 1748,
+    "p95": 3037,
+    "max": 3174
+  },
+  "allJoin20": {
+    "p50": 1675,
+    "p95": 1680,
+    "max": 1680
+  },
+  "allJoin42": {
+    "p50": 3165,
+    "p95": 3176,
+    "max": 3176
+  },
+  "status20": {
+    "p50": 394,
+    "p95": 412,
+    "max": 412
+  },
+  "status42": {
+    "p50": 389,
+    "p95": 389,
+    "max": 389
+  },
+  "replay20": {
+    "p50": 498,
+    "p95": 502,
+    "max": 502
+  },
+  "replay42": {
+    "p50": 471,
+    "p95": 472,
+    "max": 472
+  },
+  "engine": "PostgreSQL 17",
+  "queryDelayMs": 10,
+  "authDelayMs": 200,
+  "roundsPerSize": 2,
+  "pools": 3,
+  "flush": false,
+  "start20": {
+    "p95": 695,
+    "max": 695
+  },
+  "start42": {
+    "p95": 664,
+    "max": 664
+  },
+  "ready20": {
+    "p95": 2810,
+    "max": 2810
+  },
+  "ready42": {
+    "p95": 5473,
+    "max": 5473
+  }
+}

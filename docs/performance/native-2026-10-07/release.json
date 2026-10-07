@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-07",
+  "codeCommit": "39b6ead922bb431021e5eecf2ee468d0ba5b3bec",
+  "githubActionsRun": 37620553926,
+  "build": "success",
+  "tests": 545,
+  "deploy": "success",
+  "publicUrl": "https://koichem.github.io/IonicFormulaCompetition/",
+  "supabaseProject": "slktkbpvvsfpflnmpuvr",
+  "edgeVersion": 27,
+  "edgeStatus": "ACTIVE",
+  "migration": "202610060001_native_room_commands",
+  "flags": {"COMPETITION_NATIVE_JOIN": true, "COMPETITION_NATIVE_READY": true},
+  "servedJavaScript": "index-BFCAjfiW.js",
+  "servedCss": "index-B0HBjL6V.css",
+  "publicReloadErrors": 0,
+  "publicJoinStart20": "passed",
+  "publicJoinStart42": "passed",
+  "publicSimultaneousSubmit42": "response confirmation failed; all 42 persisted and finalized; teacher results recovered",
+  "physicalSchoolDevicesAndWifi": "not tested"
+}

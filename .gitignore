@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+.superpowers/
+supabase/.temp/
+.DS_Store
+*.log
+coverage/
+.playwright-mcp/
+
+# Local test harness bundles
+.cache/
+.pnpm-store/
+.wrangler/

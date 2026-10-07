@@ -1,0 +1,28 @@
+name: Verify Cloudflare Phase 1
+on:
+  push:
+    branches: [main, 'codex/**']
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.19.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck && pnpm typecheck:worker
+      - run: pnpm test
+        env:
+          RUN_LOAD: '1'
+      - run: pnpm test:d1
+      - run: pnpm build:cloudflare
+      - run: pnpm exec wrangler deploy --dry-run --outdir .cache/worker-dry-run

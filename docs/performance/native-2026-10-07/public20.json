@@ -1,0 +1,1952 @@
+{
+  "size": 20,
+  "distinctContexts": 20,
+  "joinAllUiMs": 1759,
+  "manifestToAllReadyMs": 2641,
+  "readyApiMs": [
+    789,
+    553,
+    569,
+    432,
+    639,
+    681,
+    736,
+    526,
+    790,
+    610,
+    683,
+    846,
+    663,
+    822,
+    667,
+    691,
+    624,
+    775,
+    599,
+    625
+  ],
+  "firstQuestionCount": 20,
+  "errors": [],
+  "badStatuses": [],
+  "overflow": [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ],
+  "join": {
+    "size": 20,
+    "joinAllUiMs": 1759,
+    "rows": [
+      {
+        "i": 0,
+        "ms": 970,
+        "ok": true
+      },
+      {
+        "i": 1,
+        "ms": 1089,
+        "ok": true
+      },
+      {
+        "i": 2,
+        "ms": 1688,
+        "ok": true
+      },
+      {
+        "i": 3,
+        "ms": 1052,
+        "ok": true
+      },
+      {
+        "i": 4,
+        "ms": 1366,
+        "ok": true
+      },
+      {
+        "i": 5,
+        "ms": 841,
+        "ok": true
+      },
+      {
+        "i": 6,
+        "ms": 1512,
+        "ok": true
+      },
+      {
+        "i": 7,
+        "ms": 803,
+        "ok": true
+      },
+      {
+        "i": 8,
+        "ms": 1270,
+        "ok": true
+      },
+      {
+        "i": 9,
+        "ms": 1023,
+        "ok": true
+      },
+      {
+        "i": 10,
+        "ms": 1187,
+        "ok": true
+      },
+      {
+        "i": 11,
+        "ms": 1739,
+        "ok": true
+      },
+      {
+        "i": 12,
+        "ms": 1386,
+        "ok": true
+      },
+      {
+        "i": 13,
+        "ms": 1734,
+        "ok": true
+      },
+      {
+        "i": 14,
+        "ms": 1541,
+        "ok": true
+      },
+      {
+        "i": 15,
+        "ms": 1471,
+        "ok": true
+      },
+      {
+        "i": 16,
+        "ms": 880,
+        "ok": true
+      },
+      {
+        "i": 17,
+        "ms": 1574,
+        "ok": true
+      },
+      {
+        "i": 18,
+        "ms": 1651,
+        "ok": true
+      },
+      {
+        "i": 19,
+        "ms": 1613,
+        "ok": true
+      }
+    ],
+    "metrics": [
+      {
+        "i": 7,
+        "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/join",
+        "status": 201,
+        "ms": 687
+      },
+      {
+        "i": 5,
+        "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/join",
+        "status": 201,
+        "ms": 754
+      },
+      {
+        "i": 16,
+        "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/join",
+        "status": 201,
+        "ms": 747
+      },
+      {
+        "i": 0,
+        "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/join",
+        "status": 201,
+        "ms": 815
+      },
+      {
+        "i": 9,
+        "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/join",
+        "status": 201,
+        "ms": 878
+      },
+      {
+        "i": 3,
+        "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/join",
+        "status": 201,
+        "ms": 964
+      },
+      {
+        "i": 1,
+        "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/join",
+        "status": 201,
+        "ms": 1002
+      },
+      {
+        "i": 10,
+        "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/join",
+        "status": 201,
+        "ms": 1045
+      },
+      {
+        "i": 8,
+        "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/join",
+        "status": 201,
+        "ms": 1182
+      },
+      {
+        "i": 4,
+        "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/join",
+        "status": 201,
+        "ms": 1278
+      },
+      {
+        "i": 12,
+        "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/join",
+        "status": 201,
+        "ms": 1253
+      },
+      {
+        "i": 15,
+        "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/join",
+        "status": 201,
+        "ms": 1337
+      },
+      {
+        "i": 6,
+        "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/join",
+        "status": 201,
+        "ms": 1443
+      },
+      {
+        "i": 5,
+        "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+        "status": 200,
+        "ms": 682
+      },
+      {
+        "i": 0,
+        "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+        "status": 200,
+        "ms": 581
+      },
+      {
+        "i": 7,
+        "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+        "status": 200,
+        "ms": 737
+      },
+      {
+        "i": 14,
+        "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/join",
+        "status": 201,
+        "ms": 1460
+      },
+      {
+        "i": 9,
+        "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+        "status": 200,
+        "ms": 548
+      },
+      {
+        "i": 17,
+        "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/join",
+        "status": 201,
+        "ms": 1434
+      },
+      {
+        "i": 16,
+        "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+        "status": 200,
+        "ms": 696
+      },
+      {
+        "i": 19,
+        "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/join",
+        "status": 201,
+        "ms": 1477
+      },
+      {
+        "i": 3,
+        "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+        "status": 200,
+        "ms": 566
+      },
+      {
+        "i": 18,
+        "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/join",
+        "status": 201,
+        "ms": 1516
+      },
+      {
+        "i": 2,
+        "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/join",
+        "status": 201,
+        "ms": 1541
+      },
+      {
+        "i": 1,
+        "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+        "status": 200,
+        "ms": 637
+      },
+      {
+        "i": 13,
+        "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/join",
+        "status": 201,
+        "ms": 1597
+      },
+      {
+        "i": 11,
+        "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/join",
+        "status": 201,
+        "ms": 1634
+      }
+    ],
+    "errors": []
+  },
+  "runs": [
+    {
+      "api": [
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374855661,
+          "ms": 544
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374860313,
+          "ms": 588
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/manifest",
+          "status": 200,
+          "at": 1791374860844,
+          "ms": 530
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/ready",
+          "status": 200,
+          "at": 1791374861636,
+          "ms": 789,
+          "state": "PREPARING",
+          "readyCount": 13,
+          "startAtMs": null
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374862534,
+          "ms": 897
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374863637,
+          "ms": 998
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864319,
+          "ms": 680
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864853,
+          "ms": 533
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865423,
+          "ms": 469
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374867664,
+          "ms": 817
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374899706,
+          "ms": 628
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374931047,
+          "ms": 625
+        }
+      ],
+      "errors": [],
+      "armedAt": 1791374853055
+    },
+    {
+      "api": [
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374855062,
+          "ms": 522
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374859747,
+          "ms": 581
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/manifest",
+          "status": 200,
+          "at": 1791374860421,
+          "ms": 672
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374860460,
+          "ms": 612
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/ready",
+          "status": 200,
+          "at": 1791374860976,
+          "ms": 553,
+          "state": "PREPARING",
+          "readyCount": 2,
+          "startAtMs": null
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374861480,
+          "ms": 503
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864469,
+          "ms": 601
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865125,
+          "ms": 554
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865479,
+          "ms": 353
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865835,
+          "ms": 355
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374867454,
+          "ms": 607
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374900597,
+          "ms": 631
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374928414,
+          "ms": 604
+        }
+      ],
+      "errors": [],
+      "armedAt": 1791374853057
+    },
+    {
+      "api": [
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374858426,
+          "ms": 534
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374860216,
+          "ms": 490
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/manifest",
+          "status": 200,
+          "at": 1791374860743,
+          "ms": 526
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/ready",
+          "status": 200,
+          "at": 1791374861314,
+          "ms": 569,
+          "state": "PREPARING",
+          "readyCount": 6,
+          "startAtMs": null
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374861893,
+          "ms": 578
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864918,
+          "ms": 518
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865359,
+          "ms": 339
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865879,
+          "ms": 519
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374866425,
+          "ms": 545
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374867649,
+          "ms": 764
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374896647,
+          "ms": 538
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374924889,
+          "ms": 608
+        }
+      ],
+      "errors": [],
+      "armedAt": 1791374853059
+    },
+    {
+      "api": [
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374854995,
+          "ms": 657
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374860304,
+          "ms": 628
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/manifest",
+          "status": 200,
+          "at": 1791374860823,
+          "ms": 517
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/ready",
+          "status": 200,
+          "at": 1791374861258,
+          "ms": 432,
+          "state": "PREPARING",
+          "readyCount": 5,
+          "startAtMs": null
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374861592,
+          "ms": 333
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864648,
+          "ms": 573
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865281,
+          "ms": 536
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865690,
+          "ms": 408
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374866249,
+          "ms": 558
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374867720,
+          "ms": 859
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374895416,
+          "ms": 667
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374928960,
+          "ms": 548
+        }
+      ],
+      "errors": [],
+      "armedAt": 1791374853061
+    },
+    {
+      "api": [
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374856278,
+          "ms": 622
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374860485,
+          "ms": 758
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/manifest",
+          "status": 200,
+          "at": 1791374861021,
+          "ms": 535
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/ready",
+          "status": 200,
+          "at": 1791374861663,
+          "ms": 639,
+          "state": "PREPARING",
+          "readyCount": 14,
+          "startAtMs": null
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374862659,
+          "ms": 995
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374863871,
+          "ms": 1110
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864444,
+          "ms": 572
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864946,
+          "ms": 501
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865476,
+          "ms": 428
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374867612,
+          "ms": 770
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374895928,
+          "ms": 701
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374927559,
+          "ms": 582
+        }
+      ],
+      "errors": [],
+      "armedAt": 1791374853062
+    },
+    {
+      "api": [
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374857331,
+          "ms": 590
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374860259,
+          "ms": 533
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/manifest",
+          "status": 200,
+          "at": 1791374860699,
+          "ms": 439
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/ready",
+          "status": 200,
+          "at": 1791374861383,
+          "ms": 681,
+          "state": "PREPARING",
+          "readyCount": 7,
+          "startAtMs": null
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374861962,
+          "ms": 578
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374863047,
+          "ms": 984
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864115,
+          "ms": 1067
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864704,
+          "ms": 588
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865395,
+          "ms": 590
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374867750,
+          "ms": 893
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374900708,
+          "ms": 485
+        }
+      ],
+      "errors": [],
+      "armedAt": 1791374853064
+    },
+    {
+      "api": [
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374855721,
+          "ms": 559
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374860413,
+          "ms": 686
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/manifest",
+          "status": 200,
+          "at": 1791374861124,
+          "ms": 710
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/ready",
+          "status": 200,
+          "at": 1791374861863,
+          "ms": 736,
+          "state": "COUNTDOWN",
+          "readyCount": 20,
+          "startAtMs": 1791374866817
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374863041,
+          "ms": 1177
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864064,
+          "ms": 921
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864659,
+          "ms": 594
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865141,
+          "ms": 481
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865779,
+          "ms": 537
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374867774,
+          "ms": 917
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374897745,
+          "ms": 746
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374926486,
+          "ms": 525
+        }
+      ],
+      "errors": [],
+      "armedAt": 1791374853066
+    },
+    {
+      "api": [
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374855278,
+          "ms": 574
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374860344,
+          "ms": 619
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/manifest",
+          "status": 200,
+          "at": 1791374860990,
+          "ms": 645
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/ready",
+          "status": 200,
+          "at": 1791374861520,
+          "ms": 526,
+          "state": "PREPARING",
+          "readyCount": 10,
+          "startAtMs": null
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374861989,
+          "ms": 467
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374863088,
+          "ms": 997
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864176,
+          "ms": 1088
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864782,
+          "ms": 605
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865456,
+          "ms": 573
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374867764,
+          "ms": 870
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374899575,
+          "ms": 604
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374930912,
+          "ms": 629
+        }
+      ],
+      "errors": [],
+      "armedAt": 1791374853067
+    },
+    {
+      "api": [
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374855346,
+          "ms": 562
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374860497,
+          "ms": 773
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/manifest",
+          "status": 200,
+          "at": 1791374860991,
+          "ms": 493
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/ready",
+          "status": 200,
+          "at": 1791374861784,
+          "ms": 790,
+          "state": "PREPARING",
+          "readyCount": 18,
+          "startAtMs": null
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374862932,
+          "ms": 1147
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864047,
+          "ms": 1013
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864649,
+          "ms": 601
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865220,
+          "ms": 570
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865884,
+          "ms": 564
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374867684,
+          "ms": 834
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374900930,
+          "ms": 923
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374930286,
+          "ms": 487
+        }
+      ],
+      "errors": [],
+      "armedAt": 1791374853069
+    },
+    {
+      "api": [
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374854421,
+          "ms": 590
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374859910,
+          "ms": 639
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374860527,
+          "ms": 515
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/manifest",
+          "status": 200,
+          "at": 1791374860568,
+          "ms": 656
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/ready",
+          "status": 200,
+          "at": 1791374861180,
+          "ms": 610,
+          "state": "PREPARING",
+          "readyCount": 4,
+          "startAtMs": null
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374861810,
+          "ms": 629
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864675,
+          "ms": 601
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865340,
+          "ms": 564
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865980,
+          "ms": 639
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374866428,
+          "ms": 447
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374867628,
+          "ms": 775
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374900941,
+          "ms": 514
+        }
+      ],
+      "errors": [],
+      "armedAt": 1791374853070
+    },
+    {
+      "api": [
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374856634,
+          "ms": 597
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374860294,
+          "ms": 568
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/manifest",
+          "status": 200,
+          "at": 1791374860764,
+          "ms": 468
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/ready",
+          "status": 200,
+          "at": 1791374861449,
+          "ms": 683,
+          "state": "PREPARING",
+          "readyCount": 8,
+          "startAtMs": null
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374862029,
+          "ms": 579
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374863086,
+          "ms": 955
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864117,
+          "ms": 1030
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864614,
+          "ms": 496
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865122,
+          "ms": 407
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374867654,
+          "ms": 808
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374895255,
+          "ms": 558
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374927392,
+          "ms": 548
+        }
+      ],
+      "errors": [],
+      "armedAt": 1791374853072
+    },
+    {
+      "api": [
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374855731,
+          "ms": 651
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374860391,
+          "ms": 666
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/manifest",
+          "status": 200,
+          "at": 1791374860967,
+          "ms": 575
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/ready",
+          "status": 200,
+          "at": 1791374861815,
+          "ms": 846,
+          "state": "PREPARING",
+          "readyCount": 19,
+          "startAtMs": null
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374863028,
+          "ms": 1212
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864100,
+          "ms": 971
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864520,
+          "ms": 419
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864967,
+          "ms": 445
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865495,
+          "ms": 427
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374867768,
+          "ms": 921
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374901159,
+          "ms": 590
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374930310,
+          "ms": 622
+        }
+      ],
+      "errors": [],
+      "armedAt": 1791374853073
+    },
+    {
+      "api": [
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374855823,
+          "ms": 656
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374860293,
+          "ms": 560
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/manifest",
+          "status": 200,
+          "at": 1791374860907,
+          "ms": 612
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/ready",
+          "status": 200,
+          "at": 1791374861573,
+          "ms": 663,
+          "state": "PREPARING",
+          "readyCount": 12,
+          "startAtMs": null
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374862323,
+          "ms": 749
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374863509,
+          "ms": 1084
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864285,
+          "ms": 774
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864845,
+          "ms": 558
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865541,
+          "ms": 593
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374867740,
+          "ms": 897
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374898353,
+          "ms": 564
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374931035,
+          "ms": 732
+        }
+      ],
+      "errors": [],
+      "armedAt": 1791374853074
+    },
+    {
+      "api": [
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374856675,
+          "ms": 596
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374860316,
+          "ms": 591
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/manifest",
+          "status": 200,
+          "at": 1791374860940,
+          "ms": 622
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/ready",
+          "status": 200,
+          "at": 1791374861764,
+          "ms": 822,
+          "state": "PREPARING",
+          "readyCount": 17,
+          "startAtMs": null
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374862995,
+          "ms": 1230
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864162,
+          "ms": 1065
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864661,
+          "ms": 497
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865251,
+          "ms": 589
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865954,
+          "ms": 599
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374867706,
+          "ms": 846
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374897959,
+          "ms": 772
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374926774,
+          "ms": 587
+        }
+      ],
+      "errors": [],
+      "armedAt": 1791374853075
+    },
+    {
+      "api": [
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374855151,
+          "ms": 561
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374859767,
+          "ms": 546
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/manifest",
+          "status": 200,
+          "at": 1791374860442,
+          "ms": 674
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374860490,
+          "ms": 622
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/ready",
+          "status": 200,
+          "at": 1791374861111,
+          "ms": 667,
+          "state": "PREPARING",
+          "readyCount": 3,
+          "startAtMs": null
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374861686,
+          "ms": 574
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864861,
+          "ms": 461
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865575,
+          "ms": 612
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374866057,
+          "ms": 481
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374866584,
+          "ms": 526
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374867730,
+          "ms": 836
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374898615,
+          "ms": 340
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374929310,
+          "ms": 534
+        }
+      ],
+      "errors": [],
+      "armedAt": 1791374853076
+    },
+    {
+      "api": [
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374854051,
+          "ms": 553
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374859221,
+          "ms": 608
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/manifest",
+          "status": 200,
+          "at": 1791374859821,
+          "ms": 599
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374860369,
+          "ms": 641
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/ready",
+          "status": 200,
+          "at": 1791374860515,
+          "ms": 691,
+          "state": "PREPARING",
+          "readyCount": 1,
+          "startAtMs": null
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374861095,
+          "ms": 579
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864477,
+          "ms": 642
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865109,
+          "ms": 531
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865669,
+          "ms": 558
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374866186,
+          "ms": 514
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374867450,
+          "ms": 639
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374896244,
+          "ms": 580
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374923947,
+          "ms": 600
+        }
+      ],
+      "errors": [],
+      "armedAt": 1791374853077
+    },
+    {
+      "api": [
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374855826,
+          "ms": 606
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374860463,
+          "ms": 732
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/manifest",
+          "status": 200,
+          "at": 1791374861071,
+          "ms": 607
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/ready",
+          "status": 200,
+          "at": 1791374861697,
+          "ms": 624,
+          "state": "PREPARING",
+          "readyCount": 15,
+          "startAtMs": null
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374862667,
+          "ms": 969
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374863939,
+          "ms": 1171
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864445,
+          "ms": 505
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864954,
+          "ms": 508
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865557,
+          "ms": 502
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374867620,
+          "ms": 768
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374900360,
+          "ms": 603
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374929808,
+          "ms": 578
+        }
+      ],
+      "errors": [],
+      "armedAt": 1791374853079
+    },
+    {
+      "api": [
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374855714,
+          "ms": 500
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374860326,
+          "ms": 598
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/manifest",
+          "status": 200,
+          "at": 1791374860954,
+          "ms": 626
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/ready",
+          "status": 200,
+          "at": 1791374861732,
+          "ms": 775,
+          "state": "PREPARING",
+          "readyCount": 16,
+          "startAtMs": null
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374862429,
+          "ms": 696
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374863573,
+          "ms": 1041
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864329,
+          "ms": 755
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864816,
+          "ms": 485
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865514,
+          "ms": 597
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374867615,
+          "ms": 723
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374898323,
+          "ms": 532
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374929982,
+          "ms": 739
+        }
+      ],
+      "errors": [],
+      "armedAt": 1791374853080
+    },
+    {
+      "api": [
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374855437,
+          "ms": 560
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374860385,
+          "ms": 659
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/manifest",
+          "status": 200,
+          "at": 1791374860952,
+          "ms": 566
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/ready",
+          "status": 200,
+          "at": 1791374861554,
+          "ms": 599,
+          "state": "PREPARING",
+          "readyCount": 11,
+          "startAtMs": null
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374862379,
+          "ms": 824
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374863560,
+          "ms": 1079
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864314,
+          "ms": 753
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864846,
+          "ms": 531
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865553,
+          "ms": 605
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374867674,
+          "ms": 837
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374899984,
+          "ms": 640
+        }
+      ],
+      "errors": [],
+      "armedAt": 1791374853081
+    },
+    {
+      "api": [
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374855572,
+          "ms": 604
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374860207,
+          "ms": 572
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/manifest",
+          "status": 200,
+          "at": 1791374860845,
+          "ms": 636
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/ready",
+          "status": 200,
+          "at": 1791374861472,
+          "ms": 625,
+          "state": "PREPARING",
+          "readyCount": 9,
+          "startAtMs": null
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374862005,
+          "ms": 531
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374863222,
+          "ms": 1114
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864197,
+          "ms": 974
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374864733,
+          "ms": 535
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374865268,
+          "ms": 433
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374867770,
+          "ms": 913
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374900034,
+          "ms": 589
+        },
+        {
+          "path": "/functions/v1/competition/api/rooms/fbee0b37-873c-48b1-b88c-29055072b2b3/state",
+          "status": 200,
+          "at": 1791374929418,
+          "ms": 619
+        }
+      ],
+      "errors": [],
+      "armedAt": 1791374853082
+    }
+  ]
+}

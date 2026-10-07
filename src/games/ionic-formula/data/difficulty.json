@@ -1,0 +1,23 @@
+{
+  "version": 4,
+  "categoryWeights": {
+    "ion": {
+      "normal": { "ionSimple": 6, "ionPolyatomic": 3, "ionVariableOx": 1 },
+      "hard": { "ionSimple": 2, "ionPolyatomic": 6, "ionVariableOx": 2 }
+    },
+    "compound": {
+      "normal": { "simple11": 3, "simpleRatio": 4, "polyatomic": 2, "variableOx": 1 },
+      "hard": { "simple11": 0, "simpleRatio": 1, "polyatomic": 5, "variableOx": 4 }
+    }
+  },
+  "variantWeights": {
+    "ion": { "ionNameToFormula": 1, "ionFormulaToName": 1 },
+    "ionFormula": { "ionsToFormula": 1, "ionsToName": 1 },
+    "ionName": { "ionNamesToFormula": 1, "ionNamesToName": 1 },
+    "random": { "ionsToFormula": 1, "ionsToName": 1, "ionNamesToFormula": 1, "ionNamesToName": 1, "mixedIonsToFormula": 1, "mixedIonsToName": 1 }
+  },
+  "weakQuestionTarget": {
+    "ten": 2,
+    "endlessPerTen": 2
+  }
+}

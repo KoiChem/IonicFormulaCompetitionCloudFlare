@@ -1,0 +1,49 @@
+{
+  "name": "ionic-formula-competition-cloudflare",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "build:cloudflare": "tsc --noEmit && vite build --mode cloudflare",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "edge:bundle": "node scripts/bundle-edge.mjs",
+    "test:d1": "vitest run --config vitest.d1.config.ts",
+    "typecheck:worker": "tsc -p tsconfig.worker.json",
+    "dev:worker": "wrangler dev",
+    "db:migrate:local": "wrangler d1 migrations apply DB --local",
+    "deploy": "wrangler deploy",
+    "deploy:cloudflare": "node scripts/deploy-cloudflare.mjs",
+    "verify:cloudflare": "pnpm typecheck && pnpm typecheck:worker && RUN_LOAD=1 pnpm test && pnpm test:d1 && pnpm build:cloudflare",
+    "test:d1:remote": "REMOTE_D1=1 vitest run --config vitest.d1-remote.config.ts",
+    "db:migrate:test": "wrangler d1 migrations apply DB --env test --remote"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.57.4",
+    "jsqr": "1.4.0",
+    "postgres": "^3.4.7",
+    "qrcode.react": "4.2.0",
+    "react": "19.2.6",
+    "react-dom": "19.2.6"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.3.14",
+    "@types/node": "^22.19.19",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "6.0.2",
+    "esbuild": "^0.25.10",
+    "miniflare": "5.20261006.0-alpha",
+    "supabase": "^2.48.3",
+    "typescript": "5.9.3",
+    "vite": "8.0.13",
+    "vitest": "3.2.4",
+    "wrangler": "4.148.0"
+  },
+  "packageManager": "pnpm@11.19.0"
+}

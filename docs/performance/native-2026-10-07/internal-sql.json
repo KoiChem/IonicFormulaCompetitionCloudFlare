@@ -1,0 +1,26 @@
+{
+  "engine": "PostgreSQL17",
+  "diagnostic": "auto_explain nested query plans; expression assignments and transaction controls are not plans",
+  "pid": 20853,
+  "join": {
+    "applicationDbCalls": 2,
+    "totalPlannedStatements": 23,
+    "nestedPlannedStatements": 21,
+    "statementTypes": {
+      "INSERT": 6,
+      "SELECT": 13,
+      "EXISTS(SELECT": 2,
+      "UPDATE": 2
+    }
+  },
+  "readyLast": {
+    "applicationDbCalls": 2,
+    "totalPlannedStatements": 23,
+    "nestedPlannedStatements": 21,
+    "statementTypes": {
+      "INSERT": 4,
+      "SELECT": 13,
+      "UPDATE": 6
+    }
+  }
+}

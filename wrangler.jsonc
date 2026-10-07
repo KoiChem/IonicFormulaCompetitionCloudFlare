@@ -1,0 +1,46 @@
+{
+  "name": "ionicformulacompetition",
+  "compatibility_date": "2026-10-07",
+  "build": {
+    "command": "pnpm run build:cloudflare"
+  },
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application",
+    "binding": "ASSETS",
+    "run_worker_first": [
+      "/api",
+      "/api/*"
+    ]
+  },
+  "main": "worker/index.ts",
+  "account_id": "57b6032a34645abf597e8662b0e70ede",
+  "vars": {
+    "RELEASE_SHA": "development"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "ionic-formula-competition",
+      "database_id": "a0475c35-c39b-4c73-b7e2-51e05a899483",
+      "migrations_dir": "migrations/d1"
+    }
+  ],
+  "env": {
+    "test": {
+      "name": "ionicformulacompetition-phase1-test",
+      "vars": {
+        "RELEASE_SHA": "test"
+      },
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "ionic-formula-competition-phase1-test",
+          "database_id": "908e08e6-0b70-454b-a97d-0528fde1706e",
+          "migrations_dir": "migrations/d1",
+          "remote": true
+        }
+      ]
+    }
+  }
+}

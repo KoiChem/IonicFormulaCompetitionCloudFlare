@@ -1,0 +1,1459 @@
+{
+  "schemaVersion": 3,
+  "contentVersion": "complex-ions-2026-10-02",
+  "migrationVersion": 2,
+  "supportIons": [
+    {
+      "id": "hydrogen",
+      "formula": "H",
+      "charge": 1,
+      "name": "水素イオン",
+      "type": "cation",
+      "atomicity": "monatomic",
+      "requiresOxidationNumeral": false,
+      "enabled": true,
+      "ionQuestionEnabled": false,
+      "chemistryClass": "support",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Counterion support for the two catalogued acids; disabled as an independent ion question."
+      }
+    }
+  ],
+  "ions": [
+    {
+      "id": "complex_ag_nh3_2",
+      "formula": "[Ag(NH3)2]",
+      "charge": 1,
+      "name": "ジアンミン銀(I)イオン",
+      "type": "cation",
+      "atomicity": "polyatomic",
+      "requiresOxidationNumeral": true,
+      "enabled": true,
+      "ionQuestionEnabled": true,
+      "chemistryClass": "complex",
+      "curriculumLevel": "standard",
+      "complex": {
+        "centralElement": "Ag",
+        "oxidationState": 1,
+        "ligands": [
+          {
+            "formula": "NH3",
+            "charge": 0,
+            "count": 2,
+            "denticity": 1
+          }
+        ],
+        "coordinationNumber": 2
+      },
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Charge and oxidation state reviewed; isolation and hydration not individually established."
+      }
+    },
+    {
+      "id": "complex_cu_nh3_4",
+      "formula": "[Cu(NH3)4]",
+      "charge": 2,
+      "name": "テトラアンミン銅(II)イオン",
+      "type": "cation",
+      "atomicity": "polyatomic",
+      "requiresOxidationNumeral": true,
+      "enabled": true,
+      "ionQuestionEnabled": true,
+      "chemistryClass": "complex",
+      "curriculumLevel": "standard",
+      "complex": {
+        "centralElement": "Cu",
+        "oxidationState": 2,
+        "ligands": [
+          {
+            "formula": "NH3",
+            "charge": 0,
+            "count": 4,
+            "denticity": 1
+          }
+        ],
+        "coordinationNumber": 4
+      },
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Charge and oxidation state reviewed; isolation and hydration not individually established."
+      }
+    },
+    {
+      "id": "complex_zn_nh3_4",
+      "formula": "[Zn(NH3)4]",
+      "charge": 2,
+      "name": "テトラアンミン亜鉛(II)イオン",
+      "type": "cation",
+      "atomicity": "polyatomic",
+      "requiresOxidationNumeral": true,
+      "enabled": true,
+      "ionQuestionEnabled": true,
+      "chemistryClass": "complex",
+      "curriculumLevel": "standard",
+      "complex": {
+        "centralElement": "Zn",
+        "oxidationState": 2,
+        "ligands": [
+          {
+            "formula": "NH3",
+            "charge": 0,
+            "count": 4,
+            "denticity": 1
+          }
+        ],
+        "coordinationNumber": 4
+      },
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Charge and oxidation state reviewed; isolation and hydration not individually established."
+      }
+    },
+    {
+      "id": "complex_al_oh_4",
+      "formula": "[Al(OH)4]",
+      "charge": -1,
+      "name": "テトラヒドロキシドアルミン酸イオン",
+      "type": "anion",
+      "atomicity": "polyatomic",
+      "requiresOxidationNumeral": false,
+      "enabled": true,
+      "ionQuestionEnabled": true,
+      "chemistryClass": "complex",
+      "curriculumLevel": "standard",
+      "complex": {
+        "centralElement": "Al",
+        "oxidationState": 3,
+        "ligands": [
+          {
+            "formula": "OH",
+            "charge": -1,
+            "count": 4,
+            "denticity": 1
+          }
+        ],
+        "coordinationNumber": 4
+      },
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Charge and oxidation state reviewed; isolation and hydration not individually established."
+      }
+    },
+    {
+      "id": "complex_zn_oh_4",
+      "formula": "[Zn(OH)4]",
+      "charge": -2,
+      "name": "テトラヒドロキシド亜鉛(II)酸イオン",
+      "type": "anion",
+      "atomicity": "polyatomic",
+      "requiresOxidationNumeral": true,
+      "enabled": true,
+      "ionQuestionEnabled": true,
+      "chemistryClass": "complex",
+      "curriculumLevel": "standard",
+      "complex": {
+        "centralElement": "Zn",
+        "oxidationState": 2,
+        "ligands": [
+          {
+            "formula": "OH",
+            "charge": -1,
+            "count": 4,
+            "denticity": 1
+          }
+        ],
+        "coordinationNumber": 4
+      },
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Charge and oxidation state reviewed; isolation and hydration not individually established."
+      }
+    },
+    {
+      "id": "complex_fe_cn_6_ii",
+      "formula": "[Fe(CN)6]",
+      "charge": -4,
+      "name": "ヘキサシアニド鉄(II)酸イオン",
+      "type": "anion",
+      "atomicity": "polyatomic",
+      "requiresOxidationNumeral": true,
+      "enabled": true,
+      "ionQuestionEnabled": true,
+      "chemistryClass": "complex",
+      "curriculumLevel": "standard",
+      "complex": {
+        "centralElement": "Fe",
+        "oxidationState": 2,
+        "ligands": [
+          {
+            "formula": "CN",
+            "charge": -1,
+            "count": 6,
+            "denticity": 1
+          }
+        ],
+        "coordinationNumber": 6
+      },
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Charge and oxidation state reviewed; isolation and hydration not individually established."
+      }
+    },
+    {
+      "id": "complex_fe_cn_6_iii",
+      "formula": "[Fe(CN)6]",
+      "charge": -3,
+      "name": "ヘキサシアニド鉄(III)酸イオン",
+      "type": "anion",
+      "atomicity": "polyatomic",
+      "requiresOxidationNumeral": true,
+      "enabled": true,
+      "ionQuestionEnabled": true,
+      "chemistryClass": "complex",
+      "curriculumLevel": "standard",
+      "complex": {
+        "centralElement": "Fe",
+        "oxidationState": 3,
+        "ligands": [
+          {
+            "formula": "CN",
+            "charge": -1,
+            "count": 6,
+            "denticity": 1
+          }
+        ],
+        "coordinationNumber": 6
+      },
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Charge and oxidation state reviewed; isolation and hydration not individually established."
+      }
+    },
+    {
+      "id": "complex_cu_cl_4",
+      "formula": "[CuCl4]",
+      "charge": -2,
+      "name": "テトラクロリド銅(II)酸イオン",
+      "type": "anion",
+      "atomicity": "polyatomic",
+      "requiresOxidationNumeral": true,
+      "enabled": true,
+      "ionQuestionEnabled": true,
+      "chemistryClass": "complex",
+      "curriculumLevel": "standard",
+      "complex": {
+        "centralElement": "Cu",
+        "oxidationState": 2,
+        "ligands": [
+          {
+            "formula": "Cl",
+            "charge": -1,
+            "count": 4,
+            "denticity": 1
+          }
+        ],
+        "coordinationNumber": 4
+      },
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Charge and oxidation state reviewed; isolation and hydration not individually established."
+      }
+    },
+    {
+      "id": "complex_au_cl_4",
+      "formula": "[AuCl4]",
+      "charge": -1,
+      "name": "テトラクロリド金(III)酸イオン",
+      "type": "anion",
+      "atomicity": "polyatomic",
+      "requiresOxidationNumeral": true,
+      "enabled": true,
+      "ionQuestionEnabled": true,
+      "chemistryClass": "complex",
+      "curriculumLevel": "standard",
+      "complex": {
+        "centralElement": "Au",
+        "oxidationState": 3,
+        "ligands": [
+          {
+            "formula": "Cl",
+            "charge": -1,
+            "count": 4,
+            "denticity": 1
+          }
+        ],
+        "coordinationNumber": 4
+      },
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Charge and oxidation state reviewed; isolation and hydration not individually established."
+      }
+    },
+    {
+      "id": "complex_pt_cl_6",
+      "formula": "[PtCl6]",
+      "charge": -2,
+      "name": "ヘキサクロリド白金(IV)酸イオン",
+      "type": "anion",
+      "atomicity": "polyatomic",
+      "requiresOxidationNumeral": true,
+      "enabled": true,
+      "ionQuestionEnabled": true,
+      "chemistryClass": "complex",
+      "curriculumLevel": "standard",
+      "complex": {
+        "centralElement": "Pt",
+        "oxidationState": 4,
+        "ligands": [
+          {
+            "formula": "Cl",
+            "charge": -1,
+            "count": 6,
+            "denticity": 1
+          }
+        ],
+        "coordinationNumber": 6
+      },
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Charge and oxidation state reviewed; isolation and hydration not individually established."
+      }
+    },
+    {
+      "id": "complex_ag_cn_2",
+      "formula": "[Ag(CN)2]",
+      "charge": -1,
+      "name": "ジシアニド銀(I)酸イオン",
+      "type": "anion",
+      "atomicity": "polyatomic",
+      "requiresOxidationNumeral": true,
+      "enabled": false,
+      "ionQuestionEnabled": true,
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "complex": {
+        "centralElement": "Ag",
+        "oxidationState": 1,
+        "ligands": [
+          {
+            "formula": "CN",
+            "charge": -1,
+            "count": 2,
+            "denticity": 1
+          }
+        ],
+        "coordinationNumber": 2
+      },
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Charge and oxidation state reviewed; isolation and hydration not individually established."
+      }
+    },
+    {
+      "id": "complex_ni_nh3_6",
+      "formula": "[Ni(NH3)6]",
+      "charge": 2,
+      "name": "ヘキサアンミンニッケル(II)イオン",
+      "type": "cation",
+      "atomicity": "polyatomic",
+      "requiresOxidationNumeral": true,
+      "enabled": false,
+      "ionQuestionEnabled": true,
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "complex": {
+        "centralElement": "Ni",
+        "oxidationState": 2,
+        "ligands": [
+          {
+            "formula": "NH3",
+            "charge": 0,
+            "count": 6,
+            "denticity": 1
+          }
+        ],
+        "coordinationNumber": 6
+      },
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Charge and oxidation state reviewed; isolation and hydration not individually established."
+      }
+    },
+    {
+      "id": "complex_co_nh3_6",
+      "formula": "[Co(NH3)6]",
+      "charge": 3,
+      "name": "ヘキサアンミンコバルト(III)イオン",
+      "type": "cation",
+      "atomicity": "polyatomic",
+      "requiresOxidationNumeral": true,
+      "enabled": false,
+      "ionQuestionEnabled": true,
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "complex": {
+        "centralElement": "Co",
+        "oxidationState": 3,
+        "ligands": [
+          {
+            "formula": "NH3",
+            "charge": 0,
+            "count": 6,
+            "denticity": 1
+          }
+        ],
+        "coordinationNumber": 6
+      },
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Charge and oxidation state reviewed; isolation and hydration not individually established."
+      }
+    },
+    {
+      "id": "complex_au_cl_2",
+      "formula": "[AuCl2]",
+      "charge": -1,
+      "name": "ジクロリド金(I)酸イオン",
+      "type": "anion",
+      "atomicity": "polyatomic",
+      "requiresOxidationNumeral": true,
+      "enabled": false,
+      "ionQuestionEnabled": true,
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "complex": {
+        "centralElement": "Au",
+        "oxidationState": 1,
+        "ligands": [
+          {
+            "formula": "Cl",
+            "charge": -1,
+            "count": 2,
+            "denticity": 1
+          }
+        ],
+        "coordinationNumber": 2
+      },
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Charge and oxidation state reviewed; isolation and hydration not individually established."
+      }
+    },
+    {
+      "id": "complex_pt_cl_4",
+      "formula": "[PtCl4]",
+      "charge": -2,
+      "name": "テトラクロリド白金(II)酸イオン",
+      "type": "anion",
+      "atomicity": "polyatomic",
+      "requiresOxidationNumeral": true,
+      "enabled": false,
+      "ionQuestionEnabled": true,
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "complex": {
+        "centralElement": "Pt",
+        "oxidationState": 2,
+        "ligands": [
+          {
+            "formula": "Cl",
+            "charge": -1,
+            "count": 4,
+            "denticity": 1
+          }
+        ],
+        "coordinationNumber": 4
+      },
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Charge and oxidation state reviewed; isolation and hydration not individually established."
+      }
+    },
+    {
+      "id": "complex_sn_oh_3",
+      "formula": "[Sn(OH)3]",
+      "charge": -1,
+      "name": "トリヒドロキシドスズ(II)酸イオン",
+      "type": "anion",
+      "atomicity": "polyatomic",
+      "requiresOxidationNumeral": true,
+      "enabled": false,
+      "ionQuestionEnabled": true,
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "complex": {
+        "centralElement": "Sn",
+        "oxidationState": 2,
+        "ligands": [
+          {
+            "formula": "OH",
+            "charge": -1,
+            "count": 3,
+            "denticity": 1
+          }
+        ],
+        "coordinationNumber": 3
+      },
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Charge and oxidation state reviewed; isolation and hydration not individually established."
+      }
+    },
+    {
+      "id": "complex_sn_oh_6",
+      "formula": "[Sn(OH)6]",
+      "charge": -2,
+      "name": "ヘキサヒドロキシドスズ(IV)酸イオン",
+      "type": "anion",
+      "atomicity": "polyatomic",
+      "requiresOxidationNumeral": true,
+      "enabled": false,
+      "ionQuestionEnabled": true,
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "complex": {
+        "centralElement": "Sn",
+        "oxidationState": 4,
+        "ligands": [
+          {
+            "formula": "OH",
+            "charge": -1,
+            "count": 6,
+            "denticity": 1
+          }
+        ],
+        "coordinationNumber": 6
+      },
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Charge and oxidation state reviewed; isolation and hydration not individually established."
+      }
+    }
+  ],
+  "compounds": [
+    {
+      "id": "salt_na_al_oh_4",
+      "formula": "Na[Al(OH)4]",
+      "name": "テトラヒドロキシドアルミン酸ナトリウム",
+      "cation": "sodium",
+      "anion": "complex_al_oh_4",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": true,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "standard",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_na2_zn_oh_4",
+      "formula": "Na2[Zn(OH)4]",
+      "name": "テトラヒドロキシド亜鉛(II)酸ナトリウム",
+      "cation": "sodium",
+      "anion": "complex_zn_oh_4",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": true,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "standard",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_k4_fe_cn_6",
+      "formula": "K4[Fe(CN)6]",
+      "name": "ヘキサシアニド鉄(II)酸カリウム",
+      "cation": "potassium",
+      "anion": "complex_fe_cn_6_ii",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": true,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "standard",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_k3_fe_cn_6",
+      "formula": "K3[Fe(CN)6]",
+      "name": "ヘキサシアニド鉄(III)酸カリウム",
+      "cation": "potassium",
+      "anion": "complex_fe_cn_6_iii",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": true,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "standard",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_ag_nh3_2_no3",
+      "formula": "[Ag(NH3)2]NO3",
+      "name": "硝酸ジアンミン銀(I)",
+      "cation": "complex_ag_nh3_2",
+      "anion": "nitrate",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_ag_nh3_2_cl",
+      "formula": "[Ag(NH3)2]Cl",
+      "name": "塩化ジアンミン銀(I)",
+      "cation": "complex_ag_nh3_2",
+      "anion": "chloride",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_cu_nh3_4_so4",
+      "formula": "[Cu(NH3)4]SO4",
+      "name": "硫酸テトラアンミン銅(II)",
+      "cation": "complex_cu_nh3_4",
+      "anion": "sulfate",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_cu_nh3_4_no3",
+      "formula": "[Cu(NH3)4](NO3)2",
+      "name": "硝酸テトラアンミン銅(II)",
+      "cation": "complex_cu_nh3_4",
+      "anion": "nitrate",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_zn_nh3_4_cl",
+      "formula": "[Zn(NH3)4]Cl2",
+      "name": "塩化テトラアンミン亜鉛(II)",
+      "cation": "complex_zn_nh3_4",
+      "anion": "chloride",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_k2_zn_oh_4",
+      "formula": "K2[Zn(OH)4]",
+      "name": "テトラヒドロキシド亜鉛(II)酸カリウム",
+      "cation": "potassium",
+      "anion": "complex_zn_oh_4",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_na4_fe_cn_6",
+      "formula": "Na4[Fe(CN)6]",
+      "name": "ヘキサシアニド鉄(II)酸ナトリウム",
+      "cation": "sodium",
+      "anion": "complex_fe_cn_6_ii",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_nh4_4_fe_cn_6",
+      "formula": "(NH4)4[Fe(CN)6]",
+      "name": "ヘキサシアニド鉄(II)酸アンモニウム",
+      "cation": "ammonium",
+      "anion": "complex_fe_cn_6_ii",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_na3_fe_cn_6",
+      "formula": "Na3[Fe(CN)6]",
+      "name": "ヘキサシアニド鉄(III)酸ナトリウム",
+      "cation": "sodium",
+      "anion": "complex_fe_cn_6_iii",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_nh4_3_fe_cn_6",
+      "formula": "(NH4)3[Fe(CN)6]",
+      "name": "ヘキサシアニド鉄(III)酸アンモニウム",
+      "cation": "ammonium",
+      "anion": "complex_fe_cn_6_iii",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_k_ag_cn_2",
+      "formula": "K[Ag(CN)2]",
+      "name": "ジシアニド銀(I)酸カリウム",
+      "cation": "potassium",
+      "anion": "complex_ag_cn_2",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_na_ag_cn_2",
+      "formula": "Na[Ag(CN)2]",
+      "name": "ジシアニド銀(I)酸ナトリウム",
+      "cation": "sodium",
+      "anion": "complex_ag_cn_2",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_ni_nh3_6_cl",
+      "formula": "[Ni(NH3)6]Cl2",
+      "name": "塩化ヘキサアンミンニッケル(II)",
+      "cation": "complex_ni_nh3_6",
+      "anion": "chloride",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_ni_nh3_6_no3",
+      "formula": "[Ni(NH3)6](NO3)2",
+      "name": "硝酸ヘキサアンミンニッケル(II)",
+      "cation": "complex_ni_nh3_6",
+      "anion": "nitrate",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_co_nh3_6_cl",
+      "formula": "[Co(NH3)6]Cl3",
+      "name": "塩化ヘキサアンミンコバルト(III)",
+      "cation": "complex_co_nh3_6",
+      "anion": "chloride",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_co_nh3_6_no3",
+      "formula": "[Co(NH3)6](NO3)3",
+      "name": "硝酸ヘキサアンミンコバルト(III)",
+      "cation": "complex_co_nh3_6",
+      "anion": "nitrate",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_co_nh3_6_br",
+      "formula": "[Co(NH3)6]Br3",
+      "name": "臭化ヘキサアンミンコバルト(III)",
+      "cation": "complex_co_nh3_6",
+      "anion": "bromide",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_k2_cu_cl_4",
+      "formula": "K2[CuCl4]",
+      "name": "テトラクロリド銅(II)酸カリウム",
+      "cation": "potassium",
+      "anion": "complex_cu_cl_4",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_nh4_2_cu_cl_4",
+      "formula": "(NH4)2[CuCl4]",
+      "name": "テトラクロリド銅(II)酸アンモニウム",
+      "cation": "ammonium",
+      "anion": "complex_cu_cl_4",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_k_au_cl_2",
+      "formula": "K[AuCl2]",
+      "name": "ジクロリド金(I)酸カリウム",
+      "cation": "potassium",
+      "anion": "complex_au_cl_2",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "unverified",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Included by user request; individual evidence for simple K/Na gold(I) salts was not verified."
+      }
+    },
+    {
+      "id": "salt_na_au_cl_2",
+      "formula": "Na[AuCl2]",
+      "name": "ジクロリド金(I)酸ナトリウム",
+      "cation": "sodium",
+      "anion": "complex_au_cl_2",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "unverified",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Included by user request; individual evidence for simple K/Na gold(I) salts was not verified."
+      }
+    },
+    {
+      "id": "salt_k_au_cl_4",
+      "formula": "K[AuCl4]",
+      "name": "テトラクロリド金(III)酸カリウム",
+      "cation": "potassium",
+      "anion": "complex_au_cl_4",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_na_au_cl_4",
+      "formula": "Na[AuCl4]",
+      "name": "テトラクロリド金(III)酸ナトリウム",
+      "cation": "sodium",
+      "anion": "complex_au_cl_4",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_nh4_au_cl_4",
+      "formula": "NH4[AuCl4]",
+      "name": "テトラクロリド金(III)酸アンモニウム",
+      "cation": "ammonium",
+      "anion": "complex_au_cl_4",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_k2_pt_cl_4",
+      "formula": "K2[PtCl4]",
+      "name": "テトラクロリド白金(II)酸カリウム",
+      "cation": "potassium",
+      "anion": "complex_pt_cl_4",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_na2_pt_cl_4",
+      "formula": "Na2[PtCl4]",
+      "name": "テトラクロリド白金(II)酸ナトリウム",
+      "cation": "sodium",
+      "anion": "complex_pt_cl_4",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_nh4_2_pt_cl_4",
+      "formula": "(NH4)2[PtCl4]",
+      "name": "テトラクロリド白金(II)酸アンモニウム",
+      "cation": "ammonium",
+      "anion": "complex_pt_cl_4",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_k2_pt_cl_6",
+      "formula": "K2[PtCl6]",
+      "name": "ヘキサクロリド白金(IV)酸カリウム",
+      "cation": "potassium",
+      "anion": "complex_pt_cl_6",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_na2_pt_cl_6",
+      "formula": "Na2[PtCl6]",
+      "name": "ヘキサクロリド白金(IV)酸ナトリウム",
+      "cation": "sodium",
+      "anion": "complex_pt_cl_6",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_nh4_2_pt_cl_6",
+      "formula": "(NH4)2[PtCl6]",
+      "name": "ヘキサクロリド白金(IV)酸アンモニウム",
+      "cation": "ammonium",
+      "anion": "complex_pt_cl_6",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_na2_sn_oh_6",
+      "formula": "Na2[Sn(OH)6]",
+      "name": "ヘキサヒドロキシドスズ(IV)酸ナトリウム",
+      "cation": "sodium",
+      "anion": "complex_sn_oh_6",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    },
+    {
+      "id": "salt_k2_sn_oh_6",
+      "formula": "K2[Sn(OH)6]",
+      "name": "ヘキサヒドロキシドスズ(IV)酸カリウム",
+      "cation": "potassium",
+      "anion": "complex_sn_oh_6",
+      "solidColor": null,
+      "solidColorNote": null,
+      "enabled": false,
+      "questionModes": {
+        "nameToFormula": true,
+        "formulaToName": true,
+        "ionsToFormula": true,
+        "ionsToName": true,
+        "ionNamesToFormula": true,
+        "ionNamesToName": true
+      },
+      "chemistryClass": "complex",
+      "curriculumLevel": "advanced",
+      "evidence": {
+        "status": "composition_reviewed",
+        "sourceDocument": "docs/COMPLEX_IONS_USER_CATALOG.md",
+        "note": "Composition formula for learning; hydration and isolation form not individually established."
+      }
+    }
+  ],
+  "retiredCompoundIds": [
+    "acid_h_au_cl_4",
+    "acid_h2_pt_cl_6"
+  ]
+}

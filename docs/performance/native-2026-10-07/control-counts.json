@@ -1,0 +1,42 @@
+[
+  {
+    "scope": "room:metric-validation",
+    "metrics": {
+      "poolWaitMs": 9,
+      "roomLockWaitMs": 0,
+      "dbWorkMs": 1,
+      "queryCount": 1,
+      "controlQueryCount": 5
+    }
+  },
+  {
+    "scope": "snapshot:metric-validation",
+    "metrics": {
+      "poolWaitMs": 0,
+      "roomLockWaitMs": 0,
+      "dbWorkMs": 0,
+      "queryCount": 1,
+      "controlQueryCount": 4
+    }
+  },
+  {
+    "scope": "quota:metric-validation",
+    "metrics": {
+      "poolWaitMs": 0,
+      "roomLockWaitMs": 0,
+      "dbWorkMs": 0,
+      "queryCount": 1,
+      "controlQueryCount": 4
+    }
+  },
+  {
+    "scope": "rollback",
+    "metrics": {
+      "poolWaitMs": 0,
+      "roomLockWaitMs": 1,
+      "dbWorkMs": 0,
+      "queryCount": 1,
+      "controlQueryCount": 5
+    }
+  }
+]
