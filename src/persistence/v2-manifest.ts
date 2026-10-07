@@ -106,9 +106,16 @@ export async function markV2Ready(db: PersistenceDatabase, input: MarkV2ReadyInp
   if (room.manifest_id !== input.manifestId || room.evaluator_version !== input.evaluatorVersion
     || room.preparation_generation !== input.preparationGeneration) throw new PersistenceConflictError("invalid_state", "stale preparation generation");
   if (room.state !== "PREPARING" && room.state !== "COUNTDOWN" && room.state !== "RUNNING") throw new PersistenceConflictError("invalid_state", "room is not preparing");
-  await db.prepare(`UPDATE v2_participant_progress SET ready_generation = ? WHERE room_id = ? AND participant_id = ?
-    AND EXISTS (SELECT 1 FROM participants p WHERE p.room_id = ? AND p.id = ? AND p.status = 'ACTIVE')`)
-    .bind(input.preparationGeneration, input.roomId, input.participantId, input.roomId, input.participantId).run();
+  const readyWrite = await db.prepare(`UPDATE v2_participant_progress SET ready_generation = ? WHERE room_id = ? AND participant_id = ?
+    AND EXISTS (SELECT 1 FROM participants p WHERE p.room_id = ? AND p.id = ? AND p.status = 'ACTIVE')
+    AND EXISTS (SELECT 1 FROM v2_room_manifests m JOIN rooms r ON r.id = m.room_id
+      WHERE m.room_id = v2_participant_progress.room_id
+        AND m.manifest_id = ? AND m.evaluator_version = ? AND m.preparation_generation = ?
+        AND m.state IN ('PREPARING', 'COUNTDOWN', 'RUNNING')
+        AND r.state IN ('WAITING', 'COUNTDOWN', 'RUNNING') AND r.expires_at_ms > ?)`)
+    .bind(input.preparationGeneration, input.roomId, input.participantId, input.roomId, input.participantId,
+      input.manifestId, input.evaluatorVersion, input.preparationGeneration, input.nowMs).run();
+  if (!changed(readyWrite)) throw new PersistenceConflictError("invalid_state", "readiness context changed before commit");
   const counts = await db.prepare(`SELECT COUNT(*) AS participant_count,
     SUM(CASE WHEN v.ready_generation = ? THEN 1 ELSE 0 END) AS ready_count
     FROM participants p LEFT JOIN v2_participant_progress v ON v.room_id = p.room_id AND v.participant_id = p.id

@@ -4,7 +4,7 @@ import { createRoom } from '../../src/persistence/rooms';
 import { joinRoom } from '../../src/persistence/participants';
 import { applyV2Operations } from '../../src/persistence/v2-operations';
 import { collectV2Room, maybeFinalizeV2Room } from '../../src/persistence/v2-results';
-import { prepareV2Room, markV2Ready } from '../../src/persistence/v2-manifest';
+import { prepareV2Room, markV2Ready, cancelV2Preparation } from '../../src/persistence/v2-manifest';
 import { classRoomInput, joinInput, QUESTION } from '../persistence/helpers';
 import type { V2Operation } from '../../src/competition-core/v2-operations';
 import { createD1TestDatabase } from './helpers';
@@ -153,4 +153,30 @@ it.each(['immediate','deferred'] as const)('%s: finalizes 50 × 15 × 2 fields w
  expect(await test.binding.prepare('SELECT COUNT(*) n,SUM(correct_count) score,MIN(rank) low,MAX(rank) high FROM final_results').first()).toEqual({n:50,score:1500,low:1,high:1});
  expect(await test.binding.prepare('SELECT COUNT(*) n FROM v2_final_fields').first('n')).toBe(1500);
  await expect(maybeFinalizeV2Room(test.db,{roomId:'room-1',nowMs:start+1001})).resolves.toMatchObject({state:'FINISHED',participantCount:50});
+});
+
+
+it('does not regress a newer readiness generation when stale ready races cancellation',async()=>{
+ const test=await database();const nowMs=Date.now();
+ await createRoom(test.db,classRoomInput({nowMs,expiresAtMs:nowMs+86400000,settings:{questionCount:1,timeLimitMinutes:3,gradingMode:'immediate'}}));
+ for(let i=0;i<2;i++)await joinRoom(test.db,joinInput(i,{nowMs}));
+ const prepared=await prepareV2Room(test.db,{roomId:'room-1',requestId:'prep1',bodyHash:'prep1',expectedRoomRevision:2,nowMs,manifestId:'manifest',evaluatorVersion:'1',gradingMode:'immediate',questions:[QUESTION]});
+ const ready={roomId:'room-1',participantId:'p-0',manifestId:'manifest',preparationGeneration:1,evaluatorVersion:'1',nowMs};
+ let intercepted=false;
+ function wrap(statement:PreparedSql,sql:string):PreparedSql{return {
+   bind:(...values)=>wrap(statement.bind(...values),sql),first:()=>statement.first(),all:()=>statement.all(),
+   async run(){
+     if(!intercepted&&sql.includes('UPDATE v2_participant_progress SET ready_generation')){
+       intercepted=true;
+       await cancelV2Preparation(test.db,{roomId:'room-1',expectedRoomRevision:prepared.roomRevision,nowMs});
+       await prepareV2Room(test.db,{roomId:'room-1',requestId:'prep2',bodyHash:'prep2',expectedRoomRevision:prepared.roomRevision+1,nowMs,manifestId:'unused',evaluatorVersion:'1',gradingMode:'immediate',questions:[QUESTION]});
+       await markV2Ready(test.db,{...ready,preparationGeneration:2});
+     }
+     return statement.run();
+   }
+ };}
+ const db:PersistenceDatabase={prepare:sql=>wrap(test.db.prepare(sql),sql),batch:s=>test.db.batch(s)};
+ await expect(markV2Ready(db,ready)).rejects.toMatchObject({code:'invalid_state'});
+ expect(await test.binding.prepare("SELECT ready_generation FROM v2_participant_progress WHERE participant_id='p-0'").first('ready_generation')).toBe(2);
+ await expect(markV2Ready(test.db,{...ready,participantId:'p-1',preparationGeneration:2})).resolves.toMatchObject({state:'COUNTDOWN',readyCount:2});
 });

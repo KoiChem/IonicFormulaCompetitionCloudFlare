@@ -24,3 +24,9 @@ Playwright MCP uses the Cloudflare base `/` in a local browser against an isolat
 - Cloudflare workers-sdk D1 examples and Vitest integration versions were checked. Latest pool requires Vitest 4; existing Vitest 3.2.4 is retained with Wrangler 4.148.0's matching Miniflare 5.20261006.0-alpha/workerd harness.
 
 No throughput SLA, 50 physical student devices, multiple live classrooms, production D1 Auth/WS or full migration claim is made by Phase 1. Subsequent release evidence is appended after review/publication.
+
+Expanded acceptance run: native D1 17/17 tests (11.06s); dedicated remote D1 commands12/12 (68.81s). Remote tests include both 50×15×2 field modes and 51 simultaneous joins. The total duration includes room setup/readiness and proxy latency; it is not per-submit latency or production throughput.
+
+Independent review found a stale-ready generation race. The native D1 regression failed first; commit-time manifest/evaluator/generation/state/expiry guards now reject it without regressing new readiness. Final local verification: typechecks, 546/546 existing tests, 18/18 native D1 tests, and Cloudflare build passed. No critical/minor findings were reported.
+
+QR/browser detail: actual jsQR decoded the teacher's generated SVG rendered into a synthetic canvas camera stream, reached nickname entry, and all stream tracks ended. Camera-denied UI recovered through Close. Deferred submission also reached final results and per-question review at 390px without horizontal overflow. Synthetic video proves browser scanner logic, not camera optics or physical-device permissions.

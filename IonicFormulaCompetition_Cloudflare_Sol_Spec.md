@@ -1,6 +1,6 @@
 # IonicFormulaCompetition Cloudflare移植 — sol向け実装仕様
 
-作成日: 2026-10-08 JST  
+作成日: 2026-10-08 JST\
 状態: 調査に基づく実装仕様案。今回行ったのは文書化のみ。実装・push・クラウド設定変更・公開は未実施。
 
 ## 1. 目的と作業境界
@@ -303,27 +303,27 @@ Phase 1の50人はD1 persistenceの受入条件。画面がまだ旧Supabaseへ�
 
 実装開始時にも、バージョン・API・制限・issue状態を再確認する。issue投稿は問題の存在を示す参考情報であり、全環境で再現する保証ではない。
 
-- **[S1] D1 binding / batch / Sessions**: https://developers.cloudflare.com/d1/worker-api/d1-database/  
+- **[S1] D1 binding / batch / Sessions**: https://developers.cloudflare.com/d1/worker-api/d1-database/\
   採用: prepare/bind/batch。注意: batch外のreadは同一transactionではない。
-- **[S2] D1 limits**: https://developers.cloudflare.com/d1/platform/limits/  
+- **[S2] D1 limits**: https://developers.cloudflare.com/d1/platform/limits/\
   採用: query数、bind数、SQL長、DB容量を設計と負荷計測へ反映。無料枠内の稼働を事前に保証しない。
-- **[S3] Static Assets / Worker routing**: https://developers.cloudflare.com/workers/static-assets/routing/worker-script/  
+- **[S3] Static Assets / Worker routing**: https://developers.cloudflare.com/workers/static-assets/routing/worker-script/\
   採用: API等だけWorker優先。SPAへの誤fallbackを防ぐ。
-- **[S4] D1 read replication**: https://developers.cloudflare.com/d1/best-practices/read-replication/  
+- **[S4] D1 read replication**: https://developers.cloudflare.com/d1/best-practices/read-replication/\
   保留: Phase 1では不要。必要になった時だけSessions/bookmarkを導入。
-- **[S5] D1 migrations**: https://developers.cloudflare.com/d1/reference/migrations/  
+- **[S5] D1 migrations**: https://developers.cloudflare.com/d1/reference/migrations/\
   採用: migration path・適用履歴・local/remoteを区別する。
-- **[S6] DO WebSocket best practices**: https://developers.cloudflare.com/durable-objects/best-practices/websockets/  
+- **[S6] DO WebSocket best practices**: https://developers.cloudflare.com/durable-objects/best-practices/websockets/\
   Phase 3採用: Hibernation、再初期化時の復元、不要なtimerの抑制。
-- **[S7] Workers Vitest integration**: https://developers.cloudflare.com/workers/testing/vitest-integration/  
+- **[S7] Workers Vitest integration**: https://developers.cloudflare.com/workers/testing/vitest-integration/\
   採用: workerdでD1 bindingを使うテスト。Node SQLiteを補完する。
-- **[G1] Cloudflare公式D1 test fixture**: https://github.com/cloudflare/workers-sdk/tree/main/fixtures/vitest-plugin-examples/d1  
+- **[G1] Cloudflare公式D1 test fixture**: https://github.com/cloudflare/workers-sdk/tree/main/fixtures/vitest-plugin-examples/d1\
   READMEと `vitest.config.ts` を確認。現行mainの例は `@cloudflare/vitest-plugin` と `readD1Migrations` を使用。旧 `vitest-pool-workers-examples/d1` は今回404だったため、古い記事のpath/APIをコピーしない。mainの例がそのまま安定版として公開済みとも仮定しない。
-- **[G2] Vitest v5対応issue #15618**: https://github.com/cloudflare/workers-sdk/issues/15618  
+- **[G2] Vitest v5対応issue #15618**: https://github.com/cloudflare/workers-sdk/issues/15618\
   調査時open。旧 `@cloudflare/vitest-pool-workers` の互換性問題の報告。参照元Vitestは3.2.4。採用するintegrationの公開version・peer dependencies・公式setupを照合し、最小D1 testで確認して固定する。
-- **[G3] Cloudflare React/Vite template**: https://github.com/cloudflare/templates/tree/main/vite-react-template  
+- **[G3] Cloudflare React/Vite template**: https://github.com/cloudflare/templates/tree/main/vite-react-template\
   参考: WorkerとSPAの構成比較。既存アプリをtemplateで上書きしない。
-- **[G4] Cloudflare PartyKit**: https://github.com/cloudflare/partykit  
+- **[G4] Cloudflare PartyKit**: https://github.com/cloudflare/partykit\
   参考: Phase 3の通信抽象化。今回は直接DO APIを第一候補とし、必要な機能が確認できるまで追加しない。
 
 ## 17. solへの引継ぎ用プロンプト
