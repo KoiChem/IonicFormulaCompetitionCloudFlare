@@ -30,3 +30,5 @@ Expanded acceptance run: native D1 17/17 tests (11.06s); dedicated remote D1 com
 Independent review found a stale-ready generation race. The native D1 regression failed first; commit-time manifest/evaluator/generation/state/expiry guards now reject it without regressing new readiness. Final local verification: typechecks, 546/546 existing tests, 18/18 native D1 tests, and Cloudflare build passed. No critical/minor findings were reported.
 
 QR/browser detail: actual jsQR decoded the teacher's generated SVG rendered into a synthetic canvas camera stream, reached nickname entry, and all stream tracks ended. Camera-denied UI recovered through Close. Deferred submission also reached final results and per-question review at 390px without horizontal overflow. Synthetic video proves browser scanner logic, not camera optics or physical-device permissions.
+
+Final remote regression: 13/13 passed (78.26s), including stale ready→cancel→generation 2. Existing candidate D1 was rechecked empty before migration, then applied baseline39 statements (5.69ms SQL). Candidate database is schema-only; no production rooms were migrated.
