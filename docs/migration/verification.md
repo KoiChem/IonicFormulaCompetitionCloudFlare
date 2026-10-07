@@ -42,3 +42,7 @@ Final remote regression: 13/13 passed (78.26s), including stale readyâ†’cancelâ†
 - Public browser discovered existing Supabase CORS rejects the Cloudflare origin. Static/health publication is verified, but competitive frontend usability is blocked by that existing service configuration. Additive CORS/OAuth redirect changes require user scope confirmation; no existing Supabase setting has been changed at this point.
 - Workers Builds connected target repository/main, build verify:cloudflare, deploy deploy:cloudflare, using the existing build token. Dashboard retains a Git-account disconnected warning; GitHub reauthentication has been requested. Automatic build is not claimed verified. This release used Wrangler CLI.
 - Dedicated test D1 confirmed rooms0 / operations0 and no FK violations after scoped cleanup. Candidate migration repeated no-op.
+
+## Git integration recovery
+
+GitHub's Cloudflare Workers and Pages installation now retains the original repository and includes KoiChem/IonicFormulaCompetitionCloudFlare under selected repositories. Cloudflare settings show the target repository/main with the existing build token and no disconnected-account warning. This documentation update is the first push used to verify the recovered automatic build; success remains pending until the build and served release SHA are checked.
