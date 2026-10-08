@@ -33,3 +33,15 @@ Google専用OAuth設定、秘密設定、専用test Workerの実HTTP/WS/Google l
 ユーザーの明示承認後、本番Workerへ同じ専用OAuth client/masterの秘密設定を保存し、本番D1の0002/0003 migrationを適用済み。既存Supabase/Pagesは変更していない。本番独立コードへの切替・公開検証は以下に追記する。
 
 同じ外部レビュアーが最終レビューを再開・完了。Criticalなし、残るImportantは期限切れCOUNTDOWN/COLLECTINGのalarm連続起動。両phaseのnative回帰テストで修正前に1.1秒219/321回のD1通知更新を確認。synchronizeで期限切れroomのWSを閉じalarmを削除する修正を追加。修正後の全検証552/28/18件、型検査・build成功を確認。
+
+## 本番公開確認（2026-10-08）
+
+mainを `2e898b66235ce02f97b2d6784e1cf99c54d9840c` にfast-forwardしてpush。GitHub CI [37769191635](https://github.com/KoiChem/IonicFormulaCompetitionCloudFlare/actions/runs/37769191635) の全工程成功、Cloudflare自動Build `8949f596-dc14-4306-bfee-6808dc62ed74` 成功（3m15s）を確認。公開healthは200、build=2e898b6、phase=independent、competitionBackend=cloudflare、D1/Auth/DO=true、Class50/Mate4。
+
+- 本番URL: https://ionicformulacompetition.koichem.workers.dev/
+- Safariで本番→Googleアカウント選択→教員/管理者画面へ復帰し、15問/3分/一括/イオン名Classを作成。
+- 作成した専用検証Classのみへ50名の匿名credentialを実HTTPSで参加。教員UIに50名表示、51人目は409で拒否。実教員の開始要求、50名manifest/ready、実countdown後50名finishを受理。0点/同時間/同順位1位の生徒結果を確認。これは正答入力を省略した提出・容量検証であり、1500欄保存/採点の負荷検証はnative fixtureで別に実施した。
+- 本番Mate4名を実HTTPSで作成・参加・開始・ready・提出・最終同順位1位まで確認。host/participantの実WSS認証、ping/pongをPlaywrightで確認。
+- 本番ホームの横はみ出しなし、pageerror0、Supabase resource request0。実Google認証はSafari、匿名生徒/公開HTTP・WSSはPlaywright/CLIと証拠を分離。
+- 作成したsynthetic roomは元の保持期限に従う。既存room/旧Supabase/Pagesデータは操作していない。
+- 公開CPU/rows/WS課金の詳細な負荷計測、実機カメラ・タッチは未実施。ブラウザ確認を実機確認とは扱わない。
