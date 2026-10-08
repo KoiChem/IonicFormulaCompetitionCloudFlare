@@ -1,3 +1,4 @@
+import {topRoutes,roomRoutes} from './api-routes';
 import {nativeRoomCommand} from './postgres-room-commands';
 import { createApiHandlers, jsonResponse } from './http';
 import { hashParticipantToken } from './participant-auth';
@@ -21,27 +22,6 @@ export type GatewayOptions = {
   allowedOrigins: readonly string[];
   flush(roomId: string): Promise<void>;
   now?: () => number;
-};
-type HandlerName = keyof ReturnType<typeof createApiHandlers>;
-const topRoutes: Record<string, { method: string[]; name: HandlerName }> = {
-  '/api/public-config': {method:['GET'],name:'publicConfig'},
-  '/api/join-info': {method:['GET'],name:'joinInfo'},
-  '/api/class-rooms': {method:['POST'],name:'createClassRoom'},
-  '/api/mate-rooms': {method:['POST'],name:'createMateRoom'},
-  '/api/teacher/session': {method:['GET'],name:'teacherSession'},
-  '/api/teacher/allowlist': {method:['GET','POST'],name:'teacherAllowlist'},
-  '/api/teacher/question-profile': {method:['GET','PATCH'],name:'teacherQuestionProfile'},
-  '/api/teacher/site-settings': {method:['GET','PATCH'],name:'teacherSiteSettings'},
-};
-const roomRoutes: Record<string, { method: string[]; name: HandlerName }> = {
-  state:{method:['GET'],name:'state'},join:{method:['POST'],name:'joinRoom'},
-  nickname:{method:['PATCH'],name:'nickname'},settings:{method:['PATCH'],name:'updateRoomSettings'},
-  'start-status':{method:['GET'],name:'startStatus'},
-  start:{method:['POST'],name:'startRoom'},manifest:{method:['GET'],name:'manifest'},ready:{method:['POST'],name:'ready'},
-  'cancel-preparation':{method:['POST'],name:'cancelPreparation'},operations:{method:['POST'],name:'operations'},
-  writer:{method:['POST'],name:'writer'},cancel:{method:['POST'],name:'cancelRoom'},interrupt:{method:['POST'],name:'interruptRoom'},
-  remove:{method:['POST'],name:'removeParticipant'},actions:{method:['POST'],name:'actions'},
-  results:{method:['GET'],name:'results'},'result-summary':{method:['GET'],name:'resultSummary'},
 };
 function failure(status:number,code:string,message:string) { return jsonResponse({error:{code,message}},status); }
 function withCors(response: Response, origin: string, preflight=false) {

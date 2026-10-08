@@ -21,7 +21,8 @@
     "deploy:cloudflare": "node scripts/deploy-cloudflare.mjs",
     "verify:cloudflare": "pnpm typecheck && pnpm typecheck:worker && RUN_LOAD=1 pnpm test && pnpm test:d1 && pnpm build:cloudflare",
     "test:d1:remote": "REMOTE_D1=1 vitest run --config vitest.d1-remote.config.ts",
-    "db:migrate:test": "wrangler d1 migrations apply DB --env test --remote"
+    "db:migrate:test": "wrangler d1 migrations apply DB --env test --remote",
+    "test:cloudflare": "vitest run --config vitest.cloudflare.config.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.57.4",
