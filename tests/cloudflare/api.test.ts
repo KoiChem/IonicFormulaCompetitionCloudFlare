@@ -39,3 +39,19 @@ it.each(['immediate','deferred'] as const)('runs %s grading through native HTTP 
  expect((await call('/api/rooms/'+room+'/operations','POST',batch,token)).status).toBe(200);
  const result=await call('/api/rooms/'+room+'/results','GET',undefined,token);expect(result.status,await result.clone().text()).toBe(200);expect((await result.json() as any).own).toMatchObject({correctCount:0,finishReason:'submitted'});
 });
+it('runs independent Mate capacity/host rights and rejects injected legacy credentials',async()=>{
+ const config=await (await call('/api/teacher/site-settings','GET',undefined,undefined,true)).json() as any;
+ expect((await call('/api/teacher/site-settings','PATCH',{requestId:crypto.randomUUID(),enabled:true,expectedRevision:config.revision},undefined,true)).status).toBe(200);
+ const token=createParticipantToken(),key=createParticipantToken(),requestId=crypto.randomUUID(),body={requestId,nickname:'主催',settings:{...SETTINGS,gradingMode:'immediate'}};
+ const create=()=>fixture.fetch('/api/mate-rooms',{method:'POST',headers:{origin:'https://test','content-type':'application/json','x-competition-csrf':'1','x-creation-key':key,authorization:'Bearer '+token},body:JSON.stringify(body)});
+ const first=await create();expect(first.status,await first.clone().text()).toBe(201);const room=(await first.json() as any).room.id;expect((await (await create()).json() as any).room.id).toBe(room);
+ const mates=Array.from({length:4},()=>createParticipantToken());for(let n=0;n<4;n++)expect((await call(`/api/rooms/${room}/join`,'POST',{requestId:crypto.randomUUID(),nickname:'友達'+n},mates[n])).status).toBe(n<3?201:409);
+ const state=await (await call(`/api/rooms/${room}/state`,'GET',undefined,token)).json() as any;expect(state.realtime.role).toBe('host');
+ expect((await call(`/api/rooms/${room}/start`,'POST',{requestId:crypto.randomUUID(),expectedRevision:state.room.revision},mates[0])).status).toBe(403);
+ expect((await call(`/api/rooms/${room}/start`,'POST',{requestId:crypto.randomUUID(),expectedRevision:state.room.revision},token)).status).toBe(200);
+ const spoof=await fixture.fetch('/api/class-rooms',{method:'POST',headers:{origin:'https://test','content-type':'application/json','x-competition-csrf':'1','x-ionic-internal-role':'teacher','x-participant-authorization':'Bearer '+token,'x-user-id':'master-sub'},body:JSON.stringify({requestId:crypto.randomUUID(),settings:SETTINGS})});expect(spoof.status).toBe(401);
+});
+it('health requires the independent schema, configured auth, and reachable room coordinator',async()=>{
+ const response=await call('/api/health');expect(response.status,await response.clone().text()).toBe(200);expect(await response.json()).toMatchObject({competitionBackend:'cloudflare',d1Ready:true,authReady:true,roomCoordinatorReady:true,capacities:{class:50,mate:4}});
+ const missing=await createWorkerFixture('worker/index.ts',{durableObjects:{ROOMS:'RoomCoordinator'}});try{const r=await missing.fetch('/api/health');expect(r.status).toBe(503);expect(await r.json()).toMatchObject({authReady:false,d1Ready:true,roomCoordinatorReady:true});}finally{await missing.close();}
+});
