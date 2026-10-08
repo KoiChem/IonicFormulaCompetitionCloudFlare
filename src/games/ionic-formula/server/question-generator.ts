@@ -123,6 +123,13 @@ function legacyCandidates(settings: IonicFormulaGameSettings) {
 
 type Candidate = { item: Ion | Compound; category: string | null; variants: string[] };
 function candidates(settings: IonicFormulaGameSettings, profile: QuestionProfile | null): Candidate[] {
+  if (settings.complexOnly === true) {
+    const source = settings.mode === "ion" ? ions.filter(i => i.ionQuestionEnabled !== false) : compounds;
+    return source.filter(item => isComplexItem(item, ionById))
+      .map(item => ({ item, category: "charge" in item ? ionCategory(item) : compoundCategory(item),
+        variants: "charge" in item ? ionVariants(settings) : compoundVariants(settings).filter(v => compoundSupports(item, v)) }))
+      .filter(candidate => candidate.category && candidate.variants.length);
+  }
   if (profile === null) return legacyCandidates(settings);
   const rule = profile.rules[settings.mode][settings.difficulty];
   const overrides = settings.mode === "ion" ? profile.ionDifficulties : profile.compoundDifficulties;
@@ -146,7 +153,7 @@ function allocations(pool: Candidate[], count: number, weights: Record<string,nu
 }
 function selectCandidates(settings:IonicFormulaGameSettings, profile:QuestionProfile|null, random:()=>number):Candidate[] {
  const eligible=candidates(settings,profile);
- if(profile===null)return shuffled(eligible,random).slice(0,settings.questionCount);
+ if(settings.complexOnly === true || profile===null)return shuffled(eligible,random).slice(0,settings.questionCount);
  const quota=settings.complexEnabled ? Math.ceil(settings.questionCount*profile.rules[settings.mode][settings.difficulty].complexPercent/100) : 0;
  const complex=eligible.filter(c=>isComplexItem(c.item,ionById));
  const ordinary=eligible.filter(c=>!isComplexItem(c.item,ionById));
@@ -166,6 +173,7 @@ export function validateQuestionProfile(profile:QuestionProfile):void {
  }
 }
 export function validateGameSettings(settings: IonicFormulaGameSettings, profile: QuestionProfile | null = DEFAULT_QUESTION_PROFILE) {
+  if (settings.complexOnly !== undefined && typeof settings.complexOnly !== "boolean") throw new TypeError("錯イオンのみ設定が不正です");
   if (settings.complexEnabled !== undefined && typeof settings.complexEnabled !== "boolean") throw new TypeError("錯イオン設定が不正です");
   if (settings.chemistryContentVersion !== undefined && settings.chemistryContentVersion !== CHEMISTRY_CONTENT_VERSION) throw new TypeError("教材の版が不正です");
   if (settings.gradingMode !== undefined && settings.gradingMode !== "immediate" && settings.gradingMode !== "deferred") throw new TypeError("判定方式が不正です");

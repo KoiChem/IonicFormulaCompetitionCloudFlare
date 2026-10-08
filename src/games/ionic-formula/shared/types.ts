@@ -8,6 +8,7 @@ export type GradingMode = "immediate" | "deferred";
 
 export type IonicFormulaGameSettings = CompetitionSettings & {
   readonly complexEnabled?: boolean;
+  readonly complexOnly?: boolean;
   readonly chemistryContentVersion?: string;
   readonly gradingMode?: GradingMode;
   readonly mode: GameMode;

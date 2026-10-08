@@ -2,6 +2,7 @@ import { appPath } from '../../web/routing';
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { discoverHistoryCandidates } from "../results/history-index";
 import { recoveryDestination } from "../play/active-room-recovery";
 import { fetchJsonWithTimeout, loadCredential } from "../play/useRoomSync";
@@ -47,10 +48,12 @@ export function ActiveRoomLinks() {
     });
     return () => { live = false; };
   }, [revision]);
-  if (!checking && !rooms.length && !failed) return null;
-  return <section className="active-room-links" aria-label="参加中の競技">
+  const statusTarget = checking ? document.getElementById("home-participation-status") : null;
+  return <>
+    {checking && statusTarget && createPortal(<p role="status">参加状況を確認しています…</p>, statusTarget)}
+    {(rooms.length > 0 || (failed && !checking)) && <section className="active-room-links" aria-label="参加中の競技">
     {rooms.length > 0 && <><h2>参加中の競技</h2><ul>{rooms.map(room => <li key={room.id}><span>{room.kind === "mate" ? "メイトマッチ" : "クラスコンペ"}</span><a className="primary-link" href={appPath(`/rooms/${encodeURIComponent(room.id)}`)}>参加中の競技に戻る</a></li>)}</ul></>}
-    {checking && <p role="status">参加状況を確認しています…</p>}
     {failed && !checking && <button type="button" onClick={() => setRevision(value => value + 1)}>参加状況を再確認</button>}
-  </section>;
+  </section>}
+  </>;
 }

@@ -358,7 +358,7 @@ function parseSettings(value: unknown): IonicFormulaGameSettings {
   if (!isRecord(value)) throw new ApiError(400, "invalid_settings", "競技設定が不正です");
   assertKeys(value, [
     "questionCount", "timeLimitMinutes", "mode", "difficulty", "ionAnswer",
-    "compoundPrompts", "compoundAnswer", "gradingMode", "complexEnabled", "chemistryContentVersion",
+    "compoundPrompts", "compoundAnswer", "gradingMode", "complexEnabled", "complexOnly", "chemistryContentVersion",
   ]);
   if (!isRecord(value.compoundPrompts)) throw new ApiError(400, "invalid_settings", "出題形式が不正です");
   assertKeys(value.compoundPrompts, ["formula", "name"]);

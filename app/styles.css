@@ -29,6 +29,9 @@ main {
 .eyebrow { margin: 0 0 6px; color: var(--primary-dark); font-size: .875rem; font-weight: 800; letter-spacing: .16em; }
 h1 { margin: 0; font-size: clamp(2rem, 8vw, 3.25rem); line-height: 1; }
 .join-form { margin-top: 40px; }
+.home-card > header { position: relative; }
+.home-participation-status { position: absolute; top: 100%; inset-inline: 0; height: 40px; display: flex; align-items: center; }
+.home-participation-status p { margin: 0; color: var(--muted); font-size: .875rem; line-height: 1.4; }
 label { display: block; margin-bottom: 10px; font-weight: 700; }
 .join-row { display: flex; gap: 10px; }
 input, button, a { min-height: 48px; font: inherit; }

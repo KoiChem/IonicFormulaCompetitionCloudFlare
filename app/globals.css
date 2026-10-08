@@ -349,7 +349,7 @@ legend { margin-bottom: 10px; font-weight: 800; }
 
 /* IonicFormula complex controls: difficulty-side toggle and four-column word fragments. */
 .difficulty-controls { display:flex; align-items:stretch; gap:8px; }
-.difficulty-controls .choice-grid { flex:1; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); }
+.difficulty-controls .choice-grid { flex:1; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); }
 .complex-toggle { margin-left:auto; white-space:nowrap; }
 .complex-toggle-state { margin-left:6px; font-size:.72em; }
 .play-active .name-shortcuts.complex-name-shortcuts { grid-template-columns:repeat(4,minmax(0,1fr)); gap:4px; }
@@ -475,3 +475,17 @@ legend { margin-bottom: 10px; font-weight: 800; }
 .immediate-review-fields > .is-correct { background:#e1f4e9; color:var(--play-dark); }
 .immediate-review-card > .review-continue { margin-top:10px; width:100%; text-align:center; border-color:var(--play-primary); background:var(--play-primary); color:white; }
 .immediate-review-card > .review-continue:disabled { opacity:.55; cursor:default; }
+
+.complex-only-option { position:relative; min-width:0; display:flex; }
+.complex-only-option > .choice { width:100%; }
+.complex-only-tooltip { position:absolute; bottom:calc(100% + 10px); right:0; width:min(260px,70vw); padding:10px 12px; border-radius:10px; background:var(--primary-dark); color:white; font-size:.8rem; line-height:1.5; font-weight:400; pointer-events:none; visibility:hidden; opacity:0; z-index:10; }
+.complex-only-option:hover .complex-only-tooltip, .complex-only-option:focus-within .complex-only-tooltip { visibility:visible; opacity:1; transition:opacity .15s .65s, visibility 0s .65s; }
+.difficulty-controls .complex-toggle { display:inline-flex; align-items:center; justify-content:center; gap:8px; border-radius:24px; border:1px solid var(--line); background:var(--paper); color:var(--primary-dark); }
+.complex-toggle .complex-toggle-state { margin:0; min-width:36px; padding:4px 6px; border-radius:12px; background:#e5e9e4; color:var(--muted); }
+.complex-toggle[aria-pressed="true"] .complex-toggle-state { background:var(--primary-dark); color:white; }
+@media (max-width:600px) {
+  .difficulty-controls { flex-wrap:wrap; }
+  .difficulty-controls .choice-grid { flex-basis:100%; }
+  .difficulty-controls .choice { padding-inline:6px; }
+  .difficulty-controls .complex-toggle { margin-left:0; }
+}

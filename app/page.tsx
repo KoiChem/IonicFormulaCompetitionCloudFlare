@@ -9,6 +9,7 @@ export default function Home() {
         <header>
           <p className="eyebrow">IONIC FORMULA</p>
           <h1 id="home-title">Competition</h1>
+          <div id="home-participation-status" className="home-participation-status" />
         </header>
 
         <JoinCodeForm />

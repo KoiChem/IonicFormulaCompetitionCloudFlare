@@ -13,17 +13,17 @@ function seeded(seed: number) {
   return () => ((value = (Math.imul(value, 1664525) + 1013904223) >>> 0) / 2 ** 32);
 }
 
-for (const kind of ["class", "mate"] as const) for (const mode of ["ion", "compound"] as const) for (const gradingMode of ["immediate", "deferred"] as const) {
-  it(`persists, prepares, grades and reviews complex ${mode} questions in ${kind}/${gradingMode}`, async () => {
+for (const complexOnly of [false, true]) for (const kind of ["class", "mate"] as const) for (const mode of ["ion", "compound"] as const) for (const gradingMode of ["immediate", "deferred"] as const) {
+  it(`persists, prepares, grades and reviews ${complexOnly ? "complex-only" : "mixed-complex"} ${mode} questions in ${kind}/${gradingMode}`, async () => {
     const context = createApiTestContext(); contexts.push(context);
-    const settings = { ...SETTINGS, questionCount: 15 as const, mode, gradingMode, complexEnabled: true };
+    const settings = { ...SETTINGS, questionCount: 15 as const, mode, gradingMode, complexEnabled: true, complexOnly };
     const created = kind === "class" ? await createClassRoom(context, crypto.randomUUID(), settings) : await createMateRoom(context, { settings });
     expect(created.response.status).toBe(201);
     const roomId = created.body.room.id;
     const joined = kind === "class" ? await joinClassRoom(context, roomId) : created as Awaited<ReturnType<typeof createMateRoom>>;
     // State returns the settings read from persisted JSON, not the creation request.
     const state = await (await context.handlers.state(apiRequest(`/api/rooms/${roomId}/state`, { token: joined.token }), { id: roomId })).json() as { room: { settings: unknown } };
-    expect(state.room.settings).toMatchObject({ complexEnabled: true, chemistryContentVersion: "complex-ions-2026-10-02" });
+    expect(state.room.settings).toMatchObject({ complexOnly, complexEnabled: true, chemistryContentVersion: "complex-ions-2026-10-02" });
     const stored = await context.database.prepare("SELECT dataset_version FROM rooms WHERE public_id = ?").bind(roomId).first<{ dataset_version: string }>();
     expect(stored?.dataset_version).toBe("complex-ions-2026-10-02");
     const target = mode === "ion" ? "complex_fe_cn_6_ii" : "salt_k4_fe_cn_6";
@@ -38,6 +38,7 @@ for (const kind of ["class", "mate"] as const) for (const mode of ["ion", "compo
     expect(Boolean(manifest.questions[0].answer)).toBe(gradingMode === "immediate");
     const rows = await context.database.prepare("SELECT answer_snapshot_json FROM room_questions ORDER BY ordinal").all<{ answer_snapshot_json: string }>();
     const questions = rows.results.map(row => JSON.parse(row.answer_snapshot_json) as InternalQuestion);
+    if (complexOnly) expect(questions.every(q => q.itemId.startsWith(mode === "ion" ? "complex_" : "salt_"))).toBe(true);
     const complex = questions.find(q => q.itemId === target)!;
     expect(complex.answer).toMatchObject({ canonical: mode === "ion" ? "[Fe(CN)6]4-" : "K4[Fe(CN)6]" });
     const ready = await context.handlers.ready(apiRequest(`/api/rooms/${roomId}/ready`, { method: "POST", token: joined.token,
