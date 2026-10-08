@@ -21,3 +21,29 @@ alarmはcountdown/start/deadline/collection/未送信通知/認証・room期限�
 ## 戻す場合
 
 直前の検証済みCloudflare deploymentへrollbackする。additive migrationは残す。旧Supabase版に戻る場合は旧URLを使う。新版room/session/結果は旧版で継続できないため、進行中roomを勝手に移送せず公開案内と区別する。旧サービスの停止や削除はこの作業に含まれない。
+
+## 出先のブラウザでできるOAuth準備
+
+Google Cloud Consoleのプロジェクト `IonicFormulaCompetition`（`ionicformulacompetition`）を開き、Google Auth Platform → クライアント → クライアントを作成。
+既に `IonicFormulaCompetition Cloudflare Independent` があれば新規作成を重複せず、その設定を確認する。
+
+- 種類: ウェブ アプリケーション
+- 名前: `IonicFormulaCompetition Cloudflare Independent`
+- 承認済みのJavaScript生成元: 空欄
+- 承認済みのリダイレクトURI（2件）:
+  - `https://ionicformulacompetition.taiyakiyaita.workers.dev/api/auth/google/callback`
+  - `https://ionicformulacompetition-phase1-test.taiyakiyaita.workers.dev/api/auth/google/callback`
+
+作成時にクライアントIDとシークレットを保管する（チャットには貼らない）。既存の `IonicFormulaCompetition Web` は変更しない。
+Cloudflare Dashboard → Workers & Pages → `ionicformulacompetition-phase1-test` → Settings → Variables and Secrets で、以下を Secret として設定・保存する。
+
+| 名前 | 値 |
+| --- | --- |
+| GOOGLE_CLIENT_ID | 作成した専用クライアントのID |
+| GOOGLE_CLIENT_SECRET | 作成した専用クライアントのシークレット |
+| MASTER_TEACHER_EMAIL | 初期マスターとして合意したGoogleアカウントのメール |
+
+今回は検証Workerのみ。`APP_ORIGIN` は既存設定を維持する。完了報告には「検証Workerの3項目を設定済み」とだけ書く。
+本番への秘密設定・D1 migration・main統合・公開検証は、検証Workerで実Googleログインを確認してから実施する。
+
+参考: https://developers.google.com/identity/protocols/oauth2/web-server#creatingcred

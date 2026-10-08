@@ -4,7 +4,7 @@
 
 ## ローカルで確認したこと
 
-- `pnpm verify:cloudflare`: frontend/Worker型検査、既存＋UI551件、native Worker24件、D118件、production buildが成功（2026-10-08）。
+- `pnpm verify:cloudflare`: frontend/Worker型検査、既存＋UI552件、native Worker26件、D118件、production buildが成功（2026-10-08）。
 - native HTTP/DO/WS: Class50名、51人目拒否、15問×式/名の2欄、即時/一括両方式、1500欄を各方式で保存・採点、同点同時間の全員1位、同request再送。約3.2秒/2ケースはローカルfixture全体の所要時間であり公開環境の応答時間ではない。
 - 未認証WSにはroomデータを送らず5秒alarmで切断。教員用host通知を生徒へ送らない。除外/教員session失効で既存接続も失効。Hibernationでattachmentを復元し、未送信D1 revisionを再送。
 - deadline後、参加者HTTPがなくてもalarmがCOLLECTINGと10秒のcollection windowを経てFINISHEDへ確定。
@@ -18,3 +18,10 @@
 Google専用OAuth設定、秘密設定、専用test Workerの実HTTP/WS/Google login、全体review、main統合とCI/Cloudflare build、公開URLの実HTTP/WS/Google loginを確認後、結果を追記する。D1 query/batch制限はnative D1の既存予算テストで確認したが、公開CPU/rows/WS課金値は未計測。実機camera/touchは別の手動確認対象。
 
 公式参考: [Hibernation example](https://developers.cloudflare.com/durable-objects/examples/websocket-hibernation-server/)、[Cloudflare GitHub docs](https://github.com/cloudflare/cloudflare-docs/blob/production/src/content/docs/durable-objects/best-practices/websockets.mdx)。
+
+## レビュー後の追記
+
+専用検証Worker（846b550）でHTTPS経由のMate4名・提出・同順位確定、実WSSのhost/participant認証とping/pongを確認。実Google認証は未設定でhealthはauthReady=false/503を返す。GitHub CI 37715145844は成功。
+
+レビューで期限超過後のmanifest取得がalarmをroom expiryまで先送りする問題と、半切断WSがHTTP復帰を妨げる問題を確認。両方の回帰テストが修正前に失敗することを確認し、期限超過は即時alarm、pong未応答10秒でHTTP再同期へ戻す修正を実施。
+外部レビューは利用上限により最終判定前に終了したため、全体レビュー完了とは扱わない。実Googleログインと本番公開は保留。

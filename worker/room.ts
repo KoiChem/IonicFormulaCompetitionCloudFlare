@@ -78,8 +78,8 @@ export class RoomCoordinator extends DurableObject<IndependentEnv>{
   }
   const due=[room.expires_at_ms];if(pendingHost)due.push(hostNext);
   if(room.phase==='PREPARING'&&room.prepared_at_ms!=null&&room.prepared_at_ms+30000>now)due.push(room.prepared_at_ms+30000);
-  if(room.phase==='COUNTDOWN'){if(room.start_at_ms!=null&&room.start_at_ms>now)due.push(room.start_at_ms);if(room.deadline_at_ms!=null)due.push(room.deadline_at_ms);}
-  if(room.phase==='COLLECTING'&&room.collection_until_ms!=null)due.push(room.collection_until_ms);
+  if(room.phase==='COUNTDOWN'){if(room.start_at_ms!=null&&room.start_at_ms>now)due.push(room.start_at_ms);if(room.deadline_at_ms!=null)due.push(Math.max(now+1,room.deadline_at_ms));}
+  if(room.phase==='COLLECTING'&&room.collection_until_ms!=null)due.push(Math.max(now+1,room.collection_until_ms));
   for(const ws of this.ctx.getWebSockets()){const a=ws.deserializeAttachment() as Attachment;if(a.pendingUntil)due.push(a.pendingUntil);if(a.principal)due.push(a.principal.expiresAtMs);}
   const future=due.filter(x=>x>now);if(future.length)await this.ctx.storage.setAlarm(Math.min(...future));else await this.ctx.storage.deleteAlarm();
  }

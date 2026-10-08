@@ -1,14 +1,14 @@
 export type RoomEvent={epoch:number;revision:number;roomRevision?:number;eventId:string;roomId:string;participants?:any[]};
 export function connectRoomSocket(options:{roomId:string;token?:string|null;onEvent:(event:RoomEvent,kind:'control'|'host')=>void;onStatus:(subscribed:boolean)=>void;onResync:()=>void}):()=>void{
- let stopped=false,ws:WebSocket|undefined,retry:ReturnType<typeof setTimeout>|undefined,authTimer:ReturnType<typeof setTimeout>|undefined,ping:ReturnType<typeof setInterval>|undefined,failures=0;const revisions={control:0,host:0};
- const timers=()=>{if(authTimer)clearTimeout(authTimer);if(ping)clearInterval(ping);authTimer=undefined;ping=undefined;};
+ let stopped=false,ws:WebSocket|undefined,retry:ReturnType<typeof setTimeout>|undefined,authTimer:ReturnType<typeof setTimeout>|undefined,ping:ReturnType<typeof setInterval>|undefined,pongTimer:ReturnType<typeof setTimeout>|undefined,failures=0;const revisions={control:0,host:0};
+ const timers=()=>{if(authTimer)clearTimeout(authTimer);if(ping)clearInterval(ping);if(pongTimer)clearTimeout(pongTimer);authTimer=undefined;ping=undefined;pongTimer=undefined;};
  const connect=()=>{
   if(stopped||document.hidden||!navigator.onLine)return;
   const url=new URL(`/api/rooms/${encodeURIComponent(options.roomId)}/realtime`,location.origin);url.protocol=location.protocol==='https:'?'wss:':'ws:';if(options.token)url.searchParams.set('mode','participant');
   const current=new WebSocket(url);ws=current;authTimer=setTimeout(()=>current.close(),8000);
   current.onopen=()=>{current.send(JSON.stringify({type:'authenticate',...(options.token?{token:options.token}:{})}));};
-  current.onmessage=event=>{if(stopped||current!==ws)return;if(event.data==='pong')return;let data:any;try{data=JSON.parse(event.data);}catch{return;}
-   if(data.type==='authenticated'){if(authTimer)clearTimeout(authTimer);authTimer=undefined;failures=0;options.onStatus(true);options.onResync();ping=setInterval(()=>{if(current.readyState===WebSocket.OPEN)current.send('ping');},25000);return;}
+  current.onmessage=event=>{if(stopped||current!==ws)return;if(event.data==='pong'){if(pongTimer)clearTimeout(pongTimer);pongTimer=undefined;return;}let data:any;try{data=JSON.parse(event.data);}catch{return;}
+   if(data.type==='authenticated'){if(authTimer)clearTimeout(authTimer);authTimer=undefined;failures=0;options.onStatus(true);options.onResync();ping=setInterval(()=>{if(current.readyState===WebSocket.OPEN){current.send('ping');pongTimer=setTimeout(()=>{current.onclose?.({code:1006} as CloseEvent);current.close();},10000);}},25000);return;}
    const kind=data.kind;if(data.type!=='event'||!['control','host'].includes(kind)||data.roomId!==options.roomId||data.epoch!==1||!Number.isSafeInteger(data.revision)||data.revision<=revisions[kind as 'control'|'host'])return;
    revisions[kind as 'control'|'host']=data.revision;options.onEvent(data,kind);
   };

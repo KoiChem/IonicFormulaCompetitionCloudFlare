@@ -53,3 +53,14 @@ it('fails closed for a teacher socket when the fixed master configuration disagr
  const id=await room(),s=await socket(id,true);await until(()=>s.frames.some(e=>e.type==='authenticated'));let closed=false;s.ws.addEventListener('close',()=>closed=true);
  try{await f.db.prepare("UPDATE cf_auth_config SET master_email='other@example.com' WHERE id=1").run();await join(id,createParticipantToken());await until(()=>closed);}finally{await f.db.prepare("UPDATE cf_auth_config SET master_email='master@example.com' WHERE id=1").run();s.ws.close();}
 });
+it('a manifest read preserves recovery of an already overdue deadline',async()=>{
+ const id=await room(),token=createParticipantToken();await join(id,token);
+ const headers={origin:'https://test',cookie,'content-type':'application/json','x-competition-csrf':csrf};
+ expect((await f.fetch(`/api/rooms/${id}/start`,{method:'POST',headers,body:JSON.stringify({requestId:crypto.randomUUID(),expectedRevision:1})})).status).toBe(200);
+ const manifest=await (await f.fetch(`/api/rooms/${id}/manifest`,{headers:{authorization:'Bearer '+token}})).json() as any;
+ expect((await f.fetch(`/api/rooms/${id}/ready`,{method:'POST',headers:{origin:'https://test',authorization:'Bearer '+token,'content-type':'application/json','x-competition-csrf':'1'},body:JSON.stringify({manifestId:manifest.manifestId,evaluatorVersion:manifest.evaluatorVersion,preparationGeneration:manifest.preparationGeneration})})).status).toBe(200);
+ // Isolated fixture advances stored timestamps, then lets the real alarm own collection/finalization.
+ await new Promise(r=>setTimeout(r,2500));
+ await f.db.prepare('UPDATE rooms SET start_at_ms=?,deadline_at_ms=? WHERE public_id=?').bind(Date.now()-200000,Date.now()-11000,id).run();await f.fetch(`/api/rooms/${id}/manifest`,{headers:{authorization:'Bearer '+token}});
+ await new Promise(r=>setTimeout(r,3000));const row=await f.db.prepare('SELECT r.state,m.state AS phase FROM rooms r JOIN v2_room_manifests m ON m.room_id=r.id WHERE r.public_id=?').bind(id).first();expect(row).toMatchObject({state:'FINISHED',phase:'FINISHED'});
+});
