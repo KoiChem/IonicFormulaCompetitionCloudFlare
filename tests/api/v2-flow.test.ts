@@ -5,6 +5,37 @@ const contexts: ReturnType<typeof createApiTestContext>[] = [];
 afterEach(() => contexts.splice(0).forEach(context => context.close()));
 
 describe("protocol v2 grading modes", () => {
+  it("exposes question-transition progress separately from saved drafts and survives retry and subsequent batches", async () => {
+    const test = createApiTestContext(); contexts.push(test);
+    const created = await createClassRoom(test, crypto.randomUUID(), { ...SETTINGS, ionAnswer: "name", gradingMode: "deferred" });
+    const roomId = created.body.room.id;
+    const joined = await joinClassRoom(test, roomId);
+    await test.handlers.startRoom(apiRequest(`/api/rooms/${roomId}/start`, { method: "POST", json: { requestId: crypto.randomUUID(), expectedRevision: 1 } }), { id: roomId });
+    const manifest = await (await test.handlers.manifest(apiRequest(`/api/rooms/${roomId}/manifest`, { token: joined.token }), { id: roomId })).json() as {
+      manifestId: string; evaluatorVersion: string; preparationGeneration: number; questions: Array<{ id: string; answer: { canonical: string } }> };
+    const ready = await test.handlers.ready(apiRequest(`/api/rooms/${roomId}/ready`, { method: "POST", token: joined.token,
+      json: { manifestId: manifest.manifestId, evaluatorVersion: manifest.evaluatorVersion, preparationGeneration: manifest.preparationGeneration } }), { id: roomId });
+    test.setNow((await ready.json() as { startAtMs: number }).startAtMs + 2000);
+    const identity = { writerEpoch: 1, manifestId: manifest.manifestId, evaluatorVersion: manifest.evaluatorVersion };
+    const save = async (body: unknown) => {
+      const response = await test.handlers.operations(apiRequest(`/api/rooms/${roomId}/operations`, { method: "POST", token: joined.token, json: body }), { id: roomId });
+      expect(response.status, JSON.stringify(await response.clone().json())).toBe(200);
+      return response.json();
+    };
+    expect(await save({ ...identity, requestId: crypto.randomUUID(), operations: [{ seq: 1, operationId: crypto.randomUUID(), type: "draft", questionId: manifest.questions[0].id, fieldId: "name", value: "入力済み", elapsedMs: 500 }] })).toMatchObject({ answeredCount: 1, resolvedQuestionCount: 0 });
+    const batch = { ...identity, requestId: crypto.randomUUID(), operations: [{ seq: 2, operationId: crypto.randomUUID(), type: "advance", questionId: manifest.questions[0].id, elapsedMs: 600 }] };
+    expect(await save(batch)).toMatchObject({ answeredCount: 1, resolvedQuestionCount: 1 });
+    expect(await save(batch)).toMatchObject({ ackSeq: 2, resolvedQuestionCount: 1 });
+    expect(await save({ ...identity, requestId: crypto.randomUUID(), operations: [
+      { seq: 3, operationId: crypto.randomUUID(), type: "draft", questionId: manifest.questions[0].id, fieldId: "name", value: "", elapsedMs: 700 },
+      { seq: 4, operationId: crypto.randomUUID(), type: "advance", questionId: manifest.questions[0].id, elapsedMs: 800 },
+    ] })).toMatchObject({ answeredCount: 0, resolvedQuestionCount: 1 });
+    const progress = await test.handlers.state(apiRequest(`/api/rooms/${roomId}/state`), { id: roomId });
+    expect(progress.status).toBe(200);
+    expect(await progress.json()).toMatchObject({ participants: [{ advancedQuestionCount: 1, answeredCount: 0, correctCount: 0, currentOrdinal: 0 }] });
+
+  });
+
   it("finalizes an immediate early submission as 提出 with only accepted correct answers", async () => {
     const test = createApiTestContext(); contexts.push(test);
     const created = await createClassRoom(test, crypto.randomUUID(), { ...SETTINGS, ionAnswer: "name", gradingMode: "immediate" });

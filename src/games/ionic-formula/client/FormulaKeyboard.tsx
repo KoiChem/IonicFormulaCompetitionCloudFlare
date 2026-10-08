@@ -11,7 +11,7 @@ export const FORMULA_TOKENS = [...new Set([...ROWS.join(""), ...ROWS.join("").to
 export const CHARGE_OPTIONS: readonly FormulaCharge[] = (["+", "-"] as const).flatMap(sign => (sign === "+" ? [1, 2, 3] : [1, 2, 3, 4]).map(magnitude => ({ sign, magnitude, source: "chargeButton" as const })));
 const CHARGES = CHARGE_OPTIONS;
 
-export function FormulaKeyboard({ value, onChange, onSubmit = () => {}, showSubmit = true, disabled, kind = "ion", resetKey }: { value: FormulaEntry; onChange(value: FormulaEntry): void; onSubmit?(): void; showSubmit?: boolean; disabled?: boolean; kind?: "ion" | "compound"; resetKey?: string }) {
+export function FormulaKeyboard({ value, onChange, onSubmit = () => {}, showSubmit = true, submitEnabled = showSubmit, disabled, kind = "ion", resetKey }: { value: FormulaEntry; onChange(value: FormulaEntry): void; onSubmit?(): void; showSubmit?: boolean; submitEnabled?: boolean; disabled?: boolean; kind?: "ion" | "compound"; resetKey?: string }) {
   const [uppercase, setUppercase] = useState(true);
   const pointer = useRef<{ id: number; x: number; y: number; letter: string; uppercase: boolean; bracket: boolean; button: HTMLButtonElement } | null>(null);
   const swipeStart = useRef<number | null>(null);
@@ -41,7 +41,7 @@ export function FormulaKeyboard({ value, onChange, onSubmit = () => {}, showSubm
     onKeyDown={event => { if (bracket && event.shiftKey && ["Enter", " "].includes(event.key)) { event.preventDefault(); if (!disabled && !event.repeat) insert(alternateBracket(bracketValue(character))); } }}>{bracket ? bracketValue(character) : uppercase ? character : character.toLowerCase()}</button>;
   const keyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (disabled) return;
-    if (event.key === "Enter" && showSubmit) { event.preventDefault(); onSubmit(); return; }
+    if (event.key === "Enter" && submitEnabled) { event.preventDefault(); onSubmit(); return; }
     if (event.key === "Backspace") { event.preventDefault(); backspace(); return; }
     if (event.key === "ArrowLeft" || event.key === "ArrowRight") { event.preventDefault(); onChange({ ...value, cursor: Math.max(0, Math.min(value.tokens.length, value.cursor + (event.key === "ArrowLeft" ? -1 : 1))) }); return; }
     if (/^[A-Za-z1-8()[\]]$/u.test(event.key)) { event.preventDefault(); insert(event.key); }

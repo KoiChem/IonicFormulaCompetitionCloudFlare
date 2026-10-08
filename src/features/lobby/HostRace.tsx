@@ -32,7 +32,7 @@ export function Runner({ id, color = "#1763a6", goal, stopped, rest = false, das
   </svg>;
 }
 
-export const HostRace = memo(function HostRace({ roomId, participants, mode, maxScore, active, pace, remainingText, interruptButton }: { roomId: string; participants: ParticipantState[]; mode: RaceMode; maxScore: number; active: boolean; pace: 0 | 1 | 2 | 3; remainingText: string; interruptButton: ReactNode }) {
+export const HostRace = memo(function HostRace({ roomId, participants, mode, maxScore, questionCount = maxScore, active, pace, remainingText, interruptButton }: { roomId: string; participants: ParticipantState[]; mode: RaceMode; maxScore: number; questionCount?: number; active: boolean; pace: 0 | 1 | 2 | 3; remainingText: string; interruptButton: ReactNode }) {
   const motionKey = "ionic-formula-competition:race-motion:v1";
   const previous = useRef<string[]>([]);
   const [motionChoice, setMotionChoice] = useState<RaceMotionChoice>("auto");
@@ -145,19 +145,21 @@ export const HostRace = memo(function HostRace({ roomId, participants, mode, max
   const total = rows.length;
   const range = raceVisibleRange(visibleIndex * laneHeight, laneHeight, fieldHeight, total);
   const draw = (row: RaceRow, index: number) => {
-    const progress = raceProgress(row, mode, maxScore);
+    const maximum = mode === "deferred" ? questionCount : maxScore;
+    const progress = raceProgress(row, mode, maximum);
     const goal = isRaceGoal(row, mode, maxScore);
     const rest = mode === "deferred" && row.submitted === true;
     const dash = dashIds.has(row.id) && active && !hidden && !goal && !rest;
-    const stopped = !active || (mode === "immediate" && row.status === "FINISHED" && !goal);
-    const phase = `${mode === "deferred" ? "入力" : "正解"} ${row.count} / ${maxScore}`;
+    const ended = mode === "immediate" && row.status === "FINISHED" && !goal;
+    const stopped = !active || ended || (!dash && !goal && !rest);
+    const phase = `${mode === "deferred" ? "進捗" : "正解"} ${row.count} / ${maximum}`;
     return <div key={row.id} className="race-lane" style={{ height: laneHeight, transform: `translateY(${index * laneHeight}px)` }}>
-      <div className="race-label" style={{ fontSize: `max(18px, ${24 * raceScale(row.rank)}px)` }}><strong>{row.rank}位</strong><span title={row.nickname}>{row.nickname}</span><small>{phase}{row.submitted && mode === "deferred" ? "・提出済み" : stopped && !goal && active ? "・解答終了" : ""}</small></div>
+      <div className="race-label" style={{ fontSize: `max(18px, ${24 * raceScale(row.rank)}px)` }}><strong>{row.rank}位</strong><span title={row.nickname}>{row.nickname}</span><small>{phase}{row.submitted && mode === "deferred" ? "・提出済み" : ended && active ? "・解答終了" : ""}</small></div>
       <div className="race-track"><div className="race-start"/><div className="race-goal"/><div className={`race-position ${dash && !light ? "is-accelerating" : ""}`} style={{ transform: `translateX(${progress * 100}%)` }}><div className="race-size" style={{ scale: raceScale(row.rank) }}>{goal && <span className="race-ground-shadow" aria-hidden="true"/>}<div className={`race-jump ${goal && !stopped && !light && !hidden ? "is-celebrating" : ""}`}><Runner id={row.id} color={colors.get(row.id)} goal={goal} rest={rest} dash={dash} stopped={stopped || light || hidden}/></div></div></div></div>
     </div>;
   };
   return <section className={`host-race race-pace-${pace} ${light ? "is-light" : ""} ${!mounted ? "is-initial" : ""}`} aria-label="参加者の進捗">
-    <div className="race-topbar"><div className="race-note"><strong>{mode === "deferred" ? "入力進捗順" : "暫定順位"}</strong>{mode === "deferred" && <small>成績順位ではありません</small>}<span>表示 {total ? visibleIndex + 1 : 0}～{Math.min(total, visibleIndex + capacity)} / {total}人</span></div><div className="race-top-actions">{manual && <button type="button" className="race-follow-button" onClick={() => { autoTargetRef.current = ""; setManual(false); }}>手動表示中・自動追尾に戻る</button>}<span className="race-timer">残り <strong>{remainingText}</strong></span>{interruptButton}<span>表示：{light ? "軽量" : "通常"}</span><button className="race-motion-toggle" type="button" aria-pressed={light} title="軽量表示では棒人間と💤の動きが止まります" onClick={() => chooseMotion(light ? "normal" : "light")}>{light ? "通常表示にする" : "軽量表示にする"}</button></div></div>
+    <div className="race-topbar"><div className="race-note"><strong>{mode === "deferred" ? "解答進捗順" : "暫定順位"}</strong>{mode === "deferred" && <small>成績順位ではありません</small>}<span>表示 {total ? visibleIndex + 1 : 0}～{Math.min(total, visibleIndex + capacity)} / {total}人</span></div><div className="race-top-actions">{manual && <button type="button" className="race-follow-button" onClick={() => { autoTargetRef.current = ""; setManual(false); }}>手動表示中・自動追尾に戻る</button>}<span className="race-timer">残り <strong>{remainingText}</strong></span>{interruptButton}<span>表示：{light ? "軽量" : "通常"}</span><button className="race-motion-toggle" type="button" aria-pressed={light} title="軽量表示では棒人間と💤の動きが止まります" onClick={() => chooseMotion(light ? "normal" : "light")}>{light ? "通常表示にする" : "軽量表示にする"}</button></div></div>
     <div className="race-header"><span aria-hidden="true"/><span>START</span><span>GOAL</span></div>
     <div ref={fieldRef} className="race-field" tabIndex={0} aria-label="参加者の順位一覧。上下にスクロールできます" onScroll={onScroll} onWheel={markManual} onTouchMove={markManual} onPointerDown={event => { if (event.pointerType === "mouse") markManual(); }} onKeyDown={event => { if (["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "].includes(event.key)) markManual(); }}>
       <div className="race-content" style={{ height: 20 + total * laneHeight }}>

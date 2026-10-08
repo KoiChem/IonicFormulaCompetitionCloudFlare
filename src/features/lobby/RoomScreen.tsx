@@ -42,7 +42,7 @@ function ClassRunning({ data, clockRef, busy, onInterrupt }: { data: RoomStateRe
   const countingDown = now < start && data.room.state === "COUNTDOWN";
   return <main className="class-host-page running-host race-host-page" data-tick={tick}>
     {countingDown && <div className="race-countdown">まもなく開始 <strong aria-live="off">{countdownSeconds(start, now)}</strong></div>}
-    <HostRace roomId={data.room.id} participants={data.participants ?? EMPTY_PARTICIPANTS} mode={data.room.gradingMode ?? "immediate"} maxScore={data.room.maxScore} active={!countingDown && remaining > 0} pace={racePace(remaining, deadline - start)} remainingText={mmss(remaining)} interruptButton={now >= start && remaining > 0 ? <InterruptRoomButton busy={busy} onInterrupt={onInterrupt}/> : null}/>
+    <HostRace roomId={data.room.id} participants={data.participants ?? EMPTY_PARTICIPANTS} mode={data.room.gradingMode ?? "immediate"} maxScore={data.room.maxScore} questionCount={(data.room.settings as IonicFormulaGameSettings).questionCount} active={!countingDown && remaining > 0} pace={racePace(remaining, deadline - start)} remainingText={mmss(remaining)} interruptButton={now >= start && remaining > 0 ? <InterruptRoomButton busy={busy} onInterrupt={onInterrupt}/> : null}/>
   </main>;
 }
 

@@ -5,7 +5,7 @@ export type V2GradingMode = "immediate" | "deferred";
 export type V2Operation = {
   readonly seq: number;
   readonly operationId: string;
-  readonly type: "answer" | "pass" | "draft" | "finish";
+  readonly type: "answer" | "pass" | "draft" | "advance" | "finish";
   readonly questionId?: string;
   readonly fieldId?: "formula" | "name";
   readonly value?: unknown;
@@ -61,6 +61,7 @@ export function replayV2Operations(
   let boundaryAcknowledged = false;
   let previousElapsed = -1;
   let currentOrdinal = 0;
+  const advancedQuestions = new Set<string>();
   for (const operation of operations) {
     if (!Number.isSafeInteger(operation.seq) || operation.seq < 1
       || !Number.isFinite(operation.elapsedMs) || operation.elapsedMs < previousElapsed) throw new TypeError("invalid operation order");
@@ -87,6 +88,14 @@ export function replayV2Operations(
       continue;
     }
     const question = questionById.get(operation.questionId ?? "");
+    if (operation.type === "advance") {
+      if (gradingMode !== "deferred") throw new TypeError("invalid immediate operation");
+      if (!question || operation.fieldId !== undefined || operation.value !== undefined) throw new TypeError("invalid question transition");
+      if (startAtMs + operation.elapsedMs < cutoffAtMs && question.fields.some(field => nonempty(fields[fieldKey(question.id, field.id)]?.value))) {
+        advancedQuestions.add(question.id);
+      }
+      continue;
+    }
     if (!question || !operation.fieldId || !question.fields.some((field) => field.id === operation.fieldId)) throw new TypeError("invalid question or field");
     const fieldId = operation.fieldId;
     const key = fieldKey(question.id, fieldId);
@@ -129,7 +138,7 @@ export function replayV2Operations(
   }
   const correctCount = Object.values(fields).filter((field) => field.state === "correct").length;
   const answeredCount = Object.values(fields).filter((field) => nonempty(field.value)).length;
-  const resolvedQuestionCount = gradingMode === "immediate" ? currentOrdinal : 0;
+  const resolvedQuestionCount = gradingMode === "immediate" ? currentOrdinal : advancedQuestions.size;
   return { fields, correctCount, answeredCount, resolvedQuestionCount,
     finishedElapsedMs, finishReason, boundaryAcknowledged };
 }

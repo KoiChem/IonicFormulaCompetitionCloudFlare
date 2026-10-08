@@ -49,7 +49,7 @@ function validateBatch(input: ApplyV2OperationsInput, previousSeq: number, previ
     }
     if (!Number.isSafeInteger(operation.elapsedMs) || operation.elapsedMs < elapsed) throw new TypeError("operation time must be nonnegative and monotonic");
     elapsed = operation.elapsedMs;
-    if (!["answer", "pass", "draft", "finish"].includes(operation.type)) throw new TypeError("invalid operation type");
+    if (!["answer", "pass", "draft", "advance", "finish"].includes(operation.type)) throw new TypeError("invalid operation type");
     if (operation.value !== undefined && json(operation.value).length > 4096) throw new TypeError("answer too long");
     if (operation.type === "finish" && !["completed", "submitted", "timeout", "interrupted"].includes(operation.reason ?? "")) throw new TypeError("invalid finish reason");
   }
@@ -90,7 +90,7 @@ export async function applyV2Operations(db: PersistenceDatabase, input: ApplyV2O
       throw new TypeError("operation time is in the future");
     }
     if (operation.type === "finish" && operation.reason === "interrupted" && !interruption) throw new TypeError("unexpected interruption finish");
-    if (context.grading_mode === "immediate" && operation.type === "draft") throw new TypeError("draft is not valid in immediate mode");
+    if (context.grading_mode === "immediate" && ["draft", "advance"].includes(operation.type)) throw new TypeError("draft or advance is not valid in immediate mode");
     if (context.grading_mode === "deferred" && ["answer", "pass"].includes(operation.type)) throw new TypeError("answer or pass is not valid in deferred mode");
   }
   const replay = replayV2Operations(questions, context.grading_mode, allOps, context.start_at_ms, cutoffAtMs, interruption, false);
@@ -140,7 +140,7 @@ export async function applyV2Operations(db: PersistenceDatabase, input: ApplyV2O
     WHERE room_id = ? AND id = ? AND EXISTS (SELECT 1 FROM v2_participant_progress v
       WHERE v.room_id = participants.room_id AND v.participant_id = participants.id AND v.last_command_id = ?)`)
     .bind(context.grading_mode === "immediate" ? replay.correctCount : 0, replay.resolvedQuestionCount,
-      replay.resolvedQuestionCount, input.operations.at(-1)!.elapsedMs, input.roomId, input.participantId, marker));
+      context.grading_mode === "immediate" ? replay.resolvedQuestionCount : 0, input.operations.at(-1)!.elapsedMs, input.roomId, input.participantId, marker));
   statements.push(db.prepare(`UPDATE rooms SET revision = revision + 1 WHERE id = ?
     AND EXISTS (SELECT 1 FROM v2_participant_progress v WHERE v.room_id = rooms.id
       AND v.participant_id = ? AND v.last_command_id = ?)`)

@@ -1,16 +1,16 @@
 import { describe, expect, it } from "vitest";
 import { raceRows, raceProgress, raceScale, raceCapacity, racePace, effectiveRaceMotion, raceFollowStart, raceVisibleRange, isRaceGoal, increasedRaceIds } from "../../src/features/lobby/host-race-model";
 
-const participant = (id: string, count: number) => ({ id, nickname: id, status: "PLAYING", currentOrdinal: 0, correctCount: count, answeredCount: count, resolvedQuestionCount: 0, revision: 0, elapsedCs: null, timingSource: null });
+const participant = (id: string, count: number) => ({ id, nickname: id, status: "PLAYING", currentOrdinal: 0, correctCount: count, answeredCount: count, advancedQuestionCount: count, resolvedQuestionCount: 0, revision: 0, elapsedCs: null, timingSource: null });
 
 describe("host race model", () => {
   it("dashes every existing participant whose count increased, but not newcomers or submissions alone", () => {
     const previous = new Map([["a", 2], ["b", 3], ["c", 4]]);
     expect(increasedRaceIds([participant("a", 3), participant("b", 4), participant("c", 4), participant("new", 2)], previous, "deferred")).toEqual(["a", "b"]);
   });
-  it("uses score fields rather than question count", () => {
+  it("uses correct fields for immediate and completed question transitions for deferred", () => {
     expect(raceProgress(participant("a", 10), "immediate", 20)).toBe(0.5);
-    expect(raceProgress({ ...participant("a", 0), answeredCount: 20 }, "deferred", 20)).toBe(1);
+    expect(raceProgress({ ...participant("a", 0), answeredCount: 20, advancedQuestionCount: 5 }, "deferred", 10)).toBe(0.5);
   });
   it("retains previous order and equal ranks on ties", () => {
     const rows = raceRows([participant("a", 8), participant("b", 8), participant("c", 9)], "immediate", ["b", "a", "c"], 10);
@@ -23,9 +23,9 @@ describe("host race model", () => {
     expect(raceScale(rows[3].rank)).toBe(0.96);
     expect(raceScale(rows[9].rank)).toBe(0.72);
   });
-  it("moves backwards when a deferred answer is erased", () => {
-    expect(raceProgress({ ...participant("a", 0), answeredCount: 4 }, "deferred", 10)).toBe(0.4);
-    expect(raceProgress({ ...participant("a", 0), answeredCount: 3 }, "deferred", 10)).toBe(0.3);
+  it("ignores draft saves and erasures before a question transition", () => {
+    expect(raceProgress({ ...participant("a", 0), answeredCount: 4 }, "deferred", 10)).toBe(0);
+    expect(raceProgress({ ...participant("a", 0), answeredCount: 3 }, "deferred", 10)).toBe(0);
   });
   it("uses measured race height for at most eleven readable lanes", () => {
     expect(raceCapacity(615)).toBe(11);

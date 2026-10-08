@@ -42,7 +42,7 @@ export function effectiveRaceMotion(choice: RaceMotionChoice, prefersReducedMoti
 }
 
 export function raceCount(participant: ParticipantState, mode: RaceMode): number {
-  return Math.max(0, mode === "deferred" ? participant.answeredCount ?? 0 : participant.correctCount);
+  return Math.max(0, mode === "deferred" ? participant.advancedQuestionCount ?? 0 : participant.correctCount);
 }
 
 export function increasedRaceIds(participants: readonly ParticipantState[], previous: ReadonlyMap<string, number>, mode: RaceMode): string[] {
