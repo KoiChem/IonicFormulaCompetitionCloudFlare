@@ -7,6 +7,16 @@ import { DeferredReviewQuestion } from "../../src/features/play/DeferredReviewQu
 import { readFileSync } from "node:fs";
 
 describe("host runner", () => {
+  it.each(["immediate", "deferred"] as const)("keeps the default %s runner animated with sweat between progress updates", mode => {
+    const html = renderToStaticMarkup(createElement(HostRace, {
+      roomId: "default-motion",
+      participants: [{ id: "active", nickname: "解答中", status: "PLAYING", currentOrdinal: 0, correctCount: 1, answeredCount: 2, advancedQuestionCount: 1, resolvedQuestionCount: 1, revision: 0, elapsedCs: null, timingSource: null }],
+      mode, maxScore: 10, questionCount: 5, active: true, pace: 0, remainingText: "02:00", interruptButton: null,
+    }));
+    expect(html).not.toContain("is-stopped");
+    expect(html.match(/class="runner-sweat-drop"/g)).toHaveLength(3);
+    expect(html).not.toContain("is-dashing");
+  });
   it("rests after confirmed deferred submission without sweat or celebration", () => {
     const html = renderToStaticMarkup(createElement(HostRace, {
       roomId: "test-room",

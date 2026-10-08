@@ -475,8 +475,3 @@ legend { margin-bottom: 10px; font-weight: 800; }
 .immediate-review-fields > .is-correct { background:#e1f4e9; color:var(--play-dark); }
 .immediate-review-card > .review-continue { margin-top:10px; width:100%; text-align:center; border-color:var(--play-primary); background:var(--play-primary); color:white; }
 .immediate-review-card > .review-continue:disabled { opacity:.55; cursor:default; }
-
-.race-runner.is-stopped:not(.is-goal):not(.is-resting):not(.is-dashing) .runner-arm-left { transform:rotate(-70deg); }
-.race-runner.is-stopped:not(.is-goal):not(.is-resting):not(.is-dashing) .runner-arm-right { transform:rotate(70deg); }
-.race-runner.is-stopped:not(.is-goal):not(.is-resting):not(.is-dashing) .runner-leg-left { transform:rotate(8deg); }
-.race-runner.is-stopped:not(.is-goal):not(.is-resting):not(.is-dashing) .runner-leg-right { transform:rotate(-8deg); }

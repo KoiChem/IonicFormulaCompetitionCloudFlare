@@ -151,7 +151,7 @@ export const HostRace = memo(function HostRace({ roomId, participants, mode, max
     const rest = mode === "deferred" && row.submitted === true;
     const dash = dashIds.has(row.id) && active && !hidden && !goal && !rest;
     const ended = mode === "immediate" && row.status === "FINISHED" && !goal;
-    const stopped = !active || ended || (!dash && !goal && !rest);
+    const stopped = !active || ended;
     const phase = `${mode === "deferred" ? "進捗" : "正解"} ${row.count} / ${maximum}`;
     return <div key={row.id} className="race-lane" style={{ height: laneHeight, transform: `translateY(${index * laneHeight}px)` }}>
       <div className="race-label" style={{ fontSize: `max(18px, ${24 * raceScale(row.rank)}px)` }}><strong>{row.rank}位</strong><span title={row.nickname}>{row.nickname}</span><small>{phase}{row.submitted && mode === "deferred" ? "・提出済み" : ended && active ? "・解答終了" : ""}</small></div>
