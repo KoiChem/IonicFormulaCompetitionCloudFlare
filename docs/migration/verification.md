@@ -46,3 +46,5 @@ Final remote regression: 13/13 passed (78.26s), including stale readyâ†’cancelâ†
 ## Git integration recovery
 
 GitHub's Cloudflare Workers and Pages installation now retains the original repository and includes KoiChem/IonicFormulaCompetitionCloudFlare under selected repositories. Cloudflare settings show the target repository/main with the existing build token and no disconnected-account warning. This documentation update is the first push used to verify the recovered automatic build; success remains pending until the build and served release SHA are checked.
+
+Push 132f834 triggered automatic build 413dcc74-d0ae-4452-a0bf-c95f27cfe482. GitHub CI passed, but Cloudflare stopped before deployment on a timing-dependent start-controller assertion (545 passed / 1 failed). A fixed jitter sequence reproduced the same failure locally: the status check falls at 35.6s, beyond the test's fixed 35s assertion. The test now pins that sequence and advances to the next scheduled check before asserting unresolved state and exactly two identical POST bodies. Production controller behavior is unchanged.
