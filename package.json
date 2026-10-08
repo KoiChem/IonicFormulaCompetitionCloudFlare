@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.57.4",
+    "jose": "6.2.12",
     "jsqr": "1.4.0",
     "postgres": "^3.4.7",
     "qrcode.react": "4.2.0",

@@ -11,6 +11,9 @@ importers:
       '@supabase/supabase-js':
         specifier: ^2.57.4
         version: 2.117.2
+      jose:
+        specifier: 6.2.12
+        version: 6.2.12
       jsqr:
         specifier: 1.4.0
         version: 1.4.0
