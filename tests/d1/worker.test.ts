@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { Miniflare, convertV4MiniflareOptions } from 'miniflare';
 let runtime:Miniflare;
 beforeAll(async()=>{
- const bundle=await build({entryPoints:['worker/index.ts'],bundle:true,write:false,format:'esm',platform:'browser'});
+ const bundle=await build({entryPoints:['worker/index.ts'],bundle:true,write:false,format:'esm',platform:'browser',external:['cloudflare:workers']});
  runtime=new Miniflare(convertV4MiniflareOptions({modules:true,compatibilityDate:'2026-10-07',script:bundle.outputFiles[0].text,
   d1Databases:{DB:'worker-test'},bindings:{RELEASE_SHA:'test-release'},serviceBindings:{ASSETS:async()=>new Response('<html>SPA</html>',{headers:{'content-type':'text/html'}})}}));
 });

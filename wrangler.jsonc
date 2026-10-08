@@ -16,7 +16,8 @@
   "main": "worker/index.ts",
   "account_id": "57b6032a34645abf597e8662b0e70ede",
   "vars": {
-    "RELEASE_SHA": "development"
+    "RELEASE_SHA": "development",
+    "APP_ORIGIN": "https://ionicformulacompetition.taiyakiyaita.workers.dev"
   },
   "d1_databases": [
     {
@@ -30,7 +31,8 @@
     "test": {
       "name": "ionicformulacompetition-phase1-test",
       "vars": {
-        "RELEASE_SHA": "test"
+        "RELEASE_SHA": "test",
+        "APP_ORIGIN": "https://ionicformulacompetition-phase1-test.taiyakiyaita.workers.dev"
       },
       "d1_databases": [
         {
@@ -40,7 +42,31 @@
           "migrations_dir": "migrations/d1",
           "remote": true
         }
+      ],
+      "durable_objects": {
+        "bindings": [
+          {
+            "name": "ROOMS",
+            "class_name": "RoomCoordinator"
+          }
+        ]
+      }
+    }
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "ROOMS",
+        "class_name": "RoomCoordinator"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "room-v1",
+      "new_sqlite_classes": [
+        "RoomCoordinator"
       ]
     }
-  }
+  ]
 }

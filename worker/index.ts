@@ -1,3 +1,6 @@
+import {createWorkerApi} from './api';
+import type {IndependentEnv} from './env';
+export {RoomCoordinator} from './room';
 import { PUBLIC_CONFIG } from '../src/config/public';
 
 const json = (value: unknown, status = 200) => new Response(JSON.stringify(value), {
@@ -5,7 +8,7 @@ const json = (value: unknown, status = 200) => new Response(JSON.stringify(value
 });
 
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
+  async fetch(request: Request, env: IndependentEnv): Promise<Response> {
     const path = new URL(request.url).pathname;
     if (path === '/api/health') {
       if (request.method !== 'GET') return json({ error: 'method_not_allowed' }, 405);
@@ -19,7 +22,7 @@ export default {
         capacities: { d1Class: PUBLIC_CONFIG.participantLimits.classCompetition, activeClass: 42, mate: PUBLIC_CONFIG.participantLimits.mateMatch },
       }, d1Ready ? 200 : 503);
     }
-    if (path === '/api' || path.startsWith('/api/')) return json({ error: 'not_found' }, 404);
+    if (path === '/api' || path.startsWith('/api/')) return createWorkerApi(env)(request);
     return env.ASSETS.fetch(request);
   },
-} satisfies ExportedHandler<Env>;
+} satisfies ExportedHandler<IndependentEnv>;

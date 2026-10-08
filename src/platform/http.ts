@@ -66,6 +66,7 @@ export type ApiDependencies = {
   readonly random: () => number;
   readonly randomUUID: () => string;
   /** Trusted gateway context, never populated from client JSON. */
+  readonly skipLazyCleanup?: boolean;
   readonly snapshotRoom?: RoomRow;
   readonly snapshotParticipant?: Awaited<ReturnType<typeof identifyParticipant>>;
 };
@@ -782,7 +783,7 @@ export function createApiHandlers(dependencies: ApiDependencies) {
     const questionProfile = await readQuestionProfile(dependencies.database);
     const validated = validateGameSettings(settings, questionProfile.profile);
     const nowMs = dependencies.now();
-    await cleanupExpired(dependencies.database, { nowMs, limit: LAZY_CLEANUP_LIMIT });
+    if (!dependencies.skipLazyCleanup) await cleanupExpired(dependencies.database, { nowMs, limit: LAZY_CLEANUP_LIMIT });
     const created = await createRoom(dependencies.database, {
       roomId: dependencies.randomUUID(),
       publicId: dependencies.randomUUID(),
@@ -820,7 +821,7 @@ export function createApiHandlers(dependencies: ApiDependencies) {
     const questionProfile = await readQuestionProfile(dependencies.database);
     const validated = validateGameSettings(settings, questionProfile.profile);
     const nowMs = dependencies.now();
-    await cleanupExpired(dependencies.database, { nowMs, limit: LAZY_CLEANUP_LIMIT });
+    if (!dependencies.skipLazyCleanup) await cleanupExpired(dependencies.database, { nowMs, limit: LAZY_CLEANUP_LIMIT });
     const hostId = dependencies.randomUUID();
     const created = await createRoom(dependencies.database, {
       roomId: dependencies.randomUUID(),
@@ -1195,10 +1196,10 @@ export function createApiHandlers(dependencies: ApiDependencies) {
     let room = dependencies.snapshotRoom ?? await loadRoom(dependencies.database, parameters.id);
     const nowMs = dependencies.now();
     if (room.expires_at_ms <= nowMs) {
-      if(!dependencies.snapshotRoom) await cleanupExpired(dependencies.database, { nowMs, limit: LAZY_CLEANUP_LIMIT });
+      if(!dependencies.snapshotRoom) if (!dependencies.skipLazyCleanup) await cleanupExpired(dependencies.database, { nowMs, limit: LAZY_CLEANUP_LIMIT });
       throw new ApiError(410, "expired", "このルームの閲覧期限は終了しました");
     }
-    if(!dependencies.snapshotRoom) await cleanupExpired(dependencies.database, { nowMs, limit: LAZY_CLEANUP_LIMIT });
+    if(!dependencies.snapshotRoom) if (!dependencies.skipLazyCleanup) await cleanupExpired(dependencies.database, { nowMs, limit: LAZY_CLEANUP_LIMIT });
     requireUnexpired(room, nowMs);
     if(!dependencies.snapshotRoom) {
       await tryFinalize(dependencies.database, room, nowMs);
@@ -1344,7 +1345,7 @@ export function createApiHandlers(dependencies: ApiDependencies) {
   const teacherSiteSettings = (request: Request) => safe(async () => {
     const teacher = await requireApplicationTeacher(dependencies, request);
     const nowMs = dependencies.now();
-    await cleanupExpired(dependencies.database, { nowMs, limit: LAZY_CLEANUP_LIMIT });
+    if (!dependencies.skipLazyCleanup) await cleanupExpired(dependencies.database, { nowMs, limit: LAZY_CLEANUP_LIMIT });
     if (request.method === "GET") return jsonResponse(await readMateEnabled(dependencies.database));
     if (!dependencies.serverConfig.masterTeacherEmail || teacher.email !== dependencies.serverConfig.masterTeacherEmail) {
       throw new ApiError(403, "master_required", "マスター教員のみ操作できます");
