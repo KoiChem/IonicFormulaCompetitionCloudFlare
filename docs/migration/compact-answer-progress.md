@@ -18,3 +18,11 @@ Playwright MCP against the real local Worker/D1/RoomCoordinator fixture confirme
 - Deferred compound both-field mode: one filled name autosaved without movement; Next advances once; clearing/revisiting and blank moves leave the count unchanged; last question full review advances once. Host denominator is five questions rather than ten answer fields. Idle runners stop. No console/page/request errors occurred in this deferred flow.
 
 The local browser fixture substitutes Google identity and loopback transport only; it does not demonstrate production OAuth or physical iPhone keyboard/touch behavior. Native Safari accessory controls cannot be reliably hidden by page CSS; this release instead reduces page content height as requested.
+
+## Production verification
+
+Main implementation commit: `b268740e3f004066fc3f975d0a1fba1b83ad767d`. GitHub Actions [37778047603](https://github.com/KoiChem/IonicFormulaCompetitionCloudFlare/actions/runs/37778047603) passed every verification step, including Worker dry-run. Cloudflare automatic Build `691d2bd6-ebf4-467b-90eb-bf0a274382f1` succeeded. Production `/api/health` returned that exact implementation SHA with D1/Auth/RoomCoordinator readiness true.
+
+Playwright MCP on production HTTPS confirmed the new immediate button order, ratio, colors and heights at 390 px, without overflow. Served `index-rE23aMYf.js` and `index-BQMkS08e.css` SHA-256 hashes match the verified local build. A named synthetic two-participant immediate Mate match completed with one accepted correct name, four passes, explicit submission, and the expected final ranking. A separate deferred Mate match accepted draft saves with progress zero, then `advance` with progress one; host state exposed `advancedQuestionCount: 1` separately from `answeredCount: 1`. No page, console, or request errors occurred in the observed host browser flows.
+
+Only these named synthetic rooms were used; existing competition data and the legacy GitHub/Supabase repository remain unchanged. Production Google login and physical iPhone keyboard/touch were not revalidated in this release; local Class host race verification and real production anonymous Mate verification are separate evidence.
