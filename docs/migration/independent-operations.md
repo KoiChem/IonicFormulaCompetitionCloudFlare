@@ -29,7 +29,9 @@ Google Cloud Consoleのプロジェクト `IonicFormulaCompetition`（`ionicform
 
 - 種類: ウェブ アプリケーション
 - 名前: `IonicFormulaCompetition Cloudflare Independent`
-- 承認済みのJavaScript生成元: 空欄
+- 承認済みのJavaScript生成元（保存画面が入力を求める場合は以下の2件。パスなし）:
+  - `https://ionicformulacompetition.koichem.workers.dev`
+  - `https://ionicformulacompetition-phase1-test.koichem.workers.dev`
 - 承認済みのリダイレクトURI（2件）:
   - `https://ionicformulacompetition.koichem.workers.dev/api/auth/google/callback`
   - `https://ionicformulacompetition-phase1-test.koichem.workers.dev/api/auth/google/callback`
