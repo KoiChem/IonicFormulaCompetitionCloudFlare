@@ -23,6 +23,7 @@ export function createWorkerApi(env:IndependentEnv){return (request:Request):Pro
  const authentication=await handleGoogleAuth(request,auth)??await handleSessionRequest(request,auth);if(authentication)return authentication;
  const headers=new Headers(request.headers);for(const name of [...headers.keys()])if(name.startsWith('x-ionic-internal-')||name==='x-participant-authorization')headers.delete(name);
  request=new Request(request,{headers});
+ if(/^\/api\/rooms\/[A-Za-z0-9_-]{1,128}\/realtime$/.test(url.pathname))return env.ROOMS.getByName(url.pathname.split('/')[3]).fetch(request);
  const route=resolveCompetitionRoute(url.pathname,request.method);
  if('status' in route)return jsonResponse({error:{code:route.status===405?'method_not_allowed':'not_found'}},route.status);
  if(route.kind==='room')return env.ROOMS.getByName(route.publicId!).fetch(request);
