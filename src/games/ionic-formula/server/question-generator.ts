@@ -151,15 +151,46 @@ function allocations(pool: Candidate[], count: number, weights: Record<string,nu
   for(const p of parts)if(pool.filter(c=>c.category===p.category).length<p.count)throw new RangeError(`カテゴリ「${({ionSimple:"単原子イオン",ionPolyatomic:"多原子イオン",ionVariableOx:"価数が変わるイオン",simple11:"1対1の化合物",simpleRatio:"組成比がある化合物",polyatomic:"多原子イオンを含む化合物",variableOx:"価数が変わる化合物"} as Record<string,string>)[p.category]}」の教材数が不足しています`);
   return new Map(parts.map(p=>[p.category,p.count]));
 }
+// Count ion reuse across the whole set, including reserved complex/category slots.
+function diverseCompounds(pool: Candidate[], count: number, random: () => number, previous: readonly Candidate[] = []): Candidate[] {
+  const uses = new Map<string, number>();
+  const record = (candidate: Candidate) => {
+    const item = candidate.item as Compound;
+    for (const id of [item.cation, item.anion]) uses.set(id, (uses.get(id) ?? 0) + 1);
+  };
+  previous.forEach(record);
+  const remaining = shuffled(pool, random);
+  const selected: Candidate[] = [];
+  while (selected.length < count && remaining.length) {
+    let bestIndex = 0, bestScore = Infinity;
+    for (let index = 0; index < remaining.length; index++) {
+      const item = remaining[index].item as Compound;
+      const score = (uses.get(item.cation) ?? 0) + (uses.get(item.anion) ?? 0);
+      if (score < bestScore) { bestScore = score; bestIndex = index; }
+    }
+    const [candidate] = remaining.splice(bestIndex, 1);
+    selected.push(candidate); record(candidate);
+  }
+  return selected;
+}
 function selectCandidates(settings:IonicFormulaGameSettings, profile:QuestionProfile|null, random:()=>number):Candidate[] {
  const eligible=candidates(settings,profile);
- if(settings.complexOnly === true || profile===null)return shuffled(eligible,random).slice(0,settings.questionCount);
+ if(settings.complexOnly === true || profile===null)return settings.mode === "compound"
+   ? shuffled(diverseCompounds(eligible, settings.questionCount, random), random)
+   : shuffled(eligible,random).slice(0,settings.questionCount);
  const quota=settings.complexEnabled ? Math.ceil(settings.questionCount*profile.rules[settings.mode][settings.difficulty].complexPercent/100) : 0;
  const complex=eligible.filter(c=>isComplexItem(c.item,ionById));
  const ordinary=eligible.filter(c=>!isComplexItem(c.item,ionById));
  if(complex.length<quota)throw new RangeError("錯イオンの指定割合を満たす教材数が不足しています");
  const count=settings.questionCount-quota;
  const quotas=allocations(ordinary,count,profile.rules[settings.mode][settings.difficulty].categoryWeights);
+ if (settings.mode === "compound") {
+   const selected = diverseCompounds(complex, quota, random);
+   if (quotas) {
+     for (const [category, n] of quotas) selected.push(...diverseCompounds(ordinary.filter(c => c.category === category), n, random, selected));
+   } else selected.push(...diverseCompounds(ordinary, count, random, selected));
+   return shuffled(selected, random);
+ }
  const selected=quotas ? [...quotas].flatMap(([category,n])=>shuffled(ordinary.filter(c=>c.category===category),random).slice(0,n)) : shuffled(ordinary,random).slice(0,count);
  return shuffled([...shuffled(complex,random).slice(0,quota),...selected],random);
 }

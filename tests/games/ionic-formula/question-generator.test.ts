@@ -151,9 +151,9 @@ describe("generateQuestionSet", () => {
     expect(Object.values(categories).reduce((sum, count) => sum + count, 0)).toBe(10);
   });
 
-  it("selects each eligible item at its equal per-item rate across supported modes and difficulties", () => {
+  it("selects each eligible ion at its equal per-item rate across difficulties", () => {
     const batches = 10_000;
-    for (const mode of ["ion", "compound"] as const) for (const difficulty of ["normal", "hard"] as const) {
+    for (const mode of ["ion"] as const) for (const difficulty of ["normal", "hard"] as const) {
       const settings = baseSettings({ mode, difficulty });
       const eligibleCount = validateGameSettings(settings).availableCount;
       const counts = new Map<string, number>();
