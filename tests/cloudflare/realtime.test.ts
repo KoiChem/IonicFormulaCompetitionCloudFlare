@@ -64,3 +64,16 @@ it('a manifest read preserves recovery of an already overdue deadline',async()=>
  await f.db.prepare('UPDATE rooms SET start_at_ms=?,deadline_at_ms=? WHERE public_id=?').bind(Date.now()-200000,Date.now()-11000,id).run();await f.fetch(`/api/rooms/${id}/manifest`,{headers:{authorization:'Bearer '+token}});
  await new Promise(r=>setTimeout(r,3000));const row=await f.db.prepare('SELECT r.state,m.state AS phase FROM rooms r JOIN v2_room_manifests m ON m.room_id=r.id WHERE r.public_id=?').bind(id).first();expect(row).toMatchObject({state:'FINISHED',phase:'FINISHED'});
 });
+
+it.each(['COUNTDOWN','COLLECTING'])('an expired unfinished %s room stops its durable alarm',async phase=>{
+ const id=await room(),token=createParticipantToken();await join(id,token);
+ const headers={origin:'https://test',cookie,'content-type':'application/json','x-competition-csrf':csrf};
+ expect((await f.fetch(`/api/rooms/${id}/start`,{method:'POST',headers,body:JSON.stringify({requestId:crypto.randomUUID(),expectedRevision:1})})).status).toBe(200);
+ const manifest=await (await f.fetch(`/api/rooms/${id}/manifest`,{headers:{authorization:'Bearer '+token}})).json() as any;
+ expect((await f.fetch(`/api/rooms/${id}/ready`,{method:'POST',headers:{origin:'https://test',authorization:'Bearer '+token,'content-type':'application/json','x-competition-csrf':'1'},body:JSON.stringify({manifestId:manifest.manifestId,evaluatorVersion:manifest.evaluatorVersion,preparationGeneration:manifest.preparationGeneration})})).status).toBe(200);
+ // Isolated fixture advances stored timestamps, then lets the real alarm own collection/finalization.
+ await new Promise(r=>setTimeout(r,2500));
+ await f.db.prepare('CREATE TABLE alarm_updates (n INTEGER)').run();await f.db.prepare('CREATE TRIGGER count_alarm_updates AFTER UPDATE ON cf_room_notifications BEGIN INSERT INTO alarm_updates VALUES(1); END').run();
+ await f.db.prepare('UPDATE rooms SET start_at_ms=?,deadline_at_ms=?,expires_at_ms=? WHERE public_id=?').bind(Date.now()-200000,Date.now()-11000,Date.now()-1,id).run();if(phase==='COLLECTING')await f.db.prepare("UPDATE v2_room_manifests SET state='COLLECTING',cutoff_at_ms=?,collection_until_ms=? WHERE room_id=(SELECT id FROM rooms WHERE public_id=?)").bind(Date.now()-11000,Date.now()-1000,id).run();expect((await f.fetch(`/api/rooms/${id}/manifest`,{headers:{authorization:'Bearer '+token}})).status).toBe(410);
+ await new Promise(r=>setTimeout(r,1100));const count=await f.db.prepare('SELECT COUNT(*) AS n FROM alarm_updates').first<{n:number}>();await f.db.prepare('DROP TRIGGER count_alarm_updates').run();await f.db.prepare('DROP TABLE alarm_updates').run();expect(count!.n).toBeLessThanOrEqual(2);
+});

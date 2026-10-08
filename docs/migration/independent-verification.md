@@ -4,7 +4,7 @@
 
 ## ローカルで確認したこと
 
-- `pnpm verify:cloudflare`: frontend/Worker型検査、既存＋UI552件、native Worker26件、D118件、production buildが成功（2026-10-08）。
+- `pnpm verify:cloudflare`: frontend/Worker型検査、既存＋UI552件、native Worker28件、D118件、production buildが成功（2026-10-08）。
 - native HTTP/DO/WS: Class50名、51人目拒否、15問×式/名の2欄、即時/一括両方式、1500欄を各方式で保存・採点、同点同時間の全員1位、同request再送。約3.2秒/2ケースはローカルfixture全体の所要時間であり公開環境の応答時間ではない。
 - 未認証WSにはroomデータを送らず5秒alarmで切断。教員用host通知を生徒へ送らない。除外/教員session失効で既存接続も失効。Hibernationでattachmentを復元し、未送信D1 revisionを再送。
 - deadline後、参加者HTTPがなくてもalarmがCOLLECTINGと10秒のcollection windowを経てFINISHEDへ確定。
@@ -25,3 +25,11 @@ Google専用OAuth設定、秘密設定、専用test Workerの実HTTP/WS/Google l
 
 レビューで期限超過後のmanifest取得がalarmをroom expiryまで先送りする問題と、半切断WSがHTTP復帰を妨げる問題を確認。両方の回帰テストが修正前に失敗することを確認し、期限超過は即時alarm、pong未応答10秒でHTTP再同期へ戻す修正を実施。
 外部レビューは利用上限により最終判定前に終了したため、全体レビュー完了とは扱わない。実Googleログインと本番公開は保留。
+
+## 実Google認証・公開検証版（2026-10-08）
+
+専用OAuth clientをユーザーが作成し、検証Workerの秘密設定を保存。`https://ionicformulacompetition-phase1-test.koichem.workers.dev/api/health` は200、authReady/D1/DO=true。Safariで実Googleログインにより管理者教員となり、5問/3分/問題毎/イオン名のClassを作成。Playwright MCPの独立した匿名生徒が参加し、教員に参加者通知、開始/ready/countdown、N3−に窒化物イオンを回答して1点、残り4問をpass、提出。生徒と教員の最終結果は同じ1位/正解1/01:27.32/提出。教員画面が背面にある場合は待機し、ユーザーがSafariを前面にすると最終結果へ復帰することも確認。
+
+ユーザーの明示承認後、本番Workerへ同じ専用OAuth client/masterの秘密設定を保存し、本番D1の0002/0003 migrationを適用済み。既存Supabase/Pagesは変更していない。本番独立コードへの切替・公開検証は以下に追記する。
+
+同じ外部レビュアーが最終レビューを再開・完了。Criticalなし、残るImportantは期限切れCOUNTDOWN/COLLECTINGのalarm連続起動。両phaseのnative回帰テストで修正前に1.1秒219/321回のD1通知更新を確認。synchronizeで期限切れroomのWSを閉じalarmを削除する修正を追加。修正後の全検証552/28/18件、型検査・build成功を確認。

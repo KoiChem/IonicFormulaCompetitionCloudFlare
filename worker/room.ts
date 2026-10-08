@@ -70,7 +70,7 @@ export class RoomCoordinator extends DurableObject<IndependentEnv>{
  }
  private async synchronize(){
   if(!this.publicId)return;const now=Date.now(),db=authEnvironment(this.env).DB;const room=await eventRoom(db,this.publicId);
-  if(!room){for(const ws of this.ctx.getWebSockets())ws.close(1008,'room expired');await this.ctx.storage.deleteAlarm();return;}
+  if(!room||room.expires_at_ms<=now){for(const ws of this.ctx.getWebSockets())ws.close(1008,'room expired');await this.ctx.storage.deleteAlarm();return;}
   const events=await reconcileRoomEvents(db,this.publicId,now),sockets=await this.validSockets(room,now);
   let hostNext=await this.ctx.storage.get<number>('hostNext')??0;let pendingHost=false;
   for(const event of events){if(event.kind==='host'&&now<hostNext){pendingHost=true;continue;}for(const {ws,p} of sockets)if(event.kind==='control'||p.role!=='participant'){try{ws.send(JSON.stringify(event));}catch{/* Revision remains recoverable via authoritative HTTP snapshot. */}}
