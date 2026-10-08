@@ -1,12 +1,12 @@
-# Ionic Formula Competition — Cloudflare
+# Ionic Formula Competition — Cloudflare Independent
 
-[Cloudflare候補版を開く](https://ionicformulacompetition.taiyakiyaita.workers.dev/)
+[Cloudflare版を開く](https://ionicformulacompetition.taiyakiyaita.workers.dev/)
 
-移植元: [KoiChem/IonicFormulaCompetition](https://github.com/KoiChem/IonicFormulaCompetition)。実装・公開先はこのCloudFlareリポジトリです。
+実装・公開先は [KoiChem/IonicFormulaCompetitionCloudFlare](https://github.com/KoiChem/IonicFormulaCompetitionCloudFlare)。移植元は [KoiChem/IonicFormulaCompetition](https://github.com/KoiChem/IonicFormulaCompetition) です。
 
-Phase 1ではReact/Vite画面をWorker Static Assetsで配信し、D1永続化基盤を実装しています。**公開画面の認証・競技・通知は既存Supabase（Class最大42名、Mate4名）を使用します。** D1側はClass50名を検証済みですが、競技HTTP API・Auth・DO/WebSocketの切替は後続Phaseです。
+独立版のコードは React/Vite Static Assets、Worker API、D1、Room Durable Object / Hibernation WebSocket、直接Google OIDCを使用します。通常運用でSupabaseへ通信しません。Class50名、Mate4名。教員権限と結果は新D1で管理し、旧版データを共有・移送しません。旧GitHub Pages / Supabase版はそのまま運用できます。
 
-`/api/health` はschema準備状態、実装commit、両backendの定員を返します。それ以外の `/api` はJSON 404です。未完成のD1競技APIは公開していません。
+公開への切替状況と実Google/HTTPSの確認状況は[独立版の検証記録](docs/migration/independent-verification.md)を参照してください。コード・ローカルfixtureの成功だけで公開済みとは扱いません。
 
 ## 開発・検証
 
@@ -14,13 +14,14 @@ Node.js 24、pnpm 11.19.0。
 
 ```sh
 pnpm install --frozen-lockfile
-pnpm dev
 pnpm verify:cloudflare
-pnpm exec wrangler deploy --dry-run
 pnpm db:migrate:local
 pnpm dev:worker
+pnpm exec wrangler deploy --dry-run
 ```
 
-既存のNode SQLite/PostgreSQLテストとworkerd上のD1テストは分離しています。`test:d1:remote` は明示された専用test DBに接続します。通常のbuild/CIはremote DBを変更しません。
+Frontendは同一origin `/api` を使い、VITE認証キーは不要です。Google client/master設定はWorker secretへ保存します。`pnpm dev`は画面開発用で、競技の統合検証にはWorkerとD1が必要です。
 
-[移植仕様](IonicFormulaCompetition_Cloudflare_Sol_Spec.md)・[永続化対応表](docs/migration/persistence-map.md)・[Cloudflare運用](docs/migration/operations.md)・[検証記録](docs/migration/verification.md)を参照してください。旧Supabase運用資料は参照用として保持しています。
+`/api/health` は独立schema・Google設定・DOの準備、release SHA、定員を返し、未設定時503です。通常のCI/buildはremote DBを変更しません。
+
+[承認済み独立版仕様](docs/superpowers/specs/2026-10-08-cloudflare-independent-design.md)・[実装計画](docs/superpowers/plans/2026-10-08-cloudflare-independent.md)・[独立版運用](docs/migration/independent-operations.md)を参照してください。初期移植仕様やSupabase資料は履歴・参照用として保持しています。

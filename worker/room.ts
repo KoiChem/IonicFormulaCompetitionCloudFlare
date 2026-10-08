@@ -2,6 +2,7 @@ import {DurableObject} from 'cloudflare:workers';
 import type {IndependentEnv} from './env';
 import {authEnvironment} from './env';
 import {executeRoomRequest} from './api';
+import {ensureAuthConfig} from './auth/session';
 import {authorizeRoomConnection,type RoomPrincipal} from './room-authority';
 import {eventRoom,reconcileRoomEvents,acknowledgeRoomEvent,type EventRoom} from './room-events';
 import {safe,jsonResponse,ApiError} from '../src/platform/http';
@@ -57,11 +58,12 @@ export class RoomCoordinator extends DurableObject<IndependentEnv>{
   const people=(await db.prepare('SELECT id,token_hash,status FROM participants WHERE room_id=?').bind(room.id).all<{id:string;token_hash:string;status:string}>()).results;
   const sessions=(await db.prepare(`SELECT s.token_hash,s.sub,s.expires_at_ms,i.email FROM cf_sessions s JOIN cf_google_identities i ON i.sub=s.sub WHERE s.sub=? AND s.expires_at_ms>?`).bind(room.owner_teacher_id??'',now).all<{token_hash:string;sub:string;expires_at_ms:number;email:string}>()).results;
   const list=await db.prepare('SELECT emails_json FROM teacher_allowlist WHERE id=1').first<{emails_json:string}>();const emails=new Set<string>(JSON.parse(list?.emails_json??'[]'));emails.add((this.env.MASTER_TEACHER_EMAIL??'').trim().toLowerCase());
+  let teachersReady=false;try{await ensureAuthConfig(authEnvironment(this.env));teachersReady=true;}catch{}
   const valid:Array<{ws:WebSocket;p:RoomPrincipal}>=[];
   for(const ws of this.ctx.getWebSockets()){
    const a=ws.deserializeAttachment() as Attachment,p=a?.principal;
    if(!p){if(!a?.pendingUntil||a.pendingUntil<=now||room.expires_at_ms<=now)ws.close(1008,'authentication expired');continue;}
-   const ok=p.expiresAtMs>now&&room.expires_at_ms>now&&(p.role==='teacher'?p.id===room.owner_teacher_id&&sessions.some(s=>s.sub===p.id&&s.token_hash===p.sessionHash&&emails.has(s.email)):people.some(x=>x.id===p.id&&x.token_hash===p.tokenHash&&x.status!=='REMOVED'));
+   const ok=p.expiresAtMs>now&&room.expires_at_ms>now&&(p.role==='teacher'?teachersReady&&p.id===room.owner_teacher_id&&sessions.some(s=>s.sub===p.id&&s.token_hash===p.sessionHash&&emails.has(s.email)):people.some(x=>x.id===p.id&&x.token_hash===p.tokenHash&&x.status!=='REMOVED'));
    if(ok)valid.push({ws,p});else ws.close(1008,'authorization expired');
   }
   return valid;

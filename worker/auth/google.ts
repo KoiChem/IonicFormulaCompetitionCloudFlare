@@ -1,3 +1,4 @@
+import {readBoundedJson} from './response';
 import {createRemoteJWKSet,jwtVerify,type JWTVerifyGetKey} from 'jose';
 import type {AuthEnvironment} from './types';
 import {createOAuthTransaction,consumeOAuthTransaction,readCookie,cookie,hash} from './store';
@@ -27,8 +28,8 @@ export async function handleGoogleAuth(request:Request,env:AuthEnvironment):Prom
   const tx=await consumeOAuthTransaction(env,url.searchParams.get('state')??'',readCookie(request,'__Host-ionic-oauth')??'');
   const code=url.searchParams.get('code');if(!tx||url.searchParams.has('error')||!code||code.length>2048)throw new Error('oauth rejected');
   const response=await fetch('https://oauth2.googleapis.com/token',{method:'POST',headers:{'content-type':'application/x-www-form-urlencoded'},body:new URLSearchParams({code,client_id:env.GOOGLE_CLIENT_ID!,client_secret:env.GOOGLE_CLIENT_SECRET!,redirect_uri:callback,grant_type:'authorization_code',code_verifier:tx.verifier}),signal:AbortSignal.timeout(10000)});
-  const text=await response.text();if(!response.ok||text.length>16384)throw new Error('oauth rejected');
-  const payload=JSON.parse(text);if(typeof payload.id_token!=='string'||payload.id_token.length>12000)throw new Error('oauth rejected');
+  if(!response.ok)throw new Error('oauth rejected');const body=await readBoundedJson(response);
+  const payload=body;if(typeof payload.id_token!=='string'||payload.id_token.length>12000)throw new Error('oauth rejected');
   const identity=await verifyGoogleIdToken(payload.id_token,env.GOOGLE_CLIENT_ID!,tx.nonce_hash);const session=await createSession(env,identity);
   headers.append('set-cookie',session.cookie);headers.set('location',env.APP_ORIGIN+'/#/teacher');
  }catch{headers.set('location',env.APP_ORIGIN+'/#/teacher?authError=google');}

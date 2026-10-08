@@ -49,3 +49,7 @@ it('restores role attachments after hibernation and recovers dirty D1 notificati
  await f.db.prepare('UPDATE cf_room_notifications SET control_sent=0 WHERE room_id=(SELECT id FROM rooms WHERE public_id=?)').bind(id).run();
  const r=await f.fetch(`/api/rooms/${id}/state`,{headers:{authorization:'Bearer '+token}});expect(r.status,await r.clone().text()).toBe(200);await until(()=>s.frames.some(e=>e.kind==='control'));expect(s.frames.some(e=>e.kind==='host')).toBe(false);s.ws.close();
 });
+it('fails closed for a teacher socket when the fixed master configuration disagrees',async()=>{
+ const id=await room(),s=await socket(id,true);await until(()=>s.frames.some(e=>e.type==='authenticated'));let closed=false;s.ws.addEventListener('close',()=>closed=true);
+ try{await f.db.prepare("UPDATE cf_auth_config SET master_email='other@example.com' WHERE id=1").run();await join(id,createParticipantToken());await until(()=>closed);}finally{await f.db.prepare("UPDATE cf_auth_config SET master_email='master@example.com' WHERE id=1").run();s.ws.close();}
+});

@@ -12,15 +12,15 @@ afterAll(async()=>{await runtime?.dispose();});
 it('returns a JSON 503 while the D1 schema is missing, without exposing SQL',async()=>{
  const response=await runtime.dispatchFetch('https://test/api/health');
  expect(response.status).toBe(503);expect(response.headers.get('content-type')).toContain('application/json');
- expect(await response.json()).toMatchObject({phase:1,d1Ready:false,build:'test-release'});
+ expect(await response.json()).toMatchObject({phase:'independent',d1Ready:false,authReady:false,build:'test-release'});
 });
-it('reports D1 50 and preserved active Supabase 42 separately after migration',async()=>{
+it('does not report independent readiness with only the baseline schema',async()=>{
  const db=await runtime.getD1Database('DB');
  const sql=readFileSync('migrations/d1/0001_baseline.sql','utf8');
  await db.batch(sql.split('--> statement-breakpoint').map(s=>s.trim()).filter(Boolean).map(s=>db.prepare(s)));
  const response=await runtime.dispatchFetch('https://test/api/health');
- expect(response.status).toBe(200);
- expect(await response.json()).toMatchObject({phase:1,d1Ready:true,competitionBackend:'supabase',capacities:{d1Class:50,activeClass:42,mate:4}});
+ expect(response.status).toBe(503);
+ expect(await response.json()).toMatchObject({phase:'independent',d1Ready:false,competitionBackend:'cloudflare',capacities:{class:50,mate:4}});
  expect(response.headers.get('cache-control')).toBe('no-store');
 });
 it('keeps API errors out of SPA fallback and serves static routes',async()=>{

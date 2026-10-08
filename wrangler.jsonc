@@ -50,6 +50,9 @@
             "class_name": "RoomCoordinator"
           }
         ]
+      },
+      "triggers": {
+        "crons": []
       }
     }
   },
@@ -68,5 +71,10 @@
         "RoomCoordinator"
       ]
     }
-  ]
+  ],
+  "triggers": {
+    "crons": [
+      "*/15 * * * *"
+    ]
+  }
 }
