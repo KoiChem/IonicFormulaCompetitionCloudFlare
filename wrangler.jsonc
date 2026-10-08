@@ -17,7 +17,7 @@
   "account_id": "57b6032a34645abf597e8662b0e70ede",
   "vars": {
     "RELEASE_SHA": "development",
-    "APP_ORIGIN": "https://ionicformulacompetition.taiyakiyaita.workers.dev"
+    "APP_ORIGIN": "https://ionicformulacompetition.koichem.workers.dev"
   },
   "d1_databases": [
     {
@@ -32,7 +32,7 @@
       "name": "ionicformulacompetition-phase1-test",
       "vars": {
         "RELEASE_SHA": "test",
-        "APP_ORIGIN": "https://ionicformulacompetition-phase1-test.taiyakiyaita.workers.dev"
+        "APP_ORIGIN": "https://ionicformulacompetition-phase1-test.koichem.workers.dev"
       },
       "d1_databases": [
         {

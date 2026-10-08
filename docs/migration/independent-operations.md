@@ -1,6 +1,6 @@
 # Cloudflare独立版の運用
 
-Cloudflare版は同一originのWorker API、D1、SQLite-backed RoomCoordinator DO/Hibernation WS、直接Google OIDCで動く。旧版のSupabase DB/Auth/Functions/Realtimeとは共有しない。旧版データを移送しない。旧版は https://koichem.github.io/IonicFormulaCompetition/ 。新版は https://ionicformulacompetition.taiyakiyaita.workers.dev/ 。
+Cloudflare版は同一originのWorker API、D1、SQLite-backed RoomCoordinator DO/Hibernation WS、直接Google OIDCで動く。旧版のSupabase DB/Auth/Functions/Realtimeとは共有しない。旧版データを移送しない。旧版は https://koichem.github.io/IonicFormulaCompetition/ 。新版は https://ionicformulacompetition.koichem.workers.dev/ 。
 
 ## 認証と権限
 
@@ -31,8 +31,8 @@ Google Cloud Consoleのプロジェクト `IonicFormulaCompetition`（`ionicform
 - 名前: `IonicFormulaCompetition Cloudflare Independent`
 - 承認済みのJavaScript生成元: 空欄
 - 承認済みのリダイレクトURI（2件）:
-  - `https://ionicformulacompetition.taiyakiyaita.workers.dev/api/auth/google/callback`
-  - `https://ionicformulacompetition-phase1-test.taiyakiyaita.workers.dev/api/auth/google/callback`
+  - `https://ionicformulacompetition.koichem.workers.dev/api/auth/google/callback`
+  - `https://ionicformulacompetition-phase1-test.koichem.workers.dev/api/auth/google/callback`
 
 作成時にクライアントIDとシークレットを保管する（チャットには貼らない）。既存の `IonicFormulaCompetition Web` は変更しない。
 Cloudflare Dashboard → Workers & Pages → `ionicformulacompetition-phase1-test` → Settings → Variables and Secrets で、以下を Secret として設定・保存する。

@@ -1,6 +1,6 @@
 # Ionic Formula Competition — Cloudflare Independent
 
-[Cloudflare版を開く](https://ionicformulacompetition.taiyakiyaita.workers.dev/)
+[Cloudflare版を開く](https://ionicformulacompetition.koichem.workers.dev/)
 
 実装・公開先は [KoiChem/IonicFormulaCompetitionCloudFlare](https://github.com/KoiChem/IonicFormulaCompetitionCloudFlare)。移植元は [KoiChem/IonicFormulaCompetition](https://github.com/KoiChem/IonicFormulaCompetition) です。
 

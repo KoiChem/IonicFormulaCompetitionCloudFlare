@@ -1,6 +1,6 @@
 import {randomBytes,randomUUID} from 'node:crypto';
 import {mkdirSync,writeFileSync} from 'node:fs';
-const origin='https://ionicformulacompetition-phase1-test.taiyakiyaita.workers.dev';
+const origin='https://ionicformulacompetition-phase1-test.koichem.workers.dev';
 const tokens=Array.from({length:4},()=>randomBytes(32).toString('base64url'));
 async function call(path,method='GET',body,token,extra={}){
  const response=await fetch(origin+path,{method,headers:{origin,'content-type':'application/json','x-competition-csrf':'1',...(token?{authorization:'Bearer '+token}:{}),...extra},body:body===undefined?undefined:JSON.stringify(body)});
