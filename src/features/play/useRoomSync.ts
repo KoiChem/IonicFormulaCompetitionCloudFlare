@@ -120,7 +120,7 @@ function useOwnedRoomSync(roomId: string, token?: string | null) {
   const schedulerRef = useRef<ReturnType<typeof createRoomSyncScheduler<Awaited<ReturnType<typeof sync>>>> | null>(null);
   const resync = useCallback(() => { if (!stopped.current) schedulerRef.current?.request('control'); }, []);
   const onEvent = useCallback((_event:RoomEvent,kind:'control'|'host')=>{if(!stopped.current)schedulerRef.current?.request(kind);},[]);
-  const realtimeConnected = useRoomRealtime(data?.realtime, !!data && !['FINISHED','CANCELLED','EXPIRED'].includes(data.room.state), onEvent, resync);
+  const realtimeConnected = useRoomRealtime(data?.realtime, !!data && !['FINISHED','CANCELLED','EXPIRED'].includes(data.room.state), onEvent, resync, token);
   const realtimeStatus = useRef(false);
   realtimeStatus.current = realtimeConnected;
 
@@ -140,7 +140,7 @@ function useOwnedRoomSync(roomId: string, token?: string | null) {
         const result=await sync();
         if(result.next.room.state==='COUNTDOWN'&&result.next.room.startAtMs!==sampledStart){sampleClock=true;schedulerRef.current?.request('control');}
         return result;},
-      delay:()=>pollInterval(latestData.current?.realtime?.role??(token?'participant':'teacher'),latestData.current?.room.state??'WAITING',realtimeStatus.current,document.hidden),
+      delay:()=>realtimeStatus.current?Infinity:pollInterval(latestData.current?.realtime?.role??(token?'participant':'teacher'),latestData.current?.room.state??'WAITING',realtimeStatus.current,document.hidden),
       onError:reason=>{setConnected(false);setError(reason instanceof Error?reason.message:'再接続しています');if(stopped.current)scheduler.stop();},
     });
     schedulerRef.current=scheduler;scheduler.start();

@@ -9,21 +9,15 @@ import HistoryPage from '../../app/history/page';
 import { HistoryResult } from '../features/results/HistoryResult';
 import { RoomScreen } from '../features/lobby/RoomScreen';
 import { parseRoute, appPath } from './routing';
-import { completeOAuth, isConfigured } from './supabase';
 import '../../app/globals.css';
 function Application() {
   const [route, setRoute] = useState(() => parseRoute(location.hash));
-  const [ready, setReady] = useState(false);
-  const [error, setError] = useState('');
   useEffect(() => {
     const changed = () => setRoute(parseRoute(location.hash));
     window.addEventListener('hashchange', changed);
-    void completeOAuth().catch(reason => setError(reason.message)).finally(() => { changed(); setReady(true); });
+
     return () => window.removeEventListener('hashchange', changed);
   }, []);
-  if (!ready) return <main className="page-shell"><p role="status">読み込み中…</p></main>;
-  if (error) return <main className="page-shell"><p role="alert">{error}</p><a href={appPath('/teacher')}>教員ログインへ</a></main>;
-  if (!isConfigured()) return <main className="page-shell"><section className="panel"><h1>Ionic Formula Competition</h1><p role="status">接続設定を準備中です。</p></section></main>;
   const parts = route.path.split('/').filter(Boolean);
   if (!parts.length) return <Home/>;
   if (route.path === '/teacher') return <TeacherPage/>;

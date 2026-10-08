@@ -8,6 +8,7 @@ export function createRoomSyncScheduler<T>(options:{run:()=>Promise<T>;delay:()=
  let waiters:Array<{resolve:(value:T)=>void;reject:(error:unknown)=>void}>=[];
  const schedule=(at:number)=>{
   if(!active)return;at=Math.max(at,blockedUntil);
+  if(!Number.isFinite(at)){if(timer)clearTimeout(timer);timer=undefined;due=Infinity;return;}
   if(timer&&due<=at)return;if(timer)clearTimeout(timer);due=at;
   timer=setTimeout(()=>{timer=undefined;due=Infinity;void run();},Math.max(0,at-now()));
  };
@@ -16,8 +17,8 @@ export function createRoomSyncScheduler<T>(options:{run:()=>Promise<T>;delay:()=
   running=true;dirty=false;dirtyAt=Infinity;lastStarted=now();const readers=waiters;waiters=[];
   try{const result=await options.run();failures=0;blockedUntil=0;for(const reader of readers)reader.resolve(result);}
   catch(error){failures++;const retryAfter=(error as {retryAfterMs?:number}).retryAfterMs??null;
-   blockedUntil=now()+retryPollDelay(options.delay(),failures,retryAfter);if(active)options.onError(error);for(const reader of readers)reader.reject(error);
-  }finally{running=false;if(active)schedule(dirty?Math.max(now()+100,dirtyAt):now()+retryPollDelay(options.delay(),failures));}
+   blockedUntil=now()+retryPollDelay(Number.isFinite(options.delay())?options.delay():5000,failures,retryAfter);if(active)options.onError(error);for(const reader of readers)reader.reject(error);
+  }finally{running=false;if(active)schedule(dirty?Math.max(now()+100,dirtyAt):now()+(failures?retryPollDelay(Number.isFinite(options.delay())?options.delay():5000,failures):retryPollDelay(options.delay(),0)));}
  };
  const request=(kind:Trigger)=>{
   if(!active)return;

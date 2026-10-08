@@ -1,0 +1,8 @@
+import {afterEach,expect,it,vi} from 'vitest';
+import {connectRoomSocket} from '../../src/web/room-socket';
+class Socket{static OPEN=1;static instances:Socket[]=[];readyState=1;onopen:any;onmessage:any;onclose:any;onerror:any;sent:string[]=[];constructor(public url:URL){Socket.instances.push(this);}send(x:string){this.sent.push(x);}close(){this.readyState=3;this.onclose?.();}}
+afterEach(()=>{vi.unstubAllGlobals();vi.useRealTimers();Socket.instances=[];});
+it('keeps tokens out of URLs, deduplicates events, reconnects, and cleans up',async()=>{
+ vi.useFakeTimers();vi.stubGlobal('WebSocket',Socket);const doc=new EventTarget() as EventTarget&{hidden:boolean};doc.hidden=false;vi.stubGlobal('document',doc);vi.stubGlobal('window',new EventTarget());vi.stubGlobal('navigator',{onLine:true});vi.stubGlobal('location',{origin:'https://test',protocol:'https:'});const onEvent=vi.fn(),onStatus=vi.fn(),onResync=vi.fn();const stop=connectRoomSocket({roomId:'room',token:'secret',onEvent,onStatus,onResync});const first=Socket.instances[0];expect(first.url.href).not.toContain('secret');first.onopen();expect(first.sent).toEqual([JSON.stringify({type:'authenticate',token:'secret'})]);first.onmessage({data:JSON.stringify({type:'authenticated'})});expect(onStatus).toHaveBeenLastCalledWith(true);expect(onResync).toHaveBeenCalledTimes(1);
+ for(const revision of [2,1,2,3])first.onmessage({data:JSON.stringify({type:'event',roomId:'room',epoch:1,kind:'control',revision})});expect(onEvent).toHaveBeenCalledTimes(2);first.close();await vi.advanceTimersByTimeAsync(1500);expect(Socket.instances).toHaveLength(2);stop();await vi.advanceTimersByTimeAsync(60000);expect(Socket.instances).toHaveLength(2);expect(vi.getTimerCount()).toBe(0);
+});

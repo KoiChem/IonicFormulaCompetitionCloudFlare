@@ -1,5 +1,5 @@
 import {useEffect,useRef,useState} from 'react';
-import {ensureSession,getSupabaseClient} from '../../web/supabase';
+import {ownerIdentity} from '../../web/auth';
 import {fetchJsonWithTimeout,postJson,type RoomView} from '../play/useRoomSync';
 import {StartController,type StartStatus,type StartView} from './start-controller';
 export function useStartRoom(roomId:string,token:string|undefined,room:RoomView|undefined,refresh:()=>Promise<unknown>){
@@ -7,11 +7,10 @@ export function useStartRoom(roomId:string,token:string|undefined,room:RoomView|
  const controller=useRef<StartController|null>(null);const refreshRef=useRef(refresh);refreshRef.current=refresh;
  useEffect(()=>{
   let live=true;
-  void ensureSession().then(session=>{
+  void ownerIdentity(token).then(ownerKey=>{
    if(!live)return;
-   const ownerKey=session.user.id;
-   const assertOwner=async()=>{const latest=await getSupabaseClient().auth.getSession();if(latest.data.session?.user.id!==ownerKey)throw Object.assign(new Error('参加資格が変わりました。ページを再読み込みしてください。'),{status:403});};
-   const current=new StartController({storage:localStorage,roomId,ownerKey:session.user.id,now:Date.now,uuid:()=>crypto.randomUUID(),onChange:setView,visible:()=>!document.hidden,online:()=>navigator.onLine,
+   const assertOwner=async()=>{const latest=await ownerIdentity(token);if(latest!==ownerKey)throw Object.assign(new Error('参加資格が変わりました。ページを再読み込みしてください。'),{status:403});};
+   const current=new StartController({storage:localStorage,roomId,ownerKey,now:Date.now,uuid:()=>crypto.randomUUID(),onChange:setView,visible:()=>!document.hidden,online:()=>navigator.onLine,
     post:async body=>{await assertOwner();return postJson(`/api/rooms/${encodeURIComponent(roomId)}/start`,body,{token});},
     status:async requestId=>{
      await assertOwner();
@@ -24,9 +23,9 @@ export function useStartRoom(roomId:string,token:string|undefined,room:RoomView|
    controller.current=current;void current.resume();
   }).catch(()=>{if(live)setView({phase:'rejected',message:'参加資格を確認できません。再接続してください。'});});
   const wake=()=>{if(!document.hidden)void controller.current?.check();};
-  const auth=()=>{void ensureSession().then(session=>{const current=controller.current;if(current&&current.key!==`ionic-formula-competition:start:${roomId}:${session.user.id}`){current.dispose();controller.current=null;setView({phase:'rejected',message:'参加資格が変わりました。ページを再読み込みしてください。'});}}).catch(()=>{});};
-  document.addEventListener('visibilitychange',wake);window.addEventListener('online',wake);window.addEventListener('storage',auth);
-  return()=>{live=false;controller.current?.dispose();controller.current=null;document.removeEventListener('visibilitychange',wake);window.removeEventListener('online',wake);window.removeEventListener('storage',auth);};
+  const auth=()=>{void ownerIdentity(token).then(ownerKey=>{const current=controller.current;if(current&&current.key!==`ionic-formula-competition:start:${roomId}:${ownerKey}`){current.dispose();controller.current=null;setView({phase:'rejected',message:'参加資格が変わりました。ページを再読み込みしてください。'});}}).catch(()=>{});};
+  document.addEventListener('visibilitychange',wake);window.addEventListener('online',wake);window.addEventListener('storage',auth);window.addEventListener('ionic-auth-change',auth);
+  return()=>{live=false;controller.current?.dispose();controller.current=null;document.removeEventListener('visibilitychange',wake);window.removeEventListener('online',wake);window.removeEventListener('storage',auth);window.removeEventListener('ionic-auth-change',auth);};
  },[roomId,token]);
  useEffect(()=>{if(room)controller.current?.observe(room.state,room.revision);},[room?.state,room?.revision]);
  const begin=async()=>{

@@ -1,23 +1,13 @@
-import { ensureSession, getSupabaseClient } from './supabase';
-import { sessionRefresher } from './refresh-session';
-const refreshSession=sessionRefresher(()=>getSupabaseClient().auth.refreshSession());
-export function apiHeaders(sessionToken: string, supplied?: HeadersInit): Headers {
-  const headers = new Headers(supplied);
-  const participant = headers.get('authorization');
-  if (participant) headers.set('x-participant-authorization', participant);
-  headers.set('authorization', `Bearer ${sessionToken}`);
-  return headers;
-}
-export type ApiFetchOptions = RequestInit & { onDispatch?: () => void };
-export async function apiFetch(path: string, init: ApiFetchOptions = {}): Promise<Response> {
-  if (!path.startsWith('/api/')) throw new Error('Invalid API path');
-  const session = await ensureSession();
-  const headers = apiHeaders(session.access_token, init.headers);
-  headers.set('apikey', import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY);
-  if(import.meta.env.VITE_SUPABASE_FUNCTION_REGION)headers.set('x-region',import.meta.env.VITE_SUPABASE_FUNCTION_REGION);
-  const {onDispatch, ...requestInit}=init;
-  onDispatch?.();
-  const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/competition${path}`, { ...requestInit, headers });
-  if (response.status === 401) await refreshSession();
-  return response;
+import {getAuthSession} from './auth';
+export function apiHeaders(_unused:string,supplied?:HeadersInit):Headers{return new Headers(supplied);}
+export type ApiFetchOptions=RequestInit&{onDispatch?:()=>void};
+export async function apiFetch(path:string,init:ApiFetchOptions={}):Promise<Response>{
+ if(!/^\/api\//.test(path)||path.includes('\\'))throw new Error('Invalid API path');
+ const headers=new Headers(init.headers),method=(init.method??'GET').toUpperCase();
+ if(!['GET','HEAD'].includes(method)){
+  if(!headers.has('authorization')||path.startsWith('/api/teacher/')||path==='/api/class-rooms'){
+   const session=await getAuthSession();if(!session.identity||!session.csrfToken)throw Object.assign(new Error('教員ログインが必要です'),{status:401});headers.set('x-competition-csrf',session.csrfToken);
+  }else headers.set('x-competition-csrf','1');
+ }
+ const {onDispatch,...requestInit}=init;onDispatch?.();return fetch(path,{...requestInit,headers,credentials:'include'});
 }
