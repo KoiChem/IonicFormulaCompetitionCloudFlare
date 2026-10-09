@@ -1,0 +1,65 @@
+{
+  "at": "2026-10-09T15:15:24.675Z",
+  "origin": "https://ionicformulacompetition-lite.koichem.workers.dev",
+  "network": "One Node client on the development Mac; simulated participants, not physical school devices.",
+  "results": [
+    {
+      "count": 25,
+      "code": "T2XAKZ",
+      "createMs": 604.8,
+      "joinIncludingUpgrade": {
+        "n": 25,
+        "medianMs": 316.4,
+        "p95Ms": 328,
+        "maxMs": 328
+      },
+      "startAckMs": 53.1,
+      "startQuestionNotification": {
+        "n": 25,
+        "medianMs": 53.3,
+        "p95Ms": 53.5,
+        "maxMs": 57.3
+      },
+      "fixedCountdownMs": 5000,
+      "answerAckIncludingGradingAndSQLite": {
+        "n": 125,
+        "medianMs": 69.4,
+        "p95Ms": 113.4,
+        "maxMs": 133.8
+      },
+      "rejected51": false,
+      "duplicatesSafe": true,
+      "allCorrect": true,
+      "finished": true
+    },
+    {
+      "count": 50,
+      "code": "HC47DQ",
+      "createMs": 457.3,
+      "joinIncludingUpgrade": {
+        "n": 50,
+        "medianMs": 505.3,
+        "p95Ms": 518.3,
+        "maxMs": 522
+      },
+      "startAckMs": 59.3,
+      "startQuestionNotification": {
+        "n": 50,
+        "medianMs": 58.9,
+        "p95Ms": 59.4,
+        "maxMs": 60.4
+      },
+      "fixedCountdownMs": 5000,
+      "answerAckIncludingGradingAndSQLite": {
+        "n": 250,
+        "medianMs": 93.4,
+        "p95Ms": 132.4,
+        "maxMs": 139.9
+      },
+      "rejected51": true,
+      "duplicatesSafe": true,
+      "allCorrect": true,
+      "finished": true
+    }
+  ]
+}
