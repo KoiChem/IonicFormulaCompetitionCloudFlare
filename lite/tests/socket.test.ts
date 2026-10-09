@@ -56,3 +56,11 @@ test('browser offline notification immediately disables the live connection',()=
   events.offline?.();
   expect(first.readyState).toBe(3);expect(statuses.at(-1)).toBe('切断中・再接続しています');connection.dispose();
 });
+test('a lost submit acknowledgment reconciles the persisted submission on reconnect',async()=>{
+ const {connection,first}=setup();const reply=connection.send({type:'submit',seq:1}).catch(()=>null);expect(connection.pending).toBe(true);first.close();await reply;await vi.advanceTimersByTimeAsync(1100);const second=FakeSocket.instances[1];second.open();const finished=state(1);finished.room.state='FINISHED';finished.own!.finished=true;second.receive({type:'ack',requestId:second.sent[0].requestId,state:finished});expect(second.sent).toHaveLength(1);expect(connection.pending).toBe(false);connection.dispose();
+});
+test('an unreceived submit survives a reload into a new connection instance',async()=>{
+ const {connection,first}=setup();const pending=connection.send({type:'submit',seq:1}).catch(()=>null);connection.dispose();await pending;
+ const resumed=new RoomConnection(c,{onState:()=>{},onStatus:()=>{},onVerdict:()=>{}});const second=FakeSocket.instances[1];second.open();second.receive({type:'ack',requestId:second.sent[0].requestId,state:state(0)});
+ expect(second.sent[1]).toMatchObject({type:'submit',seq:1});resumed.dispose();
+});

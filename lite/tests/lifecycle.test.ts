@@ -36,3 +36,13 @@ test('server alarm finishes with no teacher connection and survives hibernation'
   await new Promise(resolve=>setTimeout(resolve,650));
   expect(resumed.messages.some(m=>m.type==='state'&&m.state.room.state==='FINISHED')).toBe(true);
 });
+test('usual review screen lets a student retry a passed field without exposing answers or scoring twice',async()=>{
+ const {data}=await f.create();const h=await f.connect(data.code);await h.request({type:'hello',role:'teacher',token:data.token});const s=await f.connect(data.code);await s.request(credentials());await h.request({type:'start'});
+ const store=await f.storage(data.code);await store.exec('UPDATE room SET start_at=?,deadline_at=?',Date.now()-1000,Date.now()+60000);const qs=JSON.parse((await store.exec('SELECT questions FROM room')).rows[0].questions as string);
+ for(let i=0;i<5;i++)await s.request({type:'pass',seq:i+1,questionId:qs[i].id,fieldId:'name'});
+ const review=await s.request({type:'review'});expect(review.state.room.state).toBe('RUNNING');expect(review.state.review.questions).toHaveLength(5);expect(JSON.stringify(review.state.review)).not.toContain('canonical');
+ const wrong=await s.request({type:'answer',seq:6,questionId:qs[0].id,fieldId:'name',value:'誤答'});expect(wrong.state.own.correctCount).toBe(0);
+ const retryReview=await s.request({type:'review'});expect(retryReview.state.review.fields[`${qs[0].id}:name`]).toBe('passedRetry');
+ const retry={type:'answer',seq:7,questionId:qs[0].id,fieldId:'name',value:qs[0].answer.canonical};const r=await s.request(retry);expect(r.state.own.correctCount).toBe(1);expect(r.state.own.questionIndex).toBe(5);expect((await s.request(retry)).state.own.correctCount).toBe(1);
+ const done=await s.request({type:'submit',seq:8});expect(done.state.room.state).toBe('FINISHED');expect(done.state.results.own.correctCount).toBe(1);
+});

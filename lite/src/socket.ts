@@ -16,7 +16,7 @@ export class RoomConnection {
   get pending(){return !!this.operation;}
   constructor(private credential:Credential,private callbacks:Callbacks){
     this.key=`ionic-lite:pending:${credential.code}:${credential.participantId??'teacher'}`;
-    try{const value=JSON.parse(localStorage.getItem(this.key)??'null');if(value&&['answer','pass'].includes(value.type)&&Number.isSafeInteger(value.seq))this.operation=value;}catch{}
+    try{const value=JSON.parse(localStorage.getItem(this.key)??'null');if(value&&['answer','pass','submit'].includes(value.type)&&Number.isSafeInteger(value.seq))this.operation=value;}catch{}
     window.addEventListener('online',this.wake);window.addEventListener('offline',this.offline);document.addEventListener('visibilitychange',this.wake);
     this.connect();
   }
@@ -76,7 +76,7 @@ export class RoomConnection {
   send(message:ClientMessage):Promise<ServerMessage>{
     if(!this.ready||this.ws?.readyState!==1)return Promise.reject(new Error('接続を確認してから操作してください'));
     if(this.inFlight)return Promise.reject(new Error('送信中です'));
-    if(['answer','pass'].includes(message.type)){
+    if(['answer','pass','submit'].includes(message.type)){
       if(this.operation&&this.operation.seq!==message.seq)return Promise.reject(new Error('前の回答を確認中です'));
       try{localStorage.setItem(this.key,JSON.stringify(message));}catch{return Promise.reject(new Error('回答の受付状況を保存できません。ブラウザの保存設定を確認してください'));}
       this.operation=message;

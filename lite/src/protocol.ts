@@ -8,8 +8,9 @@ export type ResultsData = { own?: Ranking; ranking?: Ranking[]; questions?: Revi
 export type Snapshot = {
   serverNow: number;
   room: { code: string; state: 'WAITING' | 'COUNTDOWN' | 'RUNNING' | 'FINISHED'; settings: IonicFormulaGameSettings; maxScore: number; participantCount: number; startAtMs: number | null; deadlineAtMs: number | null; expiresAtMs: number; endReason: 'normal' | 'interrupted' };
+  review?: {questions:PublicQuestion[];frontier:number;fields:Record<string,"correct"|"passed"|"passedRetry"|"retry">};
   own?: Participant; participants?: Participant[]; question?: PublicQuestion; results?: ResultsData;
 };
-export type Verdict = { correct: boolean; passed?: boolean; fieldId: AnswerFieldId };
+export type Verdict = { correct: boolean; passed?: boolean; questionNumber?:number; fieldId: AnswerFieldId };
 export type ServerMessage = { type: 'ack' | 'state' | 'progress' | 'error'; requestId?: string; state?: Snapshot; participant?: Participant; serverNow?: number; verdict?: Verdict; code?: string; message?: string };
-export type ClientMessage = { type: 'hello' | 'sync' | 'start' | 'finish' | 'answer' | 'pass'; requestId?: string; role?: string; token?: string; participantId?: string; nickname?: string; seq?: number; questionId?: string; fieldId?: AnswerFieldId; value?: string | FormulaEntry };
+export type ClientMessage = { type: 'hello' | 'sync' | 'start' | 'finish' | 'answer' | 'pass' | 'review' | 'submit'; requestId?: string; role?: string; token?: string; participantId?: string; nickname?: string; seq?: number; questionId?: string; fieldId?: AnswerFieldId; value?: string | FormulaEntry };

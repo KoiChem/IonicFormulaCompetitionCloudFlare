@@ -6,6 +6,8 @@ import {HostRace} from '../../src/features/lobby/HostRace';
 import type {ParticipantState} from '../../src/features/play/useRoomSync';
 import type {IonicFormulaGameSettings} from '../../src/games/ionic-formula/shared/types';
 import {Settings} from './Settings';
+import {QuestionProfileDialog} from './QuestionProfileDialog';
+import {readProfile} from './question-profile';
 import {Player} from './Player';
 import {Results} from './Results';
 import {RoomConnection} from './socket';
@@ -13,11 +15,21 @@ import type {Credential,Snapshot,Verdict,ClientMessage} from './protocol';
 import {readCredential,saveCredential,recent} from './credentials';
 function requireStorage(){const key='ionic-lite:storage-check';localStorage.setItem(key,'1');localStorage.removeItem(key);}
 const roomLink=(c:Credential)=>`#/${c.role==='teacher'?'teacher':'join'}/${c.code}`;
-function Home(){return <main className="page-shell"><section className="panel lite-home"><p className="eyebrow">IonicFormulaCompetition Lite</p><h1>イオン式・化合物コンペ</h1><p>同じ問題で、クラスのみんなと挑戦。</p><div className="lite-home-actions"><button type="button" className="primary-action" onClick={()=>location.hash='/create'}>クラスコンペ</button><button type="button" className="secondary-button" disabled>メイトマッチ</button></div><p className="muted">クラスコンペは最大50人。メイトマッチは準備中です。</p><h2>生徒の参加</h2><JoinCodeForm/>{recent().length>0&&<section className="lite-resume"><h2>このブラウザのコンペ</h2>{recent().map(c=><a key={`${c.role}:${c.code}`} className="secondary-link" href={roomLink(c)}>{c.role==='teacher'?'教員':'生徒'}：{c.code} に戻る</a>)}</section>}</section></main>;}
+function Home(){return <main><section className="home-card" aria-labelledby="home-title">
+  <header><p className="eyebrow">IONIC FORMULA</p><h1 id="home-title">Competition</h1><div id="home-participation-status" className="home-participation-status"/></header>
+  <JoinCodeForm/>
+  <nav aria-label="ルームを作成・管理する"><a className="secondary-link" href="#/create">クラスコンペ</a><button className="secondary-link" type="button" disabled>メイトマッチ</button></nav>
+  <nav className="home-utility-actions" aria-label="履歴と関連アプリ"><a className="secondary-link" href="#/history">過去の結果</a><a className="secondary-link" href="https://koichem.github.io/IonicFormula/" target="_blank" rel="noopener noreferrer" aria-label="IonicFormula（新しいタブで開く）">IonicFormula</a></nav>
+</section></main>;}
+function History(){return <main className="page-shell"><section className="panel wide"><h1>過去の結果</h1><p>このブラウザで作成・参加したコンペに戻れます。</p><div className="ranking-cards">{recent().map(c=><article className="ranking-card" key={`${c.role}:${c.code}`}><strong>クラスコンペ・{c.code}</strong><p>{c.role==='teacher'?'教員':'生徒'}</p><a className="secondary-link" href={roomLink(c)}>コンペに戻る</a></article>)}</div>{!recent().length&&<p>このブラウザのコンペはありません。</p>}<a className="secondary-button" href="#/">ホームへ戻る</a></section></main>;}
 function Create(){
-  const [settings,setSettings]=useState<IonicFormulaGameSettings>({...DEFAULT_SETTINGS,gradingMode:'immediate'});const [busy,setBusy]=useState(false);const [error,setError]=useState('');
-  const create=async()=>{if(busy)return;setBusy(true);setError('');try{requireStorage();const response=await fetch('/api/rooms',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({settings})});const data=await response.json();if(!response.ok)throw new Error(data.error);const c:Credential={...data,role:'teacher'};saveCredential(c);location.hash=`/teacher/${c.code}`;}catch(e){setError(e instanceof Error?e.message:'作成できませんでした');}finally{setBusy(false);}};
-  return <main className="page-shell"><section className="panel wide"><p className="eyebrow">CLASS COMPETITION</p><h1>クラスコンペを作成</h1><p>答えるたびに判定します。誤答ペナルティ・ヒントなし、パスあり。</p><fieldset disabled={busy} className="lite-settings"><Settings value={settings} onChange={setSettings}/></fieldset>{error&&<p role="alert" className="error">{error}</p>}<button type="button" className="primary-action" disabled={busy} onClick={()=>void create()}>{busy?'作成中…':'コンペを作成'}</button><a className="secondary-link" href="#/">ホームへ戻る</a></section></main>;
+  const [settings,setSettings]=useState<IonicFormulaGameSettings>({...DEFAULT_SETTINGS,gradingMode:'immediate'});const [busy,setBusy]=useState(false);const [error,setError]=useState('');const [showProfile,setShowProfile]=useState(false);
+  const create=async()=>{if(busy)return;setBusy(true);setError('');try{requireStorage();const response=await fetch('/api/rooms',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({settings,profile:readProfile()})});const data=await response.json();if(!response.ok)throw new Error(data.error);const c:Credential={...data,role:'teacher'};saveCredential(c);location.hash=`/teacher/${c.code}`;}catch(e){setError(e instanceof Error?e.message:'作成できませんでした');}finally{setBusy(false);}};
+  return <main className="page-shell teacher-setup"><section className="panel wide teacher-workspace">
+    <header className="teacher-workspace-header"><div className="teacher-workspace-heading"><p className="eyebrow">TEACHER</p><h1>クラスコンペを作る</h1><p className="teacher-workspace-intro">条件を選んで、クラスのコンペを始めましょう。</p></div><div className="teacher-workspace-navigation"><button type="button" className="secondary-button" disabled={busy} onClick={()=>setShowProfile(true)}>難易度調整</button></div></header>
+    <div className="teacher-class-content"><Settings value={settings} onChange={setSettings} disabled={busy}/><div className="teacher-setup-actions"><button type="button" className="primary-action" disabled={busy} onClick={()=>void create()}>{busy?'作成を確認中…':'クラスルームを作る'}</button><a className="secondary-button" href="#/">ホームへ戻る</a></div>{error&&<p role="alert" className="error">{error}</p>}</div>
+    {showProfile&&<QuestionProfileDialog onClose={()=>setShowProfile(false)}/>}
+  </section></main>;
 }
 function Join({code}:{code:string}){
   const [credential,setCredential]=useState(()=>readCredential(code,'participant'));const [nickname,setNickname]=useState('');const [error,setError]=useState('');
@@ -42,7 +54,7 @@ function Room({credential}:{credential:Credential}){
   const room=state.room;
   if(credential.role==='participant'){
     if(room.state==='WAITING')return <>{banner}<main className="page-shell"><section className="panel"><h1>先生の開始を待っています</h1><p>{state.own!.nickname} さん</p><p>参加者 {room.participantCount} / 50人</p><p className="settings-summary">{settingsSummary(room.settings)}</p><a className="secondary-link" href="#/">ホームへ戻る</a></section></main></>;
-    if(state.question)return <>{banner}<Player key={state.question.id} state={state} enabled={enabled} now={now} verdict={verdict} send={send}/></>;
+    if(room.state==='COUNTDOWN'||(room.state==='RUNNING'&&!state.own!.finished))return <Player state={state} enabled={enabled} now={now} verdict={verdict} status={status} error={error} send={send}/>;
     return <>{banner}<main className="page-shell"><section className="panel"><h1>回答が終わりました</h1><p>正解 {state.own!.correctCount} / {room.maxScore}</p><p>コンペの終了後に、結果と復習が表示されます。</p><a className="secondary-link" href="#/">ホームへ戻る</a></section></main></>;
   }
   const countdown=Math.max(0,Math.ceil((room.startAtMs!-now)/1000));
@@ -56,7 +68,7 @@ function Room({credential}:{credential:Credential}){
 }
 export default function App(){
   const [route,setRoute]=useState(()=>location.hash.slice(1)||'/');useEffect(()=>{const change=()=>setRoute(location.hash.slice(1)||'/');window.addEventListener('hashchange',change);return ()=>window.removeEventListener('hashchange',change);},[]);
-  if(route==='/')return <Home/>;if(route==='/create')return <Create/>;
+  if(route==='/')return <Home/>;if(route==='/history')return <History/>;if(route==='/create')return <Create/>;
   const [path,query]=route.split('?');const parts=path.split('/').filter(Boolean);const code=(parts[1]??new URLSearchParams(query).get('code')??'').trim().toUpperCase();
   if(/^[A-Z2-9]{6}$/.test(code)){
     if(parts[0]==='join')return <Join key={code} code={code}/>;

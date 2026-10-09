@@ -1,3 +1,5 @@
+import initialProfile from '../src/initial-question-profile.json';
+import {validateQuestionProfileShape} from '../../src/games/ionic-formula/shared/question-profile';
 import { DurableObject } from 'cloudflare:workers';
 import { generateQuestionSet, validateGameSettings, toPublicQuestion } from '../../src/games/ionic-formula/server/question-generator';
 import { evaluateField } from '../../src/games/ionic-formula/shared/answer-evaluator';
@@ -32,10 +34,11 @@ export class LiteRoom extends DurableObject<LiteEnv> {
   async fetch(request:Request):Promise<Response> {
     if (new URL(request.url).pathname==='/create' && request.method==='POST') {
       try {
-        const raw=await request.json() as {settings?:IonicFormulaGameSettings};
+        const raw=await request.json() as {settings?:IonicFormulaGameSettings;profile?:unknown};
         const settings={...raw.settings,...parseCompetitionSettings(raw.settings),gradingMode:'immediate'} as IonicFormulaGameSettings;
         if(raw.settings?.gradingMode && raw.settings.gradingMode!=='immediate') throw new TypeError('Liteは問題毎判定です');
-        validateGameSettings(settings); const questions=generateQuestionSet(settings); const hostToken=token(); const hostHash=await hash(hostToken);
+        const profile=validateQuestionProfileShape(raw.profile??initialProfile);
+        validateGameSettings(settings,profile); const questions=generateQuestionSet(settings,Math.random,profile); const hostToken=token(); const hostHash=await hash(hostToken);
         const code=request.headers.get('x-room-code')!; const expiresAtMs=Date.now()+2*60*60*1000;
         this.ctx.storage.transactionSync(()=>{if(this.room())throw new RoomError('collision','参加コードが重なりました。もう一度作成してください');this.sql.exec('INSERT INTO room(code,state,host_hash,settings,questions,expires_at) VALUES(?,?,?,?,?,?)',code,'WAITING',hostHash,JSON.stringify(settings),JSON.stringify(questions),expiresAtMs);});
         await this.ctx.storage.setAlarm(expiresAtMs);
@@ -105,7 +108,7 @@ export class LiteRoom extends DurableObject<LiteEnv> {
               this.sql.exec('UPDATE room SET state=?,start_at=?,deadline_at=?,expires_at=?','RUNNING',start,start+settings.timeLimitMinutes*60000,start+7*24*60*60*1000);changed=true;
             }
           } else if(room.state==='RUNNING') {this.finish(room,'interrupted',Math.max(room.start_at!,Math.min(Date.now(),room.deadline_at!)));changed=true;}
-        } else if(message!.type==='answer'||message!.type==='pass') {
+        } else if(message!.type==='answer'||message!.type==='pass'||message!.type==='submit') {
           if(principal!.role!=='participant')throw new RoomError('forbidden','生徒の回答だけを受け付けます');
           const person=this.person(principal!.id!)!;
           const seq=message!.seq;
@@ -113,12 +116,20 @@ export class LiteRoom extends DurableObject<LiteEnv> {
           if(seq!<=person.last_seq) {if(seq===person.last_seq&&person.last_verdict)verdict=JSON.parse(person.last_verdict);return;}
           if(seq!==person.last_seq+1)throw new RoomError('invalid_sequence','再接続して回答状況を確認してください');
           if(room.state!=='RUNNING'||Date.now()<room.start_at!||person.finished_at!==null)throw new RoomError('not_running','現在は回答を受け付けていません');
-          const questions=JSON.parse(room.questions) as InternalQuestion[],question=questions[person.question_index];
-          if(message!.questionId!==question?.id)throw new RoomError('stale_question','問題が更新されました。現在の問題を確認してください');
+          const questions=JSON.parse(room.questions) as InternalQuestion[];
+          if(message!.type==='submit') {
+            this.sql.exec('UPDATE participants SET finished_at=?,last_seq=?,last_verdict=NULL WHERE id=?',Date.now(),seq!,person.id);
+            progress=this.viewPerson(this.person(person.id)!,room);
+            if(this.people().every(p=>p.finished_at!==null)){this.finish(room,'normal',Date.now());changed=true;}
+            return;
+          }
+          const question=questions.find(q=>q.id===message!.questionId);
+          if(!question||question.ordinal>person.question_index)throw new RoomError('stale_question','問題が更新されました。現在の問題を確認してください');
           const field=question.fields.find(f=>f.id===message!.fieldId);
           if(!field)throw new RoomError('invalid_field','回答欄を確認してください');
           const old=this.sql.exec<AnswerRow>('SELECT * FROM answers WHERE participant_id=? AND question_id=? AND field_id=?',person.id,question.id,field.id).toArray()[0];
-          if(old&&old.state!=='pending')throw new RoomError('resolved_field','この回答欄は確定済みです');
+          if(question.ordinal<person.question_index&&(!old||old.state==='correct'))throw new RoomError('stale_question','この問題は確定済みです');
+          if(old?.state==='correct')throw new RoomError('resolved_field','この回答欄は確定済みです');
           const value=message!.value;
           if(message!.type==='answer') {
             if(typeof value==='string') {if(value.length>200)throw new RoomError('invalid_answer','回答は200文字以内で入力してください');}
@@ -128,16 +139,17 @@ export class LiteRoom extends DurableObject<LiteEnv> {
           const state=message!.type==='pass'?'passed':correct?'correct':'pending';
           this.sql.exec('INSERT INTO answers(participant_id,question_id,field_id,state,value,attempts) VALUES(?,?,?,?,?,?) ON CONFLICT(participant_id,question_id,field_id) DO UPDATE SET state=excluded.state,value=excluded.value,attempts=excluded.attempts',person.id,question.id,field.id,state,message!.type==='pass'?(old?.value??null):JSON.stringify(value),message!.type==='pass'?(old?.attempts??0):(old?.attempts??0)+1);
           const resolved=this.sql.exec<AnswerRow>('SELECT * FROM answers WHERE participant_id=? AND question_id=?',person.id,question.id).toArray().filter(a=>a.state!=='pending').length;
-          const nextIndex=person.question_index+(resolved===question.fields.length?1:0);
-          verdict={correct,passed:message!.type==='pass',fieldId:field.id};
-          this.sql.exec('UPDATE participants SET correct_count=correct_count+?,question_index=?,finished_at=?,last_seq=?,last_verdict=? WHERE id=?',correct?1:0,nextIndex,nextIndex>=questions.length?Date.now():null,seq!,JSON.stringify(verdict),person.id);
+          const nextIndex=person.question_index+(question.ordinal===person.question_index&&resolved===question.fields.length?1:0);
+          const maxScore=questions.reduce((n,q)=>n+q.maxScore,0);
+          verdict={correct,passed:message!.type==='pass',questionNumber:question.ordinal+1,fieldId:field.id};
+          this.sql.exec('UPDATE participants SET correct_count=correct_count+?,question_index=?,finished_at=?,last_seq=?,last_verdict=? WHERE id=?',correct?1:0,nextIndex,person.correct_count+(correct?1:0)===maxScore?Date.now():null,seq!,JSON.stringify(verdict),person.id);
           progress=this.viewPerson(this.person(person.id)!,room);
           if(this.people().every(p=>p.finished_at!==null)){this.finish(room,'normal',Date.now());changed=true;}
-        } else if(!['hello','sync'].includes(message!.type))throw new RoomError('invalid_message','この操作は受け付けていません');
+        } else if(!['hello','sync','review'].includes(message!.type))throw new RoomError('invalid_message','この操作は受け付けていません');
       });
       const room=this.requireRoom();
       if(changed||message.type==='hello')await this.schedule(room);
-      this.send(ws,{type:'ack',requestId:message.requestId,state:this.snapshot(principal),...(verdict?{verdict}:{})});
+      this.send(ws,{type:'ack',requestId:message.requestId,state:this.snapshot(principal,message.type==='review'),...(verdict?{verdict}:{})});
       if(changed||joined)this.broadcastState(ws);
       else if(progress)for(const host of this.ctx.getWebSockets())if(this.principal(host)?.role==='teacher')this.send(host,{type:'progress',participant:progress,serverNow:Date.now()});
     } catch(error) {
@@ -160,13 +172,17 @@ export class LiteRoom extends DurableObject<LiteEnv> {
     const answers=this.sql.exec<AnswerRow>('SELECT * FROM answers WHERE participant_id=?',id).toArray();
     return (JSON.parse(room.questions) as InternalQuestion[]).map(q=>({id:q.id,ordinal:q.ordinal,prompt:q.prompt,fields:q.fields.map(f=>{const a=answers.find(a=>a.question_id===q.id&&a.field_id===f.id);const spec=q.answer.type==='both'?q.answer[f.id]:q.answer;return {id:f.id,state:a?.state==='pending'?'incorrect':a?.state??'unanswered',correctAnswer:spec.canonical,...(q.ionCharge!==undefined?{ionCharge:q.ionCharge}:{}),lastAnswer:a?.value?JSON.parse(a.value):null,attempts:a?.attempts??0};})}));
   }
-  private snapshot(principal:Principal):Snapshot {
+  private snapshot(principal:Principal,includeReview=false):Snapshot {
     const room=this.requireRoom();const settings=JSON.parse(room.settings) as IonicFormulaGameSettings,questions=JSON.parse(room.questions) as InternalQuestion[];
     const state:Snapshot={serverNow:Date.now(),room:{code:room.code,state:room.state==='RUNNING'&&Date.now()<room.start_at!?'COUNTDOWN':room.state as Snapshot['room']['state'],settings,maxScore:questions.reduce((n,q)=>n+q.maxScore,0),participantCount:this.people().length,startAtMs:room.start_at,deadlineAtMs:room.deadline_at,expiresAtMs:room.expires_at,endReason:room.end_reason}};
     if(principal.role==='teacher') {state.participants=this.people().map(p=>this.viewPerson(p,room));if(room.state==='FINISHED'){const ranking=this.rankings(room);state.results={ranking,averageCorrectCount:ranking.reduce((sum,p)=>sum+p.correctCount,0)/Math.max(1,ranking.length)};}}
     else {
       const person=this.person(principal.id!)!;state.own=this.viewPerson(person,room);
-      if(room.state==='RUNNING'&&person.finished_at===null){const q=questions[person.question_index];const answers=this.sql.exec<AnswerRow>('SELECT * FROM answers WHERE participant_id=? AND question_id=?',person.id,q.id).toArray();state.question={...toPublicQuestion(q,{resolvedFieldIds:answers.filter(a=>a.state!=='pending').map(a=>a.field_id)}),progress:{resolvedFieldIds:answers.filter(a=>a.state!=='pending').map(a=>a.field_id),fieldStates:Object.fromEntries(answers.map(a=>[a.field_id,a.state]))}};}
+      if(includeReview&&room.state==='RUNNING') {
+        const answers=this.sql.exec<AnswerRow>('SELECT * FROM answers WHERE participant_id=?',person.id).toArray();
+        state.review={questions:questions.map(q=>toPublicQuestion(q,{resolvedFieldIds:answers.filter(a=>a.question_id===q.id&&a.state!=='pending').map(a=>a.field_id)})),frontier:person.question_index,fields:Object.fromEntries(answers.map(a=>[`${a.question_id}:${a.field_id}`,a.state==='pending'?(questions.find(q=>q.id===a.question_id)!.ordinal<person.question_index?'passedRetry':'retry'):a.state]))};
+      }
+      if(room.state==='RUNNING'&&person.finished_at===null&&person.question_index<questions.length){const q=questions[person.question_index];const answers=this.sql.exec<AnswerRow>('SELECT * FROM answers WHERE participant_id=? AND question_id=?',person.id,q.id).toArray();state.question={...toPublicQuestion(q,{resolvedFieldIds:answers.filter(a=>a.state!=='pending').map(a=>a.field_id)}),progress:{resolvedFieldIds:answers.filter(a=>a.state!=='pending').map(a=>a.field_id),fieldStates:Object.fromEntries(answers.map(a=>[a.field_id,a.state]))}};}
       if(room.state==='FINISHED')state.results={own:this.rankings(room).find(p=>p.id===person.id),questions:this.review(room,person.id)};
     }
     return state;
