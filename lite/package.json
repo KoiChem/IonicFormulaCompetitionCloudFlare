@@ -1,0 +1,14 @@
+{
+  "name": "ionic-formula-competition-lite",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run --config vitest.config.ts",
+    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.worker.json",
+    "build": "pnpm typecheck && vite build",
+    "dev": "wrangler dev --config wrangler.jsonc --port 8791",
+    "deploy": "node deploy.mjs",
+    "load": "node tests/load.mjs"
+  },
+  "packageManager": "pnpm@11.19.0"
+}

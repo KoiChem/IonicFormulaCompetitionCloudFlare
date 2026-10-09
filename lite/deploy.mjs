@@ -1,0 +1,10 @@
+import {execFileSync} from 'node:child_process';
+import {readFileSync} from 'node:fs';
+import {fileURLToPath} from 'node:url';
+const directory=fileURLToPath(new URL('.',import.meta.url));
+const config=JSON.parse(readFileSync(new URL('wrangler.jsonc',import.meta.url),'utf8'));
+if(config.name!=='ionicformulacompetition-lite'||config.d1_databases||config.durable_objects.bindings[0]?.class_name!=='LiteRoom')throw new Error('Lite専用設定を確認してください');
+const sha=execFileSync('git',['rev-parse','HEAD'],{cwd:directory,encoding:'utf8'}).trim();
+if(!/^[a-f0-9]{40}$/.test(sha))throw new Error('公開にはGit commitが必要です');
+execFileSync('pnpm',['build'],{cwd:directory,stdio:'inherit',env:{...process.env,VITE_LITE_RELEASE:sha}});
+execFileSync('pnpm',['exec','wrangler','deploy','--config','wrangler.jsonc','--var',`RELEASE_SHA:${sha}`],{cwd:directory,stdio:'inherit'});

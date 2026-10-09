@@ -1,0 +1,65 @@
+{
+  "at": "2026-10-09T14:20:27.488Z",
+  "origin": "http://localhost:8791",
+  "network": "One Node client on the development Mac; simulated participants, not physical school devices.",
+  "results": [
+    {
+      "count": 25,
+      "code": "YE9VLK",
+      "createMs": 19.9,
+      "joinIncludingUpgrade": {
+        "n": 25,
+        "medianMs": 58.5,
+        "p95Ms": 81.3,
+        "maxMs": 81.5
+      },
+      "startAckMs": 26.5,
+      "startQuestionNotification": {
+        "n": 25,
+        "medianMs": 27.3,
+        "p95Ms": 27.4,
+        "maxMs": 27.4
+      },
+      "fixedCountdownMs": 5000,
+      "answerAckIncludingGradingAndSQLite": {
+        "n": 125,
+        "medianMs": 19.7,
+        "p95Ms": 28.3,
+        "maxMs": 28.9
+      },
+      "rejected51": false,
+      "duplicatesSafe": true,
+      "allCorrect": true,
+      "finished": true
+    },
+    {
+      "count": 50,
+      "code": "6Y5BSX",
+      "createMs": 12.2,
+      "joinIncludingUpgrade": {
+        "n": 50,
+        "medianMs": 87.8,
+        "p95Ms": 250.2,
+        "maxMs": 251.8
+      },
+      "startAckMs": 8.7,
+      "startQuestionNotification": {
+        "n": 50,
+        "medianMs": 9.6,
+        "p95Ms": 10,
+        "maxMs": 10.1
+      },
+      "fixedCountdownMs": 5000,
+      "answerAckIncludingGradingAndSQLite": {
+        "n": 250,
+        "medianMs": 34,
+        "p95Ms": 47.5,
+        "maxMs": 60.4
+      },
+      "rejected51": true,
+      "duplicatesSafe": true,
+      "allCorrect": true,
+      "finished": true
+    }
+  ]
+}
