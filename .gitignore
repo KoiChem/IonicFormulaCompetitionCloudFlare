@@ -4,6 +4,7 @@ dist/
 .env.*
 !.env.example
 .superpowers/
+.worktrees/
 supabase/.temp/
 .DS_Store
 *.log
