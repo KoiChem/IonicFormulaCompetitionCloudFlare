@@ -15,7 +15,7 @@ Spec: このチャットで承認されたLite仕様と3点の設計案。現行
 1. [x] Native Worker tests first: 50人・51人目拒否、二重送信、本人限定結果、再接続、締切、SQLite復帰。worker/index.ts・room.ts・protocol.tsを実装。
 2. [x] Browser flow first: 教員作成→QR/コード参加→開始→回答/パス→終了→結果。既存入力・表示部品を使いApp・Player・Results・socketを実装。
 3. [x] Lite全テスト・型検査・build・Worker dry-run。既存テストの回帰確認、Playwrightで狭幅・送信状態・再読み込み・通信エラーを確認。
-4. [ ] 対象ファイルのみcommit/push。専用設定から公開、build identity・公開画面・WSS・25/50人の参加/回答時間を確認。
+4. [x] 対象ファイルのみcommit/push。専用設定から公開、build identity・公開画面・WSS・25/50人の参加/回答時間を確認。
 
 ## Review focus
 - 同時参加と再接続を人数に二重計上しない。
@@ -33,3 +33,9 @@ Spec: このチャットで承認されたLite仕様と3点の設計案。現行
 - Independent review found one recovery defect: credentials with a provisional waiting expiry were hidden after offline start. Browser identity now survives the maximum possible Room extension; the server remains authoritative for expiry. Regression covers local retention and browser restoration to results.
 - Existing verification: 574 general tests, 28 native Cloudflare tests, 18 Worker WebSocket tests, typechecks/build passed. Lite verification: 20 tests, typechecks/build and dry-run.
 - Local 50-client answer acknowledgment: median 34.0 ms, p95 47.5 ms, max 60.4 ms. See local-load.json. These are local-runtime measurements, not classroom/public latency.
+
+- Published 2026-10-09: https://ionicformulacompetition-lite.koichem.workers.dev
+- Source release: 584eaab68fa9a7d4527871a35c39c2b0276fc3d5; Worker version a73abe9a-1f91-40f5-88ab-0c86931517ef. HTML meta and /api/health agree. Existing Worker health stayed at 7b585fbb3994165cade617edc869f684c48c2f0f.
+- Public browser flow passed: create/join/start/wrong/retry/pass/reload/offline-online/results, own-only student results, stale waiting expiry recovery, no page errors or failed requests. Home/settings/results widths 320–1280 and complex formula input at 320 px checked. Native camera/touch and school Wi-Fi remain unverified.
+- Public simulated load (one development Mac): 25 students, answer median 52.8 ms / p95 64.1 ms; 50 students, median 91.1 ms / p95 97.8 ms / max 106.5 ms. All five answers per participant graded and saved; duplicates did not add points; 51st participant rejected in 50-person run. See public-load.json. Fixed 5-second countdown is separate.
+- GitHub CI passed for source release: https://github.com/KoiChem/IonicFormulaCompetitionCloudFlare/actions/runs/37944474909 . CI checks the existing app; Lite-specific 20 tests and build were run locally with the real Miniflare SQLite Durable Object runtime.
