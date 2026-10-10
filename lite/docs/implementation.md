@@ -61,3 +61,5 @@ Spec: このチャットで承認されたLite仕様と3点の設計案。現行
 - 新規認証テスト10件を含むLite 41件、UI/Worker型検査、build、Worker dry-run成功。署名付きID tokenを使ったcallbackから実session、Room作成まで検証。外部Google endpointsのみlocal fixtureで代替。既存アプリの回帰テスト571件も通過（負荷flag未指定の3件はskip）。
 - Playwright MCPで匿名設定画面/作成APIの拒否、許可教員画面、マスターのみ一覧操作、登録・解除・検索保持・再読込・logout、管理画面320/390/768/1280px、既存の教員作成→生徒参加→誤答→パス→提出→結果→offline再接続を検証。page errorsなし、競技flowのrequest failuresなし。
 - 独立レビューで重要な認証不具合なし。指摘されたlocal APP_ORIGINと負荷測定時のteacher session/CSRF導線を修正。
+- 認証済み許可教員のcookieからsession/CSRFを取得する負荷検証導線で、local 25/50人の参加・全5問の採点/保存・重複得点防止・51人目拒否を再確認。結果は `/private/tmp/lite-auth-load.json`。これは開発Macのローカルfixtureであり実Googleログインや本番速度の証拠ではない。
+- Code commits: 814db1f, e1ba43d。Lite branchへpush済み。Google redirect保存とGoogle client secretのLite Workerへの保存はユーザー確認待ち。secret転送はauto-reviewで明示許可不足として拒否されたため、公開はまだ実行していない。現在の公開Liteはfd91d503、通常版は7b585fbbのまま。
