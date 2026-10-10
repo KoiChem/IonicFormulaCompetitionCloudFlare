@@ -1,5 +1,7 @@
 # IonicFormulaCompetition Lite
 
+Current scope update (2026-10-10): Google teacher authentication now protects class setup and new Room creation. The earlier no-Auth/disabled-roster constraints below record the original implementation scope.
+
 Goal: 授業用クラスコンペを、1 Room = 1 SQLite-backed Durable Object、WebSocket中心で最大50人に提供する。
 Spec: このチャットで承認されたLite仕様と3点の設計案。現行Worker・DB・実施データは変更・移行しない。
 
@@ -52,3 +54,10 @@ Spec: このチャットで承認されたLite仕様と3点の設計案。現行
 - Both public Playwright flows passed: browser-flow (ion name, full final review/retry/submit/reload) and ui-parity (profile persistence, compound formula/name keyboard, wrong retry and other-field state, draft restore, 320–1280 px). No browser errors; browser-flow reported no failed requests.
 - Public 25/50 simulated participants passed after UI update. 50 answers: median 93.4 ms, p95 132.4 ms, max 139.9 ms from one development Mac. See public-load-ui.json; not a school-device benchmark or same-condition before/after comparison.
 - Source release CI passed: https://github.com/KoiChem/IonicFormulaCompetitionCloudFlare/actions/runs/37950216692 . Lite's 24 specific tests/build were verified locally separately.
+
+## 2026-10-10 教員Google認証
+- ユーザーの依頼により、クラスコンペ設定入口と新規Room作成をGoogle認証で保護。マスターは指定された taiyaki.taiyaki.taiyaki@gmail.com。マスターによる許可教員登録・解除、8時間session、logoutを追加。生徒と既存Roomの管理token経路は維持。
+- 専用LiteTeachers SQLite DOに、教員一覧・session hash・10分OAuth transactionを保存。scopeはopenid email、JWT署名/claims、browser-bound one-time state、nonce、S256 PKCE、CSRFを検証。D1/Supabase/通常版のデータを使わない。
+- 新規認証テスト10件を含むLite 41件、UI/Worker型検査、build、Worker dry-run成功。署名付きID tokenを使ったcallbackから実session、Room作成まで検証。外部Google endpointsのみlocal fixtureで代替。既存アプリの回帰テスト571件も通過（負荷flag未指定の3件はskip）。
+- Playwright MCPで匿名設定画面/作成APIの拒否、許可教員画面、マスターのみ一覧操作、登録・解除・検索保持・再読込・logout、管理画面320/390/768/1280px、既存の教員作成→生徒参加→誤答→パス→提出→結果→offline再接続を検証。page errorsなし、競技flowのrequest failuresなし。
+- 独立レビューで重要な認証不具合なし。指摘されたlocal APP_ORIGINと負荷測定時のteacher session/CSRF導線を修正。
