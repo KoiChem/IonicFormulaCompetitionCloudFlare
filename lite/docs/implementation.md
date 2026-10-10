@@ -62,4 +62,7 @@ Spec: このチャットで承認されたLite仕様と3点の設計案。現行
 - Playwright MCPで匿名設定画面/作成APIの拒否、許可教員画面、マスターのみ一覧操作、登録・解除・検索保持・再読込・logout、管理画面320/390/768/1280px、既存の教員作成→生徒参加→誤答→パス→提出→結果→offline再接続を検証。page errorsなし、競技flowのrequest failuresなし。
 - 独立レビューで重要な認証不具合なし。指摘されたlocal APP_ORIGINと負荷測定時のteacher session/CSRF導線を修正。
 - 認証済み許可教員のcookieからsession/CSRFを取得する負荷検証導線で、local 25/50人の参加・全5問の採点/保存・重複得点防止・51人目拒否を再確認。結果は `/private/tmp/lite-auth-load.json`。これは開発Macのローカルfixtureであり実Googleログインや本番速度の証拠ではない。
-- Code commits: 814db1f, e1ba43d。Lite branchへpush済み。Google redirect保存とGoogle client secretのLite Workerへの保存はユーザー確認待ち。secret転送はauto-reviewで明示許可不足として拒否されたため、公開はまだ実行していない。現在の公開Liteはfd91d503、通常版は7b585fbbのまま。
+- Code commits: 814db1f, e1ba43d。ユーザーの明示許可後、既存Google clientにLite callbackを保存し、既存client secretをLite Worker Secretへ設定。secretは出力・Gitに保存していない。
+- 公開source: 5bd56deb619f96d989b537f4ca5ae59ab706e22b、Worker version: 3c0c8ab7-132d-4347-8e83-4155c87f5139。公開healthと配信画面を確認。通常版buildは7b585fbb3994165cade617edc869f684c48c2f0fのまま。LiteはD1なし、50人上限。
+- 公開Chromeで実Googleログインし、指定アカウントのマスター表示、クラス作成・参加コード/QR表示、空の確認用クラス終了、マスター管理画面の取得を確認。実在の追加教員登録は行っていない。
+- 公開Playwrightで未ログインの設定画面とRoom作成401、320/390/768/1280pxの横overflowなしを確認。sourceのGitHub CI run 38023510180はsuccess（既存アプリCI。Lite検証は上記の専用local checks）。ユーザーによる追加設定作業は不要。
