@@ -1,13 +1,20 @@
 import { LiteRoom, type LiteEnv, json } from './room';
-export { LiteRoom };
+import {LiteTeachers, teacherSession} from './auth';
+export { LiteRoom, LiteTeachers };
 export default {
   async fetch(request: Request, env: LiteEnv): Promise<Response> {
     const url = new URL(request.url);
     let response: Response;
     try {
       if (url.pathname === '/api/health') response = json({ backend: 'lite', d1: false, maxParticipants: 50, release: env.RELEASE_SHA });
-      else if (url.pathname === '/api/rooms' && request.method === 'POST') {
+      else if (url.pathname.startsWith('/api/auth/') || url.pathname === '/api/teacher/allowlist') {
+        response = await env.TEACHERS.get(env.TEACHERS.idFromName('teachers')).fetch(new Request(request, {redirect: 'manual'}));
+      } else if (url.pathname === '/api/rooms' && request.method === 'POST') {
         if (request.headers.get('origin') !== url.origin) return json({error:'別のサイトからの操作は受け付けません'},403);
+        const session = await teacherSession(request, env);
+        if (!session.ready) return json({error:'教員認証の設定を準備中です'},503);
+        if (!session.identity) return json({error:'教員ログインが必要です'},401);
+        if (request.headers.get('x-competition-csrf') !== session.csrfToken) return json({error:'操作資格を再確認してください'},403);
         if (Number(request.headers.get('content-length')) > 16384) return json({error:'設定が大きすぎます'},413);
         const body = await request.text();
         if (body.length > 16384) return json({error:'設定が大きすぎます'},413);

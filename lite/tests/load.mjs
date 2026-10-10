@@ -5,6 +5,11 @@ const require=createRequire(import.meta.url);
 const {WebSocket}=require(require.resolve('undici',{paths:[require.resolve('wrangler')]}));
 const origin=new URL(process.argv[2]??'http://localhost:8791').origin;
 if(!['http://localhost:8791','http://127.0.0.1:8791','https://ionicformulacompetition-lite.koichem.workers.dev'].includes(origin))throw new Error('計測先はLite専用Workerまたはローカル8791に限定しています');
+const teacherCookie=process.env.LITE_TEACHER_COOKIE;
+if(!teacherCookie)throw new Error('LITE_TEACHER_COOKIEにログイン済みLite教員のcookieを設定してください。認証情報は出力・計測結果には保存しません');
+const auth=await fetch(`${origin}/api/auth/session`,{headers:{cookie:teacherCookie}});
+const session=await auth.json();
+if(!auth.ok||!session.identity||!session.csrfToken)throw new Error('Lite教員のログインを再確認してください');
 const ions=JSON.parse(readFileSync(new URL('../../src/games/ionic-formula/data/ions.json',import.meta.url),'utf8'));
 const settings={questionCount:5,timeLimitMinutes:3,mode:'ion',difficulty:'normal',ionAnswer:'name',compoundPrompts:{formula:true,name:true},compoundAnswer:'formula',complexEnabled:false,gradingMode:process.argv.includes('--deferred')?'deferred':'immediate'};
 function summary(values){const xs=[...values].sort((a,b)=>a-b);return {n:xs.length,medianMs:+xs[Math.floor(xs.length/2)].toFixed(1),p95Ms:+xs[Math.ceil(xs.length*.95)-1].toFixed(1),maxMs:+xs.at(-1).toFixed(1)};}
@@ -24,7 +29,7 @@ async function connect(code,credential){
   return {ws,request,hello,joinMs:performance.now()-since,get state(){return state;},get startReceived(){return startReceived;},updates};
 }
 async function run(count){
-  const createAt=performance.now();const response=await fetch(`${origin}/api/rooms`,{method:'POST',headers:{origin,'content-type':'application/json'},body:JSON.stringify({settings})});
+  const createAt=performance.now();const response=await fetch(`${origin}/api/rooms`,{method:'POST',headers:{origin,'content-type':'application/json',cookie:teacherCookie,'x-competition-csrf':session.csrfToken},body:JSON.stringify({settings})});
   const created=await response.json();if(response.status!==201)throw new Error(JSON.stringify(created));
   const createMs=performance.now()-createAt;const all=[];
   try{

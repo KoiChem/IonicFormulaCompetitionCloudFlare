@@ -7,8 +7,9 @@ import { topRankingRows } from '../../src/features/results/ranking-visibility';
 import { parseCompetitionSettings } from '../../src/config/public';
 import type { InternalQuestion, IonicFormulaGameSettings, AnswerFieldId } from '../../src/games/ionic-formula/shared/types';
 import type { ClientMessage, Snapshot, Participant, Ranking, ReviewQuestion, ServerMessage, Verdict } from '../src/protocol';
+import type {LiteTeacherEnv} from './auth';
 
-export type LiteEnv = {ROOMS: DurableObjectNamespace<LiteRoom>; ASSETS: Fetcher; RELEASE_SHA: string};
+export type LiteEnv = {ROOMS: DurableObjectNamespace<LiteRoom>; ASSETS: Fetcher; RELEASE_SHA: string} & LiteTeacherEnv;
 type Principal = { role: 'teacher' | 'participant'; id?: string };
 type RoomRow = {code:string;state:string;host_hash:string;settings:string;questions:string;start_at:number|null;deadline_at:number|null;ended_at:number|null;expires_at:number;end_reason:'normal'|'interrupted';created_at:number;profile:string|null};
 type PersonRow = {id:string;nickname:string;token_hash:string;joined_order:number;correct_count:number;question_index:number;finished_at:number|null;last_seq:number;last_verdict:string|null;finish_reason:string|null;removed:number};

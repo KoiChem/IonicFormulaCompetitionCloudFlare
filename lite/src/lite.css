@@ -1,0 +1,9 @@
+
+.lite-teacher-identity{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;max-width:100%;font-size:.85rem}
+.lite-teacher-identity span,.teacher-master-identity span{overflow-wrap:anywhere;min-width:0}
+.lite-teacher-search{display:grid;gap:.35rem;margin-bottom:.6rem}
+.lite-teacher-list{list-style:none;padding:0;margin:0}
+.lite-teacher-list li{display:flex;align-items:center;justify-content:space-between;gap:.6rem;padding:.6rem 0}
+.lite-teacher-list li span{overflow-wrap:anywhere;min-width:0}
+.lite-teacher-list button{flex-shrink:0}
+.teacher-login-panel .primary-link{display:inline-flex;margin-top:.5rem}

@@ -6,7 +6,8 @@
     "test": "vitest run --config vitest.config.ts",
     "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.worker.json",
     "build": "pnpm typecheck && vite build",
-    "dev": "wrangler dev --config wrangler.jsonc --port 8791",
+    "dev": "wrangler dev --config wrangler.jsonc --port 8791 --var APP_ORIGIN:http://localhost:8791",
+    "dev:fixture": "node tests/browser-server.mjs",
     "deploy": "node deploy.mjs",
     "load": "node tests/load.mjs"
   },

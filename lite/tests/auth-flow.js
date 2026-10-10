@@ -1,0 +1,51 @@
+async(page) => {
+  const origin = new URL(page.url()).origin;
+  if (origin !== 'http://localhost:8791') throw new Error('Auth fixture flow is local-only');
+  const errors = [];page.on('pageerror', error => errors.push(error.message));
+  const browser = page.context().browser();
+  const anonymous = await browser.newContext();
+  const visitor = await anonymous.newPage();
+  await visitor.goto(origin + '/#/teacher');
+  await visitor.getByRole('heading', {name: '教員ログイン'}).waitFor();
+  if (!await visitor.getByRole('link', {name: 'Googleでログイン'}).isVisible() || await visitor.getByRole('button', {name: 'クラスルームを作る', exact: true}).count()) throw new Error('Anonymous teacher gate failed');
+  const denied = await anonymous.request.post(origin + '/api/rooms', {headers: {origin}, data: {}});
+  if (denied.status() !== 401) throw new Error('Anonymous room API accepted');
+  await visitor.goto(origin + '/#/teacher?authError=forbidden');
+  await visitor.getByText(/このGoogleアカウントは教員として登録されていません/).waitFor();
+  await anonymous.close();
+  const teacher = await browser.newContext();
+  await teacher.addCookies([{name: '__Host-ionic-lite-session', value: 'B'.repeat(43), domain: 'localhost', path: '/', secure: true, httpOnly: true, sameSite: 'Lax'}]);
+  const colleague = await teacher.newPage();
+  await colleague.goto(origin + '/#/teacher');
+  await colleague.getByRole('heading', {name: 'クラスコンペを作る'}).waitFor();
+  await colleague.getByRole('button', {name: '管理設定', exact: true}).click();
+  if (await colleague.getByRole('heading', {name: '許可教員の管理'}).count()) throw new Error('Non-master sees permission editor');
+  if ((await teacher.request.get(origin + '/api/teacher/allowlist')).status() !== 403) throw new Error('Non-master reads allowlist');
+  await teacher.close();
+  await page.goto(origin + '/#/teacher');
+  await page.getByRole('button', {name: '管理設定', exact: true}).click();
+  await page.getByLabel('教員のメールアドレス').fill('browser-added@example.com');
+  await page.getByRole('button', {name: '登録する', exact: true}).click();
+  await page.getByRole('button', {name: 'browser-added@example.comの登録を解除', exact: true}).waitFor();
+  await page.getByRole('searchbox').fill('browser-added');
+  const layouts = [];
+  for (const width of [320, 390, 768, 1280]) {
+    await page.setViewportSize({width, height: 844});
+    if (await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1)) throw new Error('Teacher management overflow at ' + width);
+    layouts.push({width, overflow: false});
+  }
+  page.once('dialog', dialog => dialog.accept());
+  await page.getByRole('button', {name: 'browser-added@example.comの登録を解除', exact: true}).click();
+  await page.getByText('該当する教員はいません。', {exact: true}).waitFor();
+  if (await page.getByRole('searchbox').inputValue() !== 'browser-added') throw new Error('Removal cleared the search');
+  await page.reload();
+  await page.getByRole('button', {name: '管理設定', exact: true}).click();
+  if (await page.getByRole('button', {name: 'browser-added@example.comの登録を解除', exact: true}).count()) throw new Error('Removed teacher survived reload');
+  await page.getByRole('button', {name: 'ログアウト', exact: true}).click();
+  await page.getByRole('heading', {name: '教員ログイン'}).waitFor();
+  await page.reload();
+  await page.getByRole('heading', {name: '教員ログイン'}).waitFor();
+  if (await page.getByRole('button', {name: 'クラスルームを作る', exact: true}).count()) throw new Error('Logout did not hide setup');
+  if (errors.length) throw new Error(JSON.stringify(errors));
+  return {anonymousGate: true, anonymousApiDenied: true, permittedTeacherSetup: true, masterOnlyRoster: true, addRemovePersisted: true, logout: true, layouts, errors};
+}

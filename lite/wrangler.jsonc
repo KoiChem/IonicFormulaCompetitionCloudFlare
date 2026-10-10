@@ -10,9 +10,14 @@
     "not_found_handling": "single-page-application",
     "run_worker_first": ["/api", "/api/*"]
   },
-  "vars": {"RELEASE_SHA": "development"},
-  "durable_objects": {
-    "bindings": [{"name": "ROOMS", "class_name": "LiteRoom"}]
+  "vars": {
+    "RELEASE_SHA": "development",
+    "APP_ORIGIN": "https://ionicformulacompetition-lite.koichem.workers.dev",
+    "MASTER_TEACHER_EMAIL": "taiyaki.taiyaki.taiyaki@gmail.com",
+    "GOOGLE_CLIENT_ID": "740039848388-qsqsv4c9jg8bolg4dh93lfo6jqkl18fg.apps.googleusercontent.com"
   },
-  "migrations": [{"tag": "lite-v1", "new_sqlite_classes": ["LiteRoom"]}]
+  "durable_objects": {
+    "bindings": [{"name": "ROOMS", "class_name": "LiteRoom"}, {"name": "TEACHERS", "class_name": "LiteTeachers"}]
+  },
+  "migrations": [{"tag": "lite-v1", "new_sqlite_classes": ["LiteRoom"]}, {"tag": "lite-v2-auth", "new_sqlite_classes": ["LiteTeachers"]}]
 }
