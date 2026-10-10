@@ -76,13 +76,13 @@ test('wrong answers have no penalty and allow retry; pass advances without award
   r = await student.request({type:'sync'});
   expect(r.state.results.questions[1].fields[0].state).toBe('passed');
 });
-test('finishes on the server deadline and exposes only own results to students', async () => {
+test('finishes on the server deadline and exposes top rankings plus only own answer review to students', async () => {
   const {data} = await f.create(); const host = await f.connect(data.code);
   await host.request({type:'hello',role:'teacher',token:data.token});
   const student = await f.connect(data.code); await student.request(credentials()); await host.request({type:'start'});
   const store = await f.storage(data.code); await store.exec('UPDATE room SET start_at=?, deadline_at=?',Date.now()-60000,Date.now()-1);
   const snapshot = await student.request({type:'sync'});
-  expect(snapshot.state.room.state).toBe('FINISHED'); expect(snapshot.state.results.ranking).toBeUndefined();
+  expect(snapshot.state.room.state).toBe('FINISHED'); expect(snapshot.state.results.ranking).toHaveLength(1);
   expect(snapshot.state.results.questions).toHaveLength(5);
   expect((await host.request({type:'sync'})).state.results.ranking).toHaveLength(1);
   expect((await student.request({type:'pass',seq:1,questionId:'x',fieldId:'name'})).code).toBe('not_running');

@@ -15,9 +15,9 @@ export default {
         const code = Array.from(crypto.getRandomValues(new Uint8Array(6)),n=>alphabet[n&31]).join('');
         response = await env.ROOMS.get(env.ROOMS.idFromName(code)).fetch(new Request(url.origin+'/create', {method:'POST',body,headers:{'x-room-code':code}}));
       } else {
-        const match = /^\/api\/rooms\/([A-Z2-9]{6})\/socket$/.exec(url.pathname);
+        const match = /^\/api\/rooms\/([A-Z2-9]{6})\/(socket|info|state)$/.exec(url.pathname);
         if (match) {
-          if (request.headers.get('origin') !== url.origin) return json({error:'別のサイトからの接続は受け付けません'},403);
+          if (match[2]==='socket' && request.headers.get('origin') !== url.origin) return json({error:'別のサイトからの接続は受け付けません'},403);
           return env.ROOMS.get(env.ROOMS.idFromName(match[1])).fetch(request);
         }
         response = url.pathname.startsWith('/api') ? json({error:'見つかりません'},404) : await env.ASSETS.fetch(request);

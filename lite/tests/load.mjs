@@ -6,7 +6,7 @@ const {WebSocket}=require(require.resolve('undici',{paths:[require.resolve('wran
 const origin=new URL(process.argv[2]??'http://localhost:8791').origin;
 if(!['http://localhost:8791','http://127.0.0.1:8791','https://ionicformulacompetition-lite.koichem.workers.dev'].includes(origin))throw new Error('計測先はLite専用Workerまたはローカル8791に限定しています');
 const ions=JSON.parse(readFileSync(new URL('../../src/games/ionic-formula/data/ions.json',import.meta.url),'utf8'));
-const settings={questionCount:5,timeLimitMinutes:3,mode:'ion',difficulty:'normal',ionAnswer:'name',compoundPrompts:{formula:true,name:true},compoundAnswer:'formula',complexEnabled:false};
+const settings={questionCount:5,timeLimitMinutes:3,mode:'ion',difficulty:'normal',ionAnswer:'name',compoundPrompts:{formula:true,name:true},compoundAnswer:'formula',complexEnabled:false,gradingMode:process.argv.includes('--deferred')?'deferred':'immediate'};
 function summary(values){const xs=[...values].sort((a,b)=>a-b);return {n:xs.length,medianMs:+xs[Math.floor(xs.length/2)].toFixed(1),p95Ms:+xs[Math.ceil(xs.length*.95)-1].toFixed(1),maxMs:+xs.at(-1).toFixed(1)};}
 async function connect(code,credential){
   const since=performance.now();
@@ -41,19 +41,20 @@ async function run(count){
     const arrival=students.map(s=>s.startReceived-startAt);const answers=[];let duplicatesSafe=true;
     for(let round=0;round<5;round++){
       const replies=await Promise.all(students.map(async s=>{
-        const q=s.state.question;const prompt=q.prompt.values.find(v=>v.type==='formula');
+        const q=settings.gradingMode==='deferred'?s.state.deferred.questions[round]:s.state.question;const prompt=q.prompt.values.find(v=>v.type==='formula');
         const ion=ions.find(i=>i.formula===prompt.value&&i.charge===prompt.charge);
         if(!ion)throw new Error('Missing source answer');
-        const command={type:'answer',seq:s.state.own.lastSeq+1,questionId:q.id,fieldId:'name',value:ion.name};
+        const command=settings.gradingMode==='deferred'?{type:'draft',seq:s.state.own.lastSeq+1,answers:[{questionId:q.id,fieldId:'name',value:ion.name}],advancedQuestionCount:round+1,capturedAtMs:Date.now()}:{type:'answer',seq:s.state.own.lastSeq+1,questionId:q.id,fieldId:'name',value:ion.name};
         const reply=await s.request(command);answers.push(reply.ms);
-        if(reply.data.type!=='ack'||!reply.data.verdict.correct||reply.data.state.own.correctCount!==round+1||reply.data.state.results?.ranking)throw new Error('Grading or privacy failed');
+        if(reply.data.type!=='ack'||(settings.gradingMode==='deferred'?reply.data.verdict||reply.data.state.own.correctCount!==0:!reply.data.verdict.correct||reply.data.state.own.correctCount!==round+1)||(round<4&&reply.data.state.results?.ranking))throw new Error('Grading or privacy failed');
         return {s,command};
       }));
-      if(round===0){await Promise.all(replies.map(async({s,command})=>{const duplicate=await s.request(command);if(duplicate.data.state.own.correctCount!==1)duplicatesSafe=false;}));}
+      if(round===0){await Promise.all(replies.map(async({s,command})=>{const duplicate=await s.request(command);if(duplicate.data.state.own.correctCount!==(settings.gradingMode==='deferred'?0:1))duplicatesSafe=false;}));}
     }
+    if(settings.gradingMode==='deferred')await Promise.all(students.map(s=>s.request({type:'submit',seq:s.state.own.lastSeq+1,capturedAtMs:Date.now()})));
     const result=await host.request({type:'sync'});
     if(result.data.state.room.state!=='FINISHED'||result.data.state.results.ranking.length!==count||result.data.state.results.ranking.some(p=>p.correctCount!==5))throw new Error('Results failed');
-    const item={count,code:created.code,createMs:+createMs.toFixed(1),joinIncludingUpgrade:summary(students.map(s=>s.joinMs)),startAckMs:+start.ms.toFixed(1),startQuestionNotification:summary(arrival),fixedCountdownMs:5000,answerAckIncludingGradingAndSQLite:summary(answers),rejected51,duplicatesSafe,allCorrect:true,finished:true};
+    const item={count,gradingMode:settings.gradingMode,code:created.code,createMs:+createMs.toFixed(1),joinIncludingUpgrade:summary(students.map(s=>s.joinMs)),startAckMs:+start.ms.toFixed(1),startQuestionNotification:summary(arrival),fixedCountdownMs:5000,answerAckIncludingGradingAndSQLite:summary(answers),rejected51,duplicatesSafe,allCorrect:true,finished:true};
     console.log(JSON.stringify(item));return item;
   }finally{for(const client of all)client.ws.close(1000);}
 }

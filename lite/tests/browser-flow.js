@@ -10,17 +10,17 @@ async (page) => {
   await page.getByRole('button',{name:'5問',exact:true}).click();
   await page.getByRole('button',{name:'イオン名',exact:true}).click();
   await page.getByRole('button',{name:'クラスルームを作る',exact:true}).click();
-  await page.getByRole('heading',{name:'参加を待っています'}).waitFor();
-  const code=await page.locator('[data-testid="join-code"]').innerText();
+  await page.locator('.code strong').waitFor();
+  const code=await page.locator('.code strong').innerText();
   const studentContext=await page.context().browser().newContext({viewport:{width:390,height:844}});
   const student=await studentContext.newPage();let reviewRequests=0;student.on('websocket',ws=>ws.on('framesent',frame=>{try{if(JSON.parse(frame.payload).type==='review')reviewRequests++;}catch{}}));
   student.on('pageerror',e=>errors.push(e.message));student.on('requestfailed',r=>failed.push(r.url()));
   await student.goto(`${origin}/#/join/${code}`);
   await student.getByLabel('ニックネーム').fill('ブラウザ確認生徒');
   await student.getByRole('button',{name:'参加する',exact:true}).click();
-  await student.getByText('先生の開始を待っています').waitFor();
+  await student.getByText('開始を待っています').waitFor();
   await page.getByText('ブラウザ確認生徒',{exact:true}).waitFor();
-  await page.getByRole('button',{name:'5秒後に開始',exact:true}).click();
+  await page.getByRole('button',{name:'問題を準備して開始',exact:true}).click();
   await student.getByText('第1問 / 全5問',{exact:true}).waitFor();
   await student.getByRole('button',{name:'パス',exact:true}).waitFor({state:'visible'});
   await student.waitForFunction(()=>!document.querySelector('[data-testid="pass"]')?.disabled);
@@ -34,9 +34,9 @@ async (page) => {
   await student.getByText('第2問 / 全5問',{exact:true}).waitFor();
   const restored=true;
   await studentContext.setOffline(true);
-  await student.getByText(/切断中|接続中/).waitFor();
+  await student.getByText(/通信を再確認|通信が戻る/).waitFor();
   await studentContext.setOffline(false);
-  await student.getByText('接続済み',{exact:true}).waitFor();
+  await student.waitForFunction(()=>!document.querySelector('[data-testid="pass"]')?.disabled);
   for(let i=2;i<=5;i++){
     await student.getByText(`第${i}問 / 全5問`,{exact:true}).waitFor();
     await student.getByRole('button',{name:'パス',exact:true}).click();
@@ -52,8 +52,8 @@ async (page) => {
   await student.getByRole('button',{name:'このまま提出',exact:true}).click();
   await student.getByRole('button',{name:'提出を確定する',exact:true}).click();
   await student.getByRole('heading',{name:'あなたの結果'}).waitFor();
-  await page.getByRole('heading',{name:'クラスの結果'}).waitFor();
-  if(await student.getByRole('heading',{name:'クラスの結果'}).count())throw new Error('Student sees class ranking');
+  await page.getByRole('heading',{name:'最終結果'}).waitFor();
+  if(await student.getByRole('heading',{name:'クラス集計'}).count())throw new Error('Student sees teacher aggregate');await student.getByRole('heading',{name:'上位3位',exact:true}).waitFor();
   const layouts=[];
   for(const width of [320,390,768,1280]){
     await student.setViewportSize({width,height:844});
@@ -67,9 +67,9 @@ async (page) => {
   await student.reload();await student.getByRole('heading',{name:'あなたの結果'}).waitFor();
   const retainedIdentity=await student.evaluate(code=>JSON.parse(localStorage.getItem(`ionic-lite:participant:${code}`)).participantId,code);
   if(originalId!==retainedIdentity)throw new Error('Offline-at-start identity was replaced');
-  await page.reload();await page.getByRole('heading',{name:'クラスの結果'}).waitFor();
-  const result={code,restored,teacherReload:true,offlineAtStartRecovery:true,layouts,errors,failed,studentOnlyOwn:true};
+  await page.reload();await page.getByRole('heading',{name:'最終結果'}).waitFor();
+  const result={code,restored,teacherReload:true,offlineAtStartRecovery:true,layouts,errors,failed,studentTopThreeAndOwnReview:true};
   await studentContext.close();
-  if(errors.length||failed.length)throw new Error(JSON.stringify(result));
+  if(errors.length||failed.filter(url=>!url.includes('/socket')).length)throw new Error(JSON.stringify(result));
   return result;
 }

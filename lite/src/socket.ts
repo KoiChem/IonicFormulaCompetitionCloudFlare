@@ -1,5 +1,5 @@
 import type {Credential,Snapshot,Verdict,ClientMessage,ServerMessage} from './protocol';
-type Callbacks={onState(state:Snapshot):void;onStatus(status:string):void;onVerdict(verdict:Verdict):void};
+type Callbacks={onError?(code:string,message:string):void;onState(state:Snapshot):void;onStatus(status:string):void;onVerdict(verdict:Verdict):void};
 export class RoomConnection {
   private ws?:WebSocket;
   private stopped=false;
@@ -16,7 +16,7 @@ export class RoomConnection {
   get pending(){return !!this.operation;}
   constructor(private credential:Credential,private callbacks:Callbacks){
     this.key=`ionic-lite:pending:${credential.code}:${credential.participantId??'teacher'}`;
-    try{const value=JSON.parse(localStorage.getItem(this.key)??'null');if(value&&['answer','pass','submit'].includes(value.type)&&Number.isSafeInteger(value.seq))this.operation=value;}catch{}
+    try{const value=JSON.parse(localStorage.getItem(this.key)??'null');if(value&&['answer','pass','submit','draft'].includes(value.type)&&Number.isSafeInteger(value.seq))this.operation=value;}catch{}
     window.addEventListener('online',this.wake);window.addEventListener('offline',this.offline);document.addEventListener('visibilitychange',this.wake);
     this.connect();
   }
@@ -50,15 +50,16 @@ export class RoomConnection {
         this.callbacks.onState(this.state);
       }
       if(message.verdict)this.callbacks.onVerdict(message.verdict);
+      if(message.type==='error')this.callbacks.onError?.(message.code??'error',message.message??'参加情報を確認してください');
       if(this.inFlight&&this.inFlight.id===message.requestId){
         const waiter=this.inFlight;this.inFlight=undefined;if(this.timeout)clearTimeout(this.timeout);this.timeout=undefined;
-        if(message.type==='error'){this.clearOperation();waiter.reject(new Error(message.message));}else waiter.resolve(message);
+        if(message.type==='error'){this.clearOperation();waiter.reject(Object.assign(new Error(message.message),{code:message.code}));}else waiter.resolve(message);
         this.callbacks.onStatus('接続済み');
       }
       if(hello){
         if(message.type==='error'){this.stopped=true;this.callbacks.onStatus(message.message??'参加情報を確認してください');ws.close(1000);return;}
         if(this.operation){
-          if(message.state?.room.state==='RUNNING'&&!message.state.own?.finished)void this.send(this.operation).catch(()=>{});
+          if(['RUNNING','COLLECTING'].includes(message.state?.room.state??'')&&!message.state?.own?.finished)void this.send(this.operation).catch(()=>{});
           else this.clearOperation();
         }
         this.callbacks.onStatus(this.pending?'送信中':'接続済み');
@@ -76,7 +77,7 @@ export class RoomConnection {
   send(message:ClientMessage):Promise<ServerMessage>{
     if(!this.ready||this.ws?.readyState!==1)return Promise.reject(new Error('接続を確認してから操作してください'));
     if(this.inFlight)return Promise.reject(new Error('送信中です'));
-    if(['answer','pass','submit'].includes(message.type)){
+    if(['answer','pass','submit','draft'].includes(message.type)){
       if(this.operation&&this.operation.seq!==message.seq)return Promise.reject(new Error('前の回答を確認中です'));
       try{localStorage.setItem(this.key,JSON.stringify(message));}catch{return Promise.reject(new Error('回答の受付状況を保存できません。ブラウザの保存設定を確認してください'));}
       this.operation=message;

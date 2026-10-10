@@ -41,7 +41,7 @@ export function QuestionProfileDialog({ onClose }: { onClose: () => void }) {
   const catalog = snapshot ? (tab === "compound" ? snapshot.catalog.compounds : snapshot.catalog.ions) : [];
   const assignments = draft ? (tab === "compound" ? draft.compoundDifficulties : draft.ionDifficulties) : {};
   return <dialog ref={dialog} className="question-profile-dialog" aria-labelledby="question-profile-title" onCancel={event => { event.preventDefault(); close(); }}>
-    <header><h2 id="question-profile-title">難易度調整</h2><p>このブラウザで、保存後に新しく作成するルームに反映されます。</p><nav aria-label="調整項目">{(["ratio", "ion", "compound"] as const).map((value, index) => <button type="button" key={value} aria-pressed={tab === value} onClick={() => { setTab(value); setSearch(""); setFilter("all"); }}>{["割合", "イオン", "化合物"][index]}</button>)}</nav></header>
+    <header><h2 id="question-profile-title">難易度調整</h2><p>保存後に新しく作成するルームに反映されます。</p><nav aria-label="調整項目">{(["ratio", "ion", "compound"] as const).map((value, index) => <button type="button" key={value} aria-pressed={tab === value} onClick={() => { setTab(value); setSearch(""); setFilter("all"); }}>{["割合", "イオン", "化合物"][index]}</button>)}</nav></header>
     <div className="question-profile-scroll" aria-busy={busy}>
       {message && <p role="status">{message}</p>}
       {!snapshot && <button type="button" disabled={busy} onClick={() => { if (!dirty || window.confirm("変更内容を破棄して最新の設定を読み直しますか？")) void load(); }}>最新の設定を読み直す</button>}
