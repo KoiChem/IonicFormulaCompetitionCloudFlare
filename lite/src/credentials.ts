@@ -12,5 +12,5 @@ export function saveCredential(c:Credential){
   localStorage.setItem(key(c.code,c.role),JSON.stringify(c));
 }
 export function recent(){
-  try{return Object.keys(localStorage).filter(k=>/^ionic-lite:(teacher|participant):/.test(k)).map(k=>JSON.parse(localStorage.getItem(k)!)).filter((c:Credential)=>rememberedUntil(c)>Date.now()).sort((a:Credential,b:Credential)=>rememberedUntil(b)-rememberedUntil(a)).slice(0,8) as Credential[];}catch{return [];}
+  try{return Object.keys(localStorage).filter(k=>/^ionic-lite:(teacher|participant|mate-host):/.test(k)).map(k=>JSON.parse(localStorage.getItem(k)!)).filter((c:Credential)=>rememberedUntil(c)>Date.now()).sort((a:Credential,b:Credential)=>rememberedUntil(b)-rememberedUntil(a)).slice(0,8) as Credential[];}catch{return [];}
 }

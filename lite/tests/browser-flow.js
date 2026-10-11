@@ -4,8 +4,8 @@ async (page) => {
   page.on('pageerror',e=>errors.push(e.message));
   page.on('requestfailed',r=>failed.push(r.url()));
   await page.goto(origin);
-  const mate=page.getByRole('button',{name:'メイトマッチ',exact:true});
-  if(!await mate.isDisabled())throw new Error('Mate must be disabled');
+  const mate=page.getByRole('link',{name:'メイトマッチ',exact:true});
+  await mate.waitFor();if(await mate.getAttribute('href')!=='#/mate/new')throw new Error('Lite mate link missing');
   await page.getByRole('link',{name:'クラスコンペ',exact:true}).click();
   await page.getByRole('button',{name:'5問',exact:true}).click();
   await page.getByRole('button',{name:'イオン名',exact:true}).click();

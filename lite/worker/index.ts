@@ -7,20 +7,30 @@ export default {
     let response: Response;
     try {
       if (url.pathname === '/api/health') response = json({ backend: 'lite', d1: false, maxParticipants: 50, release: env.RELEASE_SHA });
-      else if (url.pathname.startsWith('/api/auth/') || url.pathname === '/api/teacher/allowlist') {
+      else if (url.pathname.startsWith('/api/auth/') || ['/api/teacher/allowlist','/api/teacher/mate-setting','/api/public-config'].includes(url.pathname)) {
         response = await env.TEACHERS.get(env.TEACHERS.idFromName('teachers')).fetch(new Request(request, {redirect: 'manual'}));
       } else if (url.pathname === '/api/rooms' && request.method === 'POST') {
         if (request.headers.get('origin') !== url.origin) return json({error:'別のサイトからの操作は受け付けません'},403);
-        const session = await teacherSession(request, env);
-        if (!session.ready) return json({error:'教員認証の設定を準備中です'},503);
-        if (!session.identity) return json({error:'教員ログインが必要です'},401);
-        if (request.headers.get('x-competition-csrf') !== session.csrfToken) return json({error:'操作資格を再確認してください'},403);
-        if (Number(request.headers.get('content-length')) > 16384) return json({error:'設定が大きすぎます'},413);
-        const body = await request.text();
-        if (body.length > 16384) return json({error:'設定が大きすぎます'},413);
-        const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-        const code = Array.from(crypto.getRandomValues(new Uint8Array(6)),n=>alphabet[n&31]).join('');
-        response = await env.ROOMS.get(env.ROOMS.idFromName(code)).fetch(new Request(url.origin+'/create', {method:'POST',body,headers:{'x-room-code':code}}));
+        if(Number(request.headers.get('content-length'))>16384)return json({error:'設定が大きすぎます'},413);
+        const body=await request.text();if(body.length>16384)return json({error:'設定が大きすぎます'},413);
+        let input;try{input=JSON.parse(body);}catch{return json({error:'設定を確認してください'},400);}
+        if(!input||typeof input!=='object'||!['class','mate'].includes(input.kind??'class'))return json({error:'競技形式を確認してください'},400);
+        const digest=async(value:string)=>new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(value)));
+        const alphabet='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let bytes:Uint8Array,mateEnabled=false;
+        if(input.kind==='mate'){
+          if(!/^[a-f0-9]{64}$/.test(input.creationKey??'')||!/^[a-f0-9]{64}$/.test(input.token??''))return json({error:'作成情報を確認してください'},400);
+          const key=Array.from(await digest(request.headers.get('CF-Connecting-IP')??'local'),n=>n.toString(16).padStart(2,'0')).join('');
+          const allowed=await env.TEACHERS.get(env.TEACHERS.idFromName('teachers')).fetch(new Request(url.origin+'/internal/mate-create',{method:'POST',body:JSON.stringify({key})}));if(!allowed.ok)return allowed;mateEnabled=(await allowed.json() as {mateEnabled:boolean}).mateEnabled;
+          bytes=await digest(input.creationKey+':'+input.token);
+        }else{
+          const session=await teacherSession(request,env);
+          if(!session.ready)return json({error:'教員認証の設定を準備中です'},503);
+          if(!session.identity)return json({error:'教員ログインが必要です'},401);
+          if(request.headers.get('x-competition-csrf')!==session.csrfToken)return json({error:'操作資格を再確認してください'},403);
+          bytes=crypto.getRandomValues(new Uint8Array(6));
+        }
+        const code=Array.from(bytes.slice(0,6),n=>alphabet[n&31]).join('');
+        response = await env.ROOMS.get(env.ROOMS.idFromName(code)).fetch(new Request(url.origin+'/create', {method:'POST',body,headers:{'x-room-code':code,'x-mate-create-enabled':String(mateEnabled)}}));
       } else {
         const match = /^\/api\/rooms\/([A-Z2-9]{6})\/(socket|info|state)$/.exec(url.pathname);
         if (match) {

@@ -7,3 +7,7 @@
 .lite-teacher-list li span{overflow-wrap:anywhere;min-width:0}
 .lite-teacher-list button{flex-shrink:0}
 .teacher-login-panel .primary-link{display:inline-flex;margin-top:.5rem}
+
+.host-sound-toolbar{display:flex;justify-content:flex-end;gap:.5rem;margin-bottom:.5rem;}
+
+.mate-host-tools{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;padding:.5rem 1rem;}

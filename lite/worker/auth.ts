@@ -30,7 +30,9 @@ export class LiteTeachers extends DurableObject<LiteTeacherEnv> {
     this.sql.exec(`CREATE TABLE IF NOT EXISTS teachers (email TEXT PRIMARY KEY);
       CREATE TABLE IF NOT EXISTS sessions (token_hash TEXT PRIMARY KEY, sub TEXT NOT NULL, email TEXT NOT NULL, expires_at INTEGER NOT NULL);
       CREATE TABLE IF NOT EXISTS oauth (state_hash TEXT PRIMARY KEY, browser_hash TEXT NOT NULL, nonce_hash TEXT NOT NULL, verifier TEXT NOT NULL, expires_at INTEGER NOT NULL);`);
+    this.sql.exec('CREATE TABLE IF NOT EXISTS mate_setting(id INTEGER PRIMARY KEY,enabled INTEGER NOT NULL); INSERT OR IGNORE INTO mate_setting VALUES(1,1); CREATE TABLE IF NOT EXISTS create_limits(key TEXT PRIMARY KEY,count INTEGER NOT NULL,expires_at INTEGER NOT NULL)');
   }
+  private mateEnabled(){return this.sql.exec<{enabled:number}>('SELECT enabled FROM mate_setting WHERE id=1').toArray()[0].enabled===1;}
   private master() { return normalize(this.env.MASTER_TEACHER_EMAIL ?? ''); }
   private ready() {
     try {
@@ -51,18 +53,28 @@ export class LiteTeachers extends DurableObject<LiteTeacherEnv> {
     return {...empty, identity: {id: row.sub, email: row.email}, isMaster: row.email === this.master(), csrfToken: await hash(secret + ':csrf'), expiresAtMs: row.expires_at};
   }
   private clean() {
+    this.sql.exec('DELETE FROM create_limits WHERE expires_at<=?', Date.now());
     this.sql.exec('DELETE FROM oauth WHERE expires_at<=?', Date.now());
     this.sql.exec('DELETE FROM sessions WHERE expires_at<=?', Date.now());
   }
   private async schedule() {
-    const next = this.sql.exec<{due: number | null}>('SELECT MIN(expires_at) AS due FROM (SELECT expires_at FROM oauth UNION ALL SELECT expires_at FROM sessions)').toArray()[0]?.due;
+    const next = this.sql.exec<{due: number | null}>('SELECT MIN(expires_at) AS due FROM (SELECT expires_at FROM oauth UNION ALL SELECT expires_at FROM sessions UNION ALL SELECT expires_at FROM create_limits)').toArray()[0]?.due;
     if (next != null) await this.ctx.storage.setAlarm(next);
     else await this.ctx.storage.deleteAlarm();
   }
   async alarm() { this.clean(); await this.schedule(); }
   async fetch(request: Request): Promise<Response> {
     const url = new URL(request.url), path = url.pathname;
+
     if (url.origin !== this.env.APP_ORIGIN) return json({error: '許可されたアプリから操作してください'}, 403);
+    if(path==='/api/public-config'&&request.method==='GET')return json({mateEnabled:this.mateEnabled()});
+    if(path==='/internal/mate-create'&&request.method==='POST'){
+      const {key}=await request.json() as {key:string};if(typeof key!=='string'||key.length!==64)return json({error:'作成情報を確認してください'},400);
+      this.sql.exec('DELETE FROM create_limits WHERE expires_at<=?',Date.now());
+      const row=this.sql.exec<{count:number}>('SELECT count FROM create_limits WHERE key=?',key).toArray()[0];
+      if((row?.count??0)>=60)return json({error:'作成回数が多いため、しばらく待ってください'},429);
+      this.sql.exec('INSERT INTO create_limits VALUES(?,1,?) ON CONFLICT(key) DO UPDATE SET count=count+1',key,Date.now()+600000);await this.schedule();return json({ok:true,mateEnabled:this.mateEnabled()});
+    }
     if (path === '/api/auth/session') return request.method === 'GET' ? json(await this.session(request)) : json({error: '操作方法を確認してください'}, 405);
     if (!this.ready()) return json({error: '教員認証の設定を準備中です'}, 503);
     if (path === '/api/auth/google/start' || path === '/api/auth/google/callback') {
@@ -72,6 +84,12 @@ export class LiteTeachers extends DurableObject<LiteTeacherEnv> {
     const session = await this.session(request);
     if (!session.identity) return json({error: '教員ログインが必要です'}, 401);
     if (request.method !== 'GET' && (request.headers.get('origin') !== this.env.APP_ORIGIN || request.headers.get('x-competition-csrf') !== session.csrfToken)) return json({error: '操作資格を再確認してください'}, 403);
+    if(path==='/api/teacher/mate-setting'){
+      if(!session.isMaster)return json({error:'マスター教員だけが変更できます'},403);
+      if(request.method==='PUT'){const text=await request.text();if(text.length>128)return json({error:'設定を確認してください'},400);let input;try{input=JSON.parse(text);}catch{return json({error:'設定を確認してください'},400);}if(typeof input?.enabled!=='boolean')return json({error:'設定を確認してください'},400);this.sql.exec('UPDATE mate_setting SET enabled=? WHERE id=1',input.enabled?1:0);}
+      else if(request.method!=='GET')return json({error:'操作方法を確認してください'},405);
+      return json({mateEnabled:this.mateEnabled()});
+    }
     if (path === '/api/auth/logout') {
       if (request.method !== 'POST') return json({error: '操作方法を確認してください'}, 405);
       this.sql.exec('DELETE FROM sessions WHERE token_hash=?', await hash(readCookie(request, SESSION)!));

@@ -11,7 +11,7 @@ import type {LiteTeacherEnv} from './auth';
 
 export type LiteEnv = {ROOMS: DurableObjectNamespace<LiteRoom>; ASSETS: Fetcher; RELEASE_SHA: string} & LiteTeacherEnv;
 type Principal = { role: 'teacher' | 'participant'; id?: string };
-type RoomRow = {code:string;state:string;host_hash:string;settings:string;questions:string;start_at:number|null;deadline_at:number|null;ended_at:number|null;expires_at:number;end_reason:'normal'|'interrupted';created_at:number;profile:string|null};
+type RoomRow = {code:string;state:string;host_hash:string;settings:string;questions:string;start_at:number|null;deadline_at:number|null;ended_at:number|null;expires_at:number;end_reason:'normal'|'interrupted';created_at:number;profile:string|null;kind:'class'|'mate';host_id:string|null;create_hash:string|null};
 type PersonRow = {id:string;nickname:string;token_hash:string;joined_order:number;correct_count:number;question_index:number;finished_at:number|null;last_seq:number;last_verdict:string|null;finish_reason:string|null;removed:number};
 type AnswerRow = {participant_id:string;question_id:string;field_id:AnswerFieldId;state:'pending'|'correct'|'passed';value:string|null;attempts:number};
 class RoomError extends Error { constructor(public code:string,message:string) { super(message); } }
@@ -29,7 +29,7 @@ export class LiteRoom extends DurableObject<LiteEnv> {
       CREATE TABLE IF NOT EXISTS participants (id TEXT PRIMARY KEY,nickname TEXT NOT NULL,token_hash TEXT NOT NULL,joined_order INTEGER NOT NULL,correct_count INTEGER NOT NULL DEFAULT 0,question_index INTEGER NOT NULL DEFAULT 0,finished_at INTEGER,last_seq INTEGER NOT NULL DEFAULT 0,last_verdict TEXT);
       CREATE TABLE IF NOT EXISTS answers (participant_id TEXT NOT NULL,question_id TEXT NOT NULL,field_id TEXT NOT NULL,state TEXT NOT NULL,value TEXT,attempts INTEGER NOT NULL,PRIMARY KEY(participant_id,question_id,field_id));`);
     // Add only the columns needed by existing Lite rooms; no external data migration.
-    for(const [table,name,definition] of [['room','created_at','INTEGER NOT NULL DEFAULT 0'],['room','profile','TEXT'],['participants','finish_reason','TEXT'],['participants','removed','INTEGER NOT NULL DEFAULT 0']]) {
+    for(const [table,name,definition] of [['room','created_at','INTEGER NOT NULL DEFAULT 0'],['room','profile','TEXT'],['room','kind',"TEXT NOT NULL DEFAULT 'class'"],['room','host_id','TEXT'],['room','create_hash','TEXT'],['participants','finish_reason','TEXT'],['participants','removed','INTEGER NOT NULL DEFAULT 0']]) {
       if(!this.sql.exec<{name:string}>(`PRAGMA table_info(${table})`).toArray().some(c=>c.name===name))this.sql.exec(`ALTER TABLE ${table} ADD COLUMN ${name} ${definition}`);
     }
     ctx.setWebSocketAutoResponse(new WebSocketRequestResponsePair('ping','pong'));
@@ -41,22 +41,24 @@ export class LiteRoom extends DurableObject<LiteEnv> {
   async fetch(request:Request):Promise<Response> {
     if (new URL(request.url).pathname==='/create' && request.method==='POST') {
       try {
-        const raw=await request.json() as {settings?:IonicFormulaGameSettings;profile?:unknown};
+        const raw=await request.json() as {settings?:IonicFormulaGameSettings;profile?:unknown;kind?:'class'|'mate';nickname?:string;token?:string};
+        const kind=raw.kind==='mate'?'mate':'class',createHash=await hash(JSON.stringify(raw));const existing=this.room();if(existing){if(kind==='mate'&&existing.kind==='mate'&&existing.create_hash===createHash&&Date.now()<existing.expires_at)return json({code:existing.code,token:raw.token,expiresAtMs:existing.expires_at,kind,participantId:existing.host_id},201);throw new RoomError('collision','作成内容が変わりました。もう一度確認してください');}
+        if(kind==='mate'&&request.headers.get('x-mate-create-enabled')!=='true')return json({error:'メイトマッチの新規作成は停止中です'},403);
         const settings={...raw.settings,...parseCompetitionSettings(raw.settings),gradingMode:raw.settings?.gradingMode??'immediate'} as IonicFormulaGameSettings;
         const profile=validateQuestionProfileShape(raw.profile??initialProfile);
-        validateGameSettings(settings,profile); const questions=generateQuestionSet(settings,Math.random,profile); const hostToken=token(); const hostHash=await hash(hostToken);
+        validateGameSettings(settings,profile); const questions=generateQuestionSet(settings,Math.random,profile); const hostId=kind==='mate'?crypto.randomUUID():null;if(kind==='mate'){this.validateNickname(raw.nickname?.trim()??'');if(typeof raw.token!=='string'||!tokenPattern.test(raw.token))throw new RoomError('invalid_token','作成情報を確認してください');}const hostToken=kind==='mate'?raw.token!:token(); const hostHash=await hash(hostToken);
         const code=request.headers.get('x-room-code')!; const expiresAtMs=Date.now()+2*60*60*1000;
-        this.ctx.storage.transactionSync(()=>{if(this.room())throw new RoomError('collision','参加コードが重なりました。もう一度作成してください');this.sql.exec('INSERT INTO room(code,state,host_hash,settings,questions,expires_at,created_at,profile) VALUES(?,?,?,?,?,?,?,?)',code,'WAITING',hostHash,JSON.stringify(settings),JSON.stringify(questions),expiresAtMs,Date.now(),JSON.stringify(profile));});
+        this.ctx.storage.transactionSync(()=>{if(this.room())throw new RoomError('collision','参加コードが重なりました。もう一度作成してください');this.sql.exec('INSERT INTO room(code,state,host_hash,settings,questions,expires_at,created_at,profile) VALUES(?,?,?,?,?,?,?,?)',code,'WAITING',hostHash,JSON.stringify(settings),JSON.stringify(questions),expiresAtMs,Date.now(),JSON.stringify(profile));this.sql.exec('UPDATE room SET kind=?,host_id=?,create_hash=?',kind,hostId,createHash);if(hostId)this.sql.exec('INSERT INTO participants(id,nickname,token_hash,joined_order) VALUES(?,?,?,?)',hostId,raw.nickname!.trim(),hostHash,1);});
         await this.ctx.storage.setAlarm(expiresAtMs);
-        return json({code,token:hostToken,expiresAtMs},201);
+        return json({code,token:hostToken,expiresAtMs,kind,participantId:hostId??undefined},201);
       } catch(error) {return json({error:error instanceof Error?error.message:'設定を確認してください'},error instanceof RoomError?409:400);}
     }
     if(new URL(request.url).pathname.endsWith('/info')) {
-      try {const r=this.requireRoom();return json({room:{state:r.state,settings:JSON.parse(r.settings),createdAtMs:r.created_at,expiresAtMs:r.expires_at},participantCount:this.people().length,capacity:50});}
+      try {const r=this.requireRoom();return json({room:{kind:r.kind,state:r.state,settings:JSON.parse(r.settings),createdAtMs:r.created_at,expiresAtMs:r.expires_at},participantCount:this.people().length,capacity:r.kind==='mate'?4:50});}
       catch(e){return json({error:e instanceof Error?e.message:'ルームが見つかりません'},e instanceof RoomError&&e.code==='expired'?410:404);}
     }
     if(new URL(request.url).pathname.endsWith('/state')) {
-      try {const room=this.requireRoom();const digest=await hash(request.headers.get('authorization')?.replace(/^Bearer /,'')??'');const id=request.headers.get('x-participant-id');const principal:Principal=id?{role:'participant',id}:{role:'teacher'};
+      try {const room=this.requireRoom();const digest=await hash(request.headers.get('authorization')?.replace(/^Bearer /,'')??'');const id=request.headers.get('x-participant-id');const principal:Principal=id?{role:'participant',id}:{role:'teacher',id:room.kind==='mate'?room.host_id??undefined:undefined};
         if(id?this.person(id)?.token_hash!==digest:room.host_hash!==digest)throw new RoomError('unauthorized','参加資格を確認できません');return json(this.snapshot(principal));
       }catch(e){return json({error:e instanceof Error?e.message:'結果を取得できません'},e instanceof RoomError&&['expired','not_found'].includes(e.code)?410:403);}
     }
@@ -84,9 +86,9 @@ export class LiteRoom extends DurableObject<LiteEnv> {
         if(!attachment?.pendingUntil||Date.now()>attachment.pendingUntil)throw new RoomError('unauthorized','もう一度接続してください');
         if(typeof message.token!=='string'||!tokenPattern.test(message.token))throw new RoomError('unauthorized','参加情報を確認してください');
         const tokenHash=await hash(message.token); const room=this.requireRoom();
-        if(message.role==='teacher') {
+        if(message.role==='teacher'||message.role==='mate-host') {
           if(tokenHash!==room.host_hash)throw new RoomError('unauthorized','教員の参加情報を確認してください');
-          principal={role:'teacher'};
+          if((message.role==='mate-host')!==(room.kind==='mate'))throw new RoomError('unauthorized','管理情報を確認してください');principal={role:'teacher',id:room.kind==='mate'?room.host_id??undefined:undefined};
         } else if(message.role==='participant') {
           const id=message.participantId;
           if(typeof id!=='string'||!/^[a-f0-9-]{36}$/.test(id))throw new RoomError('invalid_message','参加情報を確認してください');
@@ -97,7 +99,7 @@ export class LiteRoom extends DurableObject<LiteEnv> {
             const nickname=typeof message!.nickname==='string'?message!.nickname.trim():'';
             this.validateNickname(nickname);
             if(this.people().some(p=>this.nicknameKey(p.nickname)===this.nicknameKey(nickname)))throw new RoomError('conflict','同じ名前の参加者がいます。別の名前を入力してください');
-            const count=this.people().length; if(count>=50)throw new RoomError('room_full','参加上限の50人に達しています');
+            const count=this.people().length; const capacity=room.kind==='mate'?4:50;if(count>=capacity)throw new RoomError('room_full',`参加上限の${capacity}人に達しています`);
             this.sql.exec('INSERT INTO participants(id,nickname,token_hash,joined_order) VALUES(?,?,?,?)',id,nickname,tokenHash,Number(this.sql.exec<{n:number}>('SELECT COALESCE(MAX(joined_order),0)+1 AS n FROM participants').toArray()[0].n)); joined=true;
           });
           principal={role:'participant',id};
@@ -119,14 +121,14 @@ export class LiteRoom extends DurableObject<LiteEnv> {
         if(['nickname','remove','settings','cancel'].includes(message!.type)) {
           if(room.state!=='WAITING')throw new RoomError('not_waiting','開始したため設定を変更できません');
           if(message!.type==='nickname') {
-            if(principal!.role!=='participant')throw new RoomError('forbidden','生徒の名前だけを変更できます');
+            if(principal!.role!=='participant'&&!principal!.id)throw new RoomError('forbidden','生徒の名前だけを変更できます');
             const nickname=message!.nickname?.trim()??'';this.validateNickname(nickname);
             if(this.people().some(p=>p.id!==principal!.id&&this.nicknameKey(p.nickname)===this.nicknameKey(nickname)))throw new RoomError('conflict','同じ名前の参加者がいます。別の名前を入力してください');
             this.sql.exec('UPDATE participants SET nickname=? WHERE id=?',nickname,principal!.id!);
           } else {
             if(principal!.role!=='teacher')throw new RoomError('forbidden','教員だけが操作できます');
             if(message!.type==='remove') {
-              const person=this.person(message!.participantId??'');if(!person||person.removed)throw new RoomError('not_found','参加者が見つかりません');
+              if(message!.participantId===room.host_id)throw new RoomError('forbidden','作成者は削除できません');const person=this.person(message!.participantId??'');if(!person||person.removed)throw new RoomError('not_found','参加者が見つかりません');
               this.sql.exec('UPDATE participants SET removed=1 WHERE id=?',person.id);
             } else if(message!.type==='cancel')this.sql.exec('UPDATE room SET state=?','CANCELLED');
             else {const settings={...message!.settings,...parseCompetitionSettings(message!.settings),gradingMode:message!.settings?.gradingMode??'immediate'} as IonicFormulaGameSettings;const profile=validateQuestionProfileShape(room.profile?JSON.parse(room.profile):initialProfile);validateGameSettings(settings,profile);this.sql.exec('UPDATE room SET settings=?,questions=?',JSON.stringify(settings),JSON.stringify(generateQuestionSet(settings,Math.random,profile)));}
@@ -136,13 +138,13 @@ export class LiteRoom extends DurableObject<LiteEnv> {
           if(principal!.role!=='teacher')throw new RoomError('forbidden','教員だけが操作できます');
           if(message!.type==='start') {
             if(room.state==='WAITING') {
-              if(!this.people().length)throw new RoomError('no_participants','生徒が参加してから開始してください');
+              if(this.people().length<(room.kind==='mate'?2:1))throw new RoomError('no_participants','生徒が参加してから開始してください');
               const start=Date.now()+5000,settings=JSON.parse(room.settings) as IonicFormulaGameSettings;
               this.sql.exec('UPDATE room SET state=?,start_at=?,deadline_at=?,expires_at=?','RUNNING',start,start+settings.timeLimitMinutes*60000,start+7*24*60*60*1000);changed=true;
             }
           } else if(room.state==='RUNNING') {this.finish(room,'interrupted',Math.max(room.start_at!,Math.min(Date.now(),room.deadline_at!)));changed=true;}
         } else if(message!.type==='answer'||message!.type==='pass'||message!.type==='submit'||message!.type==='draft') {
-          if(principal!.role!=='participant')throw new RoomError('forbidden','生徒の回答だけを受け付けます');
+          if(principal!.role!=='participant'&&!principal!.id)throw new RoomError('forbidden','生徒の回答だけを受け付けます');
           const person=this.person(principal!.id!)!;
           if(person.removed)throw new RoomError('participant_removed','ホストがロビーからあなたのエントリーを削除しました');
           const seq=message!.seq;
@@ -236,10 +238,10 @@ export class LiteRoom extends DurableObject<LiteEnv> {
   }
   private snapshot(principal:Principal,includeReview=false):Snapshot {
     const room=this.requireRoom();const settings=JSON.parse(room.settings) as IonicFormulaGameSettings,questions=JSON.parse(room.questions) as InternalQuestion[];
-    const state:Snapshot={serverNow:Date.now(),room:{code:room.code,state:room.state==='RUNNING'&&Date.now()<room.start_at!?'COUNTDOWN':room.state as Snapshot['room']['state'],settings,maxScore:questions.reduce((n,q)=>n+q.maxScore,0),participantCount:this.people().length,startAtMs:room.start_at,deadlineAtMs:room.deadline_at,expiresAtMs:room.expires_at,cutoffAtMs:room.ended_at,createdAtMs:room.created_at||room.expires_at-2*60*60*1000,endReason:room.end_reason}};
-    if(principal.role==='teacher') {state.participants=this.people().map(p=>this.viewPerson(p,room));if(room.state==='FINISHED'){const ranking=this.rankings(room);state.results={ranking,averageCorrectCount:ranking.reduce((sum,p)=>sum+p.correctCount,0)/Math.max(1,ranking.length)};}}
+    const state:Snapshot={serverNow:Date.now(),room:{kind:room.kind,code:room.code,state:room.state==='RUNNING'&&Date.now()<room.start_at!?'COUNTDOWN':room.state as Snapshot['room']['state'],settings,maxScore:questions.reduce((n,q)=>n+q.maxScore,0),participantCount:this.people().length,startAtMs:room.start_at,deadlineAtMs:room.deadline_at,expiresAtMs:room.expires_at,cutoffAtMs:room.ended_at,createdAtMs:room.created_at||room.expires_at-2*60*60*1000,endReason:room.end_reason}};
+    if(principal.role==='teacher'&&room.kind==='class') {state.participants=this.people().map(p=>this.viewPerson(p,room));if(room.state==='FINISHED'){const ranking=this.rankings(room);state.results={ranking,averageCorrectCount:ranking.reduce((sum,p)=>sum+p.correctCount,0)/Math.max(1,ranking.length)};}}
     else {
-      const person=this.person(principal.id!)!;if(person.removed)throw new RoomError('participant_removed','ホストがロビーからあなたのエントリーを削除しました');state.own=this.viewPerson(person,room);
+      const person=this.person(principal.id!)!;if(person.removed)throw new RoomError('participant_removed','ホストがロビーからあなたのエントリーを削除しました');state.own=this.viewPerson(person,room);if(principal.role==='teacher')state.participants=this.people().map(p=>this.viewPerson(p,room));
       if(settings.gradingMode==='deferred'&&['RUNNING','COLLECTING'].includes(room.state)&&person.finished_at===null)state.deferred={questions:questions.map(q=>toPublicQuestion(q,{resolvedFieldIds:[]})),drafts:Object.fromEntries(this.sql.exec<AnswerRow>('SELECT * FROM answers WHERE participant_id=?',person.id).toArray().filter(a=>a.value).map(a=>[`${a.question_id}:${a.field_id}`,JSON.parse(a.value!)]))};
       if(includeReview&&room.state==='RUNNING') {
         const answers=this.sql.exec<AnswerRow>('SELECT * FROM answers WHERE participant_id=?',person.id).toArray();

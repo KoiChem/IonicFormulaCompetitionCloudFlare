@@ -48,3 +48,9 @@ Google OAuthは通常版のJWT検証・cookie/token helperを再利用します�
 負荷検証は `LITE_TEACHER_COOKIE` にログイン済みLite教員cookieを渡し、session APIからCSRFを取得して作成します。cookieはログや計測JSONに出力しません。本番の教員cookieをコミットしないでください。
 
 参照：[Cloudflare SQLite Storage](https://developers.cloudflare.com/durable-objects/api/sqlite-storage-api/)、[WebSocket Hibernation](https://developers.cloudflare.com/durable-objects/best-practices/websockets/)（2026-10-09確認）。
+
+## Liteメイトとホスト音（2026-10-11）
+- メイトはこのLite内で匿名作成する2〜4人の対戦。作成者も解答し、開始・設定変更・参加者削除・中断を操作します。作成者自身は削除できません。生徒Google認証は不要です。
+- マスターが管理設定で新規メイト作成の許可を切り替えます。既存ルームと保存済みの同じ作成要求からの復帰は停止後も維持。共有IPごとの匿名作成は60回/10分。
+- 開始前5〜1秒、終了前10〜1秒に短音、開始・時間切れに長音。ホストの「音あり／なし」は端末に保存し、参加者の正誤音設定とは別です。開始操作で音声を有効化。非表示時の音や過ぎた音は再生せず、中断・結果表示後は停止します。
+- `tests/mate-flow.js` はローカル8791の両判定方式を検証。`tests/host-sound-flow.js` はローカル8791/8792の音声APIを記録し、検証用時計で終了前10秒を確認します。実スピーカー、OS消音、端末ロック時の再生の証拠ではありません。

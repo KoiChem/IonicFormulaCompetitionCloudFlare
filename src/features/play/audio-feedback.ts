@@ -59,3 +59,8 @@ export function playAnswerSound(kind: "correct" | "incorrect", level: SoundLevel
     }
   } catch { /* audio must never interrupt grading */ }
 }
+
+export function playHostBoundary(level: SoundLevel): void {
+  if (level === "off" || !context || context.state !== "running") return;
+  try { note(context, 1100, context.currentTime + 0.003, 0.38, level === "high" ? 0.07 : 0.038); } catch { /* audio never blocks the game */ }
+}
