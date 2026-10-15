@@ -52,7 +52,7 @@ export function Results({ data }: { data: { room?: { id?: string; kind: "class" 
   const classParticipant = data.room?.kind === "class" && !!data.own;
   const classTeacher = data.room?.kind === "class" && !!data.aggregate && !data.own;
   const hostRankingLayout = classTeacher || data.room?.kind === "mate";
-  const boundary = classParticipant ? 3 : teacherTopRank(ranking.length);
+  const boundary = classParticipant ? 3 : teacherTopRank();
   const visibleRanking = classParticipant || (classTeacher && !allVisible) ? topRankingRows(ranking, boundary) : ranking;
   const reasonLabel = (reason: string) => reason === "completed" ? "完了" : reason === "submitted" ? "提出" : reason === "interrupted" ? "中断" : "時間切れ";
   return <main className="page-shell results-page"><section className="panel wide"><p className="eyebrow">RESULTS</p><h1>{data.room?.endReason === "interrupted" ? "中断時の結果" : "最終結果"}</h1>{data.room?.settings && <p className="settings-summary">{settingsSummary(data.room.settings)}</p>}

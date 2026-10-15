@@ -3,7 +3,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 
 import { Results } from "../../src/features/results/Results";
-import { teacherTopRank, topRankingRows } from "../../src/features/results/ranking-visibility";
+import { topRankingRows } from "../../src/features/results/ranking-visibility";
 import { ReturnHomeButton } from "../../src/features/setup/ReturnHomeButton";
 import { EndRoomButton } from "../../src/features/lobby/EndRoomButton";
 
@@ -41,8 +41,20 @@ describe("class result visibility", () => {
     expect(html).toContain("中断時未回答");
     expect(html).not.toContain("時間切れ");
   });
-  it.each([[1, 1], [2, 2], [3, 3], [5, 3], [8, 3], [10, 5], [19, 5], [20, 10], [25, 10], [29, 10], [30, 15], [40, 15], [42, 15]])("shows the expected top rank for %i participants", (count, expected) => {
-    expect(teacherTopRank(count)).toBe(expected);
+  it.each([0, 1, 3, 5, 8, 12, 20, 30, 42])("shows up to fifth place for a class of %i", count => {
+    const rows = Array.from({ length: count }, (_, i) => ({ ...ranking[0], rank: i + 1, nickname: `順位${i + 1}番` }));
+    const html = renderToStaticMarkup(createElement(Results, { data: { room: { kind: "class" }, ranking: rows, aggregate: { averageCorrectCount: 0, perfectCount: 0, completedCount: count } } }));
+    expect(html).toContain("上位5位");
+    if (count >= 5) expect(html).toContain("順位5番");
+    expect(html).not.toContain("順位6番");
+  });
+
+
+  it.each([3, 5])("includes all ties at rank %i and excludes the next rank", boundary => {
+    const rows = [1, 2, 3, 3, 5, 5, 7].map((rank, i) => ({ ...ranking[0], rank, nickname: `同率検証${i}` }));
+    const html = renderToStaticMarkup(createElement(Results, { data: { room: { kind: "class" }, ranking: rows, aggregate: { averageCorrectCount: 0, perfectCount: 0, completedCount: 7 }, ...(boundary === 3 ? { own: { rank: 7 } } : {}) } }));
+    expect(html).toContain(boundary === 3 ? "同率検証3" : "同率検証5");
+    expect(html).not.toContain(boundary === 3 ? "同率検証4" : "同率検証6");
   });
 
   it("includes everyone tied at the boundary", () => {
