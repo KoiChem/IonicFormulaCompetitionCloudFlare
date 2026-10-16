@@ -3,24 +3,38 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import { Runner } from '../../src/features/lobby/HostRace';
 
-function luminance(hex: string) {
-  const c = hex.slice(1).match(/../g)!.map(v => parseInt(v, 16) / 255).map(v => v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4);
-  return c[0] * .2126 + c[1] * .7152 + c[2] * .0722;
-}
-
-describe('runner visibility', () => {
-  for (const pose of [{}, { rest: true }, { dash: true }, { goal: true }]) {
-    it(`renders thin dark boundaries while preserving the bright reference fill: ${JSON.stringify(pose)}`, () => {
+const poses = [{}, { rest: true }, { dash: true }, { goal: true }];
+describe('runner outer silhouette', () => {
+  for (const pose of poses) {
+    it(`outlines the composite body once, excluding decorations: ${JSON.stringify(pose)}`, () => {
       const html = renderToStaticMarkup(createElement(Runner, { id: 'runner', color: '#fff500', stopped: false, goal: false, ...pose }));
       expect(html).toContain('color:#fff500');
-      const outlines = [...html.matchAll(/style="(stroke:#[0-9a-f]{6};stroke-width:[^"]+)"/g)];
-      expect(outlines.length).toBeGreaterThan(3);
-      for (const [, style] of outlines) {
-        const stroke = style.match(/stroke:(#[0-9a-f]{6})/)![1];
-        expect((luminance('#fafafa') + .05) / (luminance(stroke) + .05)).toBeGreaterThan(3);
-        expect(style).toContain('stroke-width:6');
+      expect(html.match(/ filter=/g)).toHaveLength(1);
+      expect(html).toMatch(/<g class="runner-body" filter="url\(#[^)]+\)">/);
+      expect(html).toContain('<feMorphology in="SourceAlpha" operator="dilate" radius="1"');
+      expect(html).toContain('operator="out"');
+      expect(html).toContain('<feMergeNode in="SourceGraphic"');
+      expect(html).not.toContain('stroke-width:6');
+      expect(html).not.toContain('style="stroke:');
+      for (const tag of html.matchAll(/<[^>]+class="[^"]*(?:runner-shadow|runner-sweat|runner-joy-ray|runner-dash-speed|runner-rest-sleep)[^"]*"[^>]*>/g)) {
+        expect(tag[0]).not.toContain('filter=');
       }
-      expect(html).not.toContain('filter=');
+      const bodyStart = html.indexOf('<g class="runner-body"');
+      const tags = html.slice(bodyStart).match(/<\/?g\b[^>]*>|<[^>]+>/g)!;
+      let depth = 0;
+      for (const tag of tags) {
+        if (/^<g\b/.test(tag)) depth++;
+        if (depth > 0) expect(tag).not.toMatch(/class="[^"]*(?:runner-shadow|runner-sweat|runner-joy-ray|runner-dash-speed|runner-rest-sleep)/);
+        if (tag === '</g>' && --depth === 0) break;
+      }
     });
   }
+  it('keeps filter references unique across runners in the same render', () => {
+    const html = renderToStaticMarkup(createElement('div', null, ...poses.map((pose, index) => createElement(Runner, { key: index, id: 'same-id', goal: false, stopped: false, ...pose }))));
+    const ids = [...html.matchAll(/<filter id="([^"]+)"/g)].map(match => match[1]);
+    const references = [...html.matchAll(/ filter="url\(#([^)]+)\)"/g)].map(match => match[1]);
+    expect(ids).toHaveLength(4);
+    expect(new Set(ids).size).toBe(4);
+    expect(references).toEqual(ids);
+  });
 });

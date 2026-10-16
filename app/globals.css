@@ -496,3 +496,11 @@ legend { margin-bottom: 10px; font-weight: 800; }
   .difficulty-controls .choice { padding-inline:6px; }
   .difficulty-controls .complex-toggle { margin-left:0; }
 }
+
+/* Keep the active step clear and independent actions separated at every width. */
+.reopen-submission { margin-top: 20px; }
+.reopen-submission h2 { margin: 0; font-size: 1.25rem; line-height: 1.45; }
+.reopen-submission .reopen-caution { margin: 12px 0 0; line-height: 1.6; }
+.reopen-submission button { width: 100%; min-height: 48px; margin: 0; padding: 12px 18px; white-space: normal; }
+.reopen-actions { display: flex; flex-direction: column; gap: 16px; margin-top: 20px; }
+.reopen-submission .reopen-cancel { background: #fff; color: var(--ink); border: 1px solid #858585; }
