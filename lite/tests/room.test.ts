@@ -105,3 +105,38 @@ test('ranks by correct count then elapsed time, ties share rank without join-ord
   const r=await host.request({type:'finish'});
   expect(r.state.results.ranking.map((x:any)=>x.rank)).toEqual([1,1,3,4]);
 });
+
+ test('deferred reopening preserves drafts, hides scores, resets grades, and replays monotonically',async()=>{
+ const {data}=await f.create({...settings,gradingMode:'deferred'} as any);const host=await f.connect(data.code);await host.request({type:'hello',role:'teacher',token:data.token});
+ const a=await f.connect(data.code),b=await f.connect(data.code);await a.request(credentials('A'));await b.request(credentials('B'));await host.request({type:'start'});
+ const store=await f.storage(data.code);await store.exec('UPDATE room SET start_at=?,deadline_at=?',Date.now()-1000,Date.now()+60000);
+ const q=JSON.parse((await store.exec('SELECT questions FROM room')).rows[0].questions as string)[0];
+ await a.request({type:'draft',seq:1,answers:[{questionId:q.id,fieldId:'name',value:q.answer.canonical}]});
+ const submitted=await a.request({type:'submit',seq:2});expect(submitted.state.own.correctCount).toBe(0);
+ expect((await a.request({type:'review'})).state.review).toBeUndefined();expect((await host.request({type:'sync'})).state.participants[0].correctCount).toBe(0);
+ const reopened=await a.request({type:'reopen',seq:3});expect(reopened.type).toBe('ack');expect(reopened.state.own).toMatchObject({finished:false,lastSeq:3,correctCount:0});expect(reopened.state.deferred.drafts[q.id+':name']).toBe(q.answer.canonical);expect(reopened.state.question).toBeUndefined();
+ expect((await a.request({type:'reopen',seq:3})).state.own.lastSeq).toBe(3);
+ await a.request({type:'draft',seq:4,answers:[{questionId:q.id,fieldId:'name',value:''}]});await a.request({type:'submit',seq:5});
+ const final=await b.request({type:'submit',seq:1});expect(final.state.room.state).toBe('FINISHED');expect((await a.request({type:'sync'})).state.results.own.correctCount).toBe(0);
+ expect((await a.request({type:'reopen',seq:6})).code).toBe('not_running');
+ });
+test('deferred two-field reopening regrades structured and cleared answers at timeout',async()=>{
+ const {data}=await f.create({...settings,mode:'compound',compoundAnswer:'both',gradingMode:'deferred'} as any);const host=await f.connect(data.code);await host.request({type:'hello',role:'teacher',token:data.token});
+ const a=await f.connect(data.code),b=await f.connect(data.code);await a.request(credentials('A'));await b.request(credentials('B'));await host.request({type:'start'});
+ const store=await f.storage(data.code);await store.exec('UPDATE room SET start_at=?,deadline_at=?',Date.now()-1000,Date.now()+60000);
+ const q=JSON.parse((await store.exec('SELECT questions FROM room')).rows[0].questions as string)[0];
+ await a.request({type:'draft',seq:1,answers:q.fields.map((field:any)=>({questionId:q.id,fieldId:field.id,value:q.answer[field.id].canonical}))});await a.request({type:'submit',seq:2});expect((await store.exec('SELECT correct_count FROM participants ORDER BY joined_order')).rows[0].correct_count).toBe(2);
+ await a.request({type:'reopen',seq:3});const draft={tokens:[],charge:null};await a.request({type:'draft',seq:4,answers:[{questionId:q.id,fieldId:'name',value:''},{questionId:q.id,fieldId:'formula',value:draft}]});
+ expect((await a.request({type:'sync'})).state.deferred.drafts[q.id+':formula']).toEqual(draft);
+ await store.exec('UPDATE room SET deadline_at=?',Date.now()-4000);const result=await a.request({type:'sync'});expect(result.state.room.state).toBe('FINISHED');expect(result.state.results.own.correctCount).toBe(0);expect(result.state.results.questions[0].fields.map((x:any)=>x.state)).toEqual(['unanswered','unanswered']);
+});
+test('reopening rejects teacher, immediate, unsubmitted and collecting states',async()=>{
+ const {data}=await f.create({...settings,gradingMode:'deferred'} as any);const host=await f.connect(data.code);await host.request({type:'hello',role:'teacher',token:data.token});const a=await f.connect(data.code),b=await f.connect(data.code);await a.request(credentials('A'));await b.request(credentials('B'));await host.request({type:'start'});const store=await f.storage(data.code);await store.exec('UPDATE room SET start_at=?,deadline_at=?',Date.now()-1000,Date.now()+60000);
+ expect((await host.request({type:'reopen',seq:1})).code).toBe('forbidden');expect((await a.request({type:'reopen',seq:1})).code).toBe('not_running');await a.request({type:'submit',seq:1});await host.request({type:'finish'});expect((await a.request({type:'reopen',seq:2})).code).toBe('not_running');
+});
+test('resubmission replaces original accepted time for score-then-centisecond ranking',async()=>{
+ const {data}=await f.create({...settings,gradingMode:'deferred'} as any);const host=await f.connect(data.code);await host.request({type:'hello',role:'teacher',token:data.token});const a=await f.connect(data.code),b=await f.connect(data.code),c=await f.connect(data.code);const ca=credentials('A'),cb=credentials('B');await a.request(ca);await b.request(cb);await c.request(credentials('C'));await host.request({type:'start'});const store=await f.storage(data.code);const start=Date.now()-10000;await store.exec('UPDATE room SET start_at=?,deadline_at=?',start,Date.now()+60000);
+ await a.request({type:'submit',seq:1});await store.exec('UPDATE participants SET finished_at=? WHERE id=?',start+100,ca.participantId);await b.request({type:'submit',seq:1});await store.exec('UPDATE participants SET finished_at=? WHERE id=?',start+200,cb.participantId);
+ await a.request({type:'reopen',seq:2});const before=Date.now();const again=await a.request({type:'submit',seq:3});expect(again.state.own.finishedAtMs).toBeGreaterThanOrEqual(before);const accepted=again.state.own.finishedAtMs;expect((await a.request({type:'submit',seq:3})).state.own.finishedAtMs).toBe(accepted);
+ await c.request({type:'submit',seq:1});const results=await a.request({type:'sync'});expect(results.state.results.own.rank).toBeGreaterThan(1);expect(results.state.results.own.elapsedCs).toBe(Math.round((accepted-start)/10));
+});

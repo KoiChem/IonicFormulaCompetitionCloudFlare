@@ -270,6 +270,13 @@ legend { margin-bottom: 10px; font-weight: 800; }
     radial-gradient(circle at 5% 0%, rgba(123, 209, 174, .15), transparent 30rem), var(--background);
   color: var(--ink);
 }
+/* Keep the host race neutral so the reference runner colors remain distinct. */
+.class-host-page:has(.host-race) {
+  --grid-line: rgba(40, 40, 40, .045);
+  background: linear-gradient(var(--grid-line) 1px, transparent 1px) 0 0 / 22px 22px,
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px) 0 0 / 22px 22px, #fafafa;
+  color: #292929;
+}
 .play-active { --play-ink:var(--ink); --play-muted:var(--muted); --play-paper:var(--paper); --play-bg:var(--background); --play-line:var(--line); --play-primary:var(--primary); --play-dark:var(--primary-dark); }
 .panel, .question-card, .answer-card { border: 1px solid var(--line); background: var(--paper); box-shadow: var(--shadow); }
 .choice { color:var(--primary-dark); border-color:var(--line); background:var(--paper); }

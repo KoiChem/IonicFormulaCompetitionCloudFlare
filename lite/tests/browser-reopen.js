@@ -1,0 +1,27 @@
+async (page) => {
+ const origin=new URL(page.url()).origin,alkane=origin.includes('8792')||origin.includes('alkanecompetition'),errors=[],failures=[],reports=[];
+ page.on('pageerror',e=>errors.push(e.message));page.on('requestfailed',r=>failures.push(r.url()));
+ await page.goto(origin+'/#/teacher');await page.getByRole('button',{name:'5問',exact:true}).click();await page.getByRole('button',{name:alkane?'名付ける':'イオン名',exact:true}).click();await page.getByRole('button',{name:'まとめて判定',exact:true}).click();await page.getByRole('button',{name:'クラスルームを作る',exact:true}).click();await page.getByRole('button',{name:'問題を準備して開始',exact:true}).waitFor();
+ const code=new URL(page.url()).hash.match(/rooms\/([A-Z2-9]{6})/)[1],contexts=[],students=[];
+ async function layout(p){const sizes=[];for(const width of [320,390,768,1280]){await p.setViewportSize({width,height:844});sizes.push(await p.evaluate(()=>({width:innerWidth,overflow:document.documentElement.scrollWidth>innerWidth})));}if(sizes.some(x=>x.overflow))throw Error('overflow '+JSON.stringify(sizes));return sizes;}
+ async function submit(p){await p.getByRole('button',{name:'全解答確認',exact:true}).click();if(alkane){await p.getByRole('button',{name:'このまま提出',exact:true}).click();await p.getByRole('button',{name:'提出を確定する',exact:true}).click();}else await p.getByRole('button',{name:'提出する',exact:true}).click();}
+ try{
+  for(let i=0;i<2;i++){const context=await page.context().browser().newContext({viewport:{width:390,height:844}}),p=await context.newPage(),states=[];contexts.push(context);p.on('pageerror',e=>errors.push(e.message));p.on('requestfailed',r=>failures.push(r.url()));p.on('websocket',ws=>ws.on('framereceived',frame=>{try{const m=JSON.parse(frame.payload);if(m.state)states.push(m.state);}catch{}}));await p.goto(origin+'/#/join/'+code);await p.getByRole('textbox',{name:/ニックネーム/}).fill('差し戻し検証'+i);await p.getByRole('button',{name:'参加する',exact:true}).click();await p.getByRole('heading',{name:'開始を待っています',exact:true}).waitFor();students.push({p,states});}
+  await page.getByRole('button',{name:'問題を準備して開始',exact:true}).click();const a=students[0].p,b=students[1].p;
+  await a.getByRole('button',{name:'全解答確認',exact:true}).waitFor();await b.getByRole('button',{name:'全解答確認',exact:true}).waitFor();
+  if(alkane)await a.locator('.alkane-word-row button').first().click();else await a.getByRole('textbox').fill('検証入力');
+  const inputBefore=alkane?await a.locator('.alkane-answer-tokens').innerText():await a.getByRole('textbox').inputValue();
+  await submit(a);await a.getByRole('button',{name:'差し戻しを希望する',exact:true}).waitFor();const initialSubmission=students[0].states.at(-1).own.finishedAtMs;
+  await a.getByRole('button',{name:'差し戻しを希望する',exact:true}).click();await a.getByRole('alertdialog').waitFor();await a.getByRole('button',{name:'取り消す',exact:true}).click();if(await a.getByRole('alertdialog').count())throw Error('cancel left dialog');if(!students[0].states.at(-1).own.finished)throw Error('cancel reopened');
+  await a.getByRole('button',{name:'差し戻しを希望する',exact:true}).click();await a.keyboard.press('Escape');if(await a.getByRole('alertdialog').count())throw Error('escape left dialog');
+  await a.getByRole('button',{name:'差し戻しを希望する',exact:true}).click();const waitingGeometry=await layout(a);await a.setViewportSize({width:390,height:844});await a.screenshot({path:'/private/tmp/'+(alkane?'alkane':'ionic')+'-reopen-confirm.png',fullPage:true});await a.getByRole('button',{name:'差し戻して解答に戻る',exact:true}).click();await a.getByRole('button',{name:'全解答確認',exact:true}).waitFor();if(students[0].states.at(-1).own.finished)throw Error('confirm did not reopen');
+  const reopened=alkane?await a.locator('.alkane-answer-tokens').innerText():await a.getByRole('textbox').inputValue();if(reopened!==inputBefore)throw Error('answers lost on reopen');
+  await a.reload();await a.getByRole('button',{name:'全解答確認',exact:true}).waitFor();const restored=alkane?await a.locator('.alkane-answer-tokens').innerText():await a.getByRole('textbox').inputValue();if(restored!==inputBefore)throw Error('answers lost on reload');
+  if(alkane)await a.locator('.alkane-word-row button').nth(1).click();else await a.getByRole('textbox').fill('検証修正');
+  await page.setViewportSize({width:1280,height:844});await page.screenshot({path:'/private/tmp/'+(alkane?'alkane':'ionic')+'-vivid-race.png',fullPage:true});const hostGeometry=await layout(page);
+  await submit(b);await b.getByRole('button',{name:'差し戻しを希望する',exact:true}).waitFor();await submit(a);await a.getByRole('heading',{name:'最終結果',exact:true}).waitFor();await b.getByRole('heading',{name:'最終結果',exact:true}).waitFor();await page.getByRole('heading',{name:'最終結果',exact:true}).waitFor();
+  const final=students[0].states.at(-1);if(final.results.own.finishedAtMs<=initialSubmission)throw Error('submission time not replaced');if(final.results.own.rank!==2)throw Error('latest submission did not rank second '+JSON.stringify(final.results.own));if(await a.getByRole('button',{name:'差し戻しを希望する',exact:true}).count())throw Error('final results reopened');
+  reports.push({origin,code,cancel:true,escape:true,answersRetained:true,reloadRetained:true,editable:true,latestTime:true,finalRank:final.results.own.rank,waitingGeometry,hostGeometry});
+ }finally{for(const context of contexts)await context.close();}
+ if(errors.length||failures.length)throw Error(JSON.stringify({errors,failures}));return{reports,pageErrors:errors,networkFailures:failures};
+}

@@ -16,7 +16,7 @@ export class RoomConnection {
   get pending(){return !!this.operation;}
   constructor(private credential:Credential,private callbacks:Callbacks){
     this.key=`ionic-lite:pending:${credential.code}:${credential.participantId??'teacher'}`;
-    try{const value=JSON.parse(localStorage.getItem(this.key)??'null');if(value&&['answer','pass','submit','draft'].includes(value.type)&&Number.isSafeInteger(value.seq))this.operation=value;}catch{}
+    try{const value=JSON.parse(localStorage.getItem(this.key)??'null');if(value&&['answer','pass','submit','draft','reopen'].includes(value.type)&&Number.isSafeInteger(value.seq))this.operation=value;}catch{}
     window.addEventListener('online',this.wake);window.addEventListener('offline',this.offline);document.addEventListener('visibilitychange',this.wake);
     this.connect();
   }
@@ -43,7 +43,7 @@ export class RoomConnection {
       if(hello&&message.type==='ack'){this.ready=true;if(this.timeout)clearTimeout(this.timeout);this.timeout=undefined;this.heartbeat=setInterval(()=>{if(ws.readyState===1){ws.send('ping');this.pongTimeout=setTimeout(()=>ws.close(),10000);}},25000);}
       if(message.state){
         this.state=message.state;
-        if(this.operation&&(message.state.own?.lastSeq??0)>=this.operation.seq!)this.clearOperation();
+        if(this.operation&&((message.state.own?.lastSeq??0)>=this.operation.seq!||this.operation.type==='reopen'&&(message.state.room.state!=='RUNNING'||message.state.serverNow>=(message.state.room.deadlineAtMs??Infinity))))this.clearOperation();
         this.callbacks.onState(message.state);
       } else if(message.type==='progress'&&message.participant&&this.state?.participants){
         this.state={...this.state,serverNow:message.serverNow??this.state.serverNow,participants:this.state.participants.map(p=>p.id===message.participant!.id?message.participant!:p)};
@@ -59,7 +59,7 @@ export class RoomConnection {
       if(hello){
         if(message.type==='error'){this.stopped=true;this.callbacks.onStatus(message.message??'参加情報を確認してください');ws.close(1000);return;}
         if(this.operation){
-          if(['RUNNING','COLLECTING'].includes(message.state?.room.state??'')&&!message.state?.own?.finished)void this.send(this.operation).catch(()=>{});
+          if(this.operation.type==='reopen'?message.state?.room.state==='RUNNING'&&message.state.own?.finished&&message.state.serverNow<(message.state.room.deadlineAtMs??0):['RUNNING','COLLECTING'].includes(message.state?.room.state??'')&&!message.state?.own?.finished)void this.send(this.operation).catch(()=>{});
           else this.clearOperation();
         }
         this.callbacks.onStatus(this.pending?'送信中':'接続済み');
@@ -77,7 +77,7 @@ export class RoomConnection {
   send(message:ClientMessage):Promise<ServerMessage>{
     if(!this.ready||this.ws?.readyState!==1)return Promise.reject(new Error('接続を確認してから操作してください'));
     if(this.inFlight)return Promise.reject(new Error('送信中です'));
-    if(['answer','pass','submit','draft'].includes(message.type)){
+    if(['answer','pass','submit','draft','reopen'].includes(message.type)){
       if(this.operation&&this.operation.seq!==message.seq)return Promise.reject(new Error('前の回答を確認中です'));
       try{localStorage.setItem(this.key,JSON.stringify(message));}catch{return Promise.reject(new Error('回答の受付状況を保存できません。ブラウザの保存設定を確認してください'));}
       this.operation=message;

@@ -137,8 +137,8 @@ describe("host runner", () => {
     const colors = [...html.matchAll(/style="color:([^;]+);/g)].map(match => match[1]);
     expect(colors).toEqual([colorForRunner("test-room", 2), colorForRunner("test-room", 1)]);
   });
-  it("has at least eighteen stable dark runner colors", () => {
-    expect(new Set(runnerPalette).size).toBeGreaterThanOrEqual(18);
+  it("has 24 stable reference runner colors", () => {
+    expect(new Set(runnerPalette).size).toBe(24);
     expect(colorForRunner("test-room", 1)).toBe(colorForRunner("test-room", 1));
   });
 });

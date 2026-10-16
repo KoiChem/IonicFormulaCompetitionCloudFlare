@@ -64,3 +64,14 @@ test('an unreceived submit survives a reload into a new connection instance',asy
  const resumed=new RoomConnection(c,{onState:()=>{},onStatus:()=>{},onVerdict:()=>{}});const second=FakeSocket.instances[1];second.open();second.receive({type:'ack',requestId:second.sent[0].requestId,state:state(0)});
  expect(second.sent[1]).toMatchObject({type:'submit',seq:1});resumed.dispose();
 });
+test('pending reopen replays after reload while own submission is finished and clears on rejection',async()=>{
+ const {connection,first}=setup();const pending=connection.send({type:'reopen',seq:1}).catch(()=>null);connection.dispose();await pending;
+ const resumed=new RoomConnection(c,{onState:()=>{},onStatus:()=>{},onVerdict:()=>{}});const second=FakeSocket.instances[1];second.open();
+ const snapshot={...state(0),own:{...state(0).own!,finished:true},room:{...state(0).room,deadlineAtMs:Date.now()+10000}};
+ second.receive({type:'ack',requestId:second.sent[0].requestId,state:snapshot});expect(second.sent[1]).toMatchObject({type:'reopen',seq:1});
+ second.receive({type:'error',code:'not_running',requestId:second.sent[1].requestId,state:snapshot});expect(resumed.pending).toBe(false);resumed.dispose();
+});
+test('expired reopen is discarded on reconnect',async()=>{
+ const {connection}=setup();const pending=connection.send({type:'reopen',seq:1}).catch(()=>null);connection.dispose();await pending;
+ const resumed=new RoomConnection(c,{onState:()=>{},onStatus:()=>{},onVerdict:()=>{}});const second=FakeSocket.instances[1];second.open();second.receive({type:'ack',requestId:second.sent[0].requestId,state:{...state(0),own:{...state(0).own!,finished:true},room:{...state(0).room,deadlineAtMs:Date.now()-1}}});expect(second.sent).toHaveLength(1);expect(resumed.pending).toBe(false);resumed.dispose();
+});
