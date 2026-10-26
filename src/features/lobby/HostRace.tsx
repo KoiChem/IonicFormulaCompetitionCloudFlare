@@ -43,7 +43,7 @@ export function Runner({ id, color = "#1763a6", goal, stopped, rest = false, das
   </svg>;
 }
 
-export const HostRace = memo(function HostRace({ roomId, participants, mode, maxScore, questionCount = maxScore, active, pace, remainingText, interruptButton }: { roomId: string; participants: ParticipantState[]; mode: RaceMode; maxScore: number; questionCount?: number; active: boolean; pace: 0 | 1 | 2 | 3; remainingText: string; interruptButton: ReactNode }) {
+export const HostRace = memo(function HostRace({ roomId, participants, mode, maxScore, questionCount = maxScore, active, waiting = false, pace, remainingText, interruptButton }: { roomId: string; participants: ParticipantState[]; mode: RaceMode; maxScore: number; questionCount?: number; active: boolean; waiting?: boolean; pace: 0 | 1 | 2 | 3; remainingText: string; interruptButton: ReactNode }) {
   const motionKey = "ionic-formula-competition:race-motion:v1";
   const previous = useRef<string[]>([]);
   const [motionChoice, setMotionChoice] = useState<RaceMotionChoice>("auto");
@@ -159,10 +159,10 @@ export const HostRace = memo(function HostRace({ roomId, participants, mode, max
     const maximum = mode === "deferred" ? questionCount : maxScore;
     const progress = raceProgress(row, mode, maximum);
     const goal = isRaceGoal(row, mode, maxScore);
-    const rest = mode === "deferred" && row.submitted === true;
+    const rest = waiting || (mode === "deferred" && row.submitted === true);
     const dash = dashIds.has(row.id) && active && !hidden && !goal && !rest;
     const ended = mode === "immediate" && row.status === "FINISHED" && !goal;
-    const stopped = !active || ended;
+    const stopped = (!active && !waiting) || ended;
     const phase = `${mode === "deferred" ? "進捗" : "正解"} ${row.count} / ${maximum}`;
     return <div key={row.id} className="race-lane" style={{ height: laneHeight, transform: `translateY(${index * laneHeight}px)` }}>
       <div className="race-label" style={{ fontSize: `max(18px, ${24 * raceScale(row.rank)}px)` }}><strong>{row.rank}位</strong><span title={row.nickname}>{row.nickname}</span><small>{phase}{row.submitted && mode === "deferred" ? "・提出済み" : ended && active ? "・解答終了" : ""}</small></div>
