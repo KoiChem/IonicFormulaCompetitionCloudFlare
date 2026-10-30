@@ -17,4 +17,9 @@ main.home-shell{min-height:100dvh;place-items:center;padding:24px}
 .home-related-actions{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:16px}
 .home-related-actions .secondary-link{min-width:0;padding-inline:6px;font-size:clamp(.8rem,3.5vw,1rem);white-space:nowrap}
 
-.teacher-entry{display:flex;align-items:center;flex-wrap:wrap;gap:12px;min-width:0}.teacher-entry-actions{display:flex;flex-wrap:wrap;gap:16px;flex-shrink:0}.lite-teacher-list li{flex-wrap:wrap}.teacher-invite-row{flex-wrap:wrap}
+.teacher-entry{display:flex;align-items:center;flex-wrap:wrap;gap:12px;min-width:0}.teacher-entry-actions{display:flex;flex-wrap:wrap;gap:16px;flex-shrink:0}.lite-teacher-list li{flex-wrap:wrap}
+.teacher-invite-form{display:grid;gap:12px}
+.teacher-invite-row{align-items:flex-end;flex-wrap:wrap}
+.teacher-invite-field{min-width:0}
+.teacher-note-field{flex:1 1 180px}
+.teacher-invite-row .teacher-add-action{flex:none;margin-left:auto}
