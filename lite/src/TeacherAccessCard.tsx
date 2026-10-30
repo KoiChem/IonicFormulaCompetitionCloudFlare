@@ -1,8 +1,9 @@
 import {useEffect, useState} from 'react';
 import {teacherMutation, type TeacherSession} from './teacher-auth';
-type Allowlist = {emails: string[]; masterEmail: string};
+type Allowlist = {emails: string[]; notes: Record<string,string>; masterEmail: string};
 export function TeacherAccessCard({session, onExpired}: {session: TeacherSession; onExpired(): void}) {
   const [list, setList] = useState<Allowlist | null>(null), [email, setEmail] = useState(''), [search, setSearch] = useState(''), [busy, setBusy] = useState(false), [error, setError] = useState(''), [retry, setRetry] = useState(0);
+  const [note,setNote]=useState(''), [editing,setEditing]=useState<string|null>(null), [draft,setDraft]=useState('');
   const failure = (e: unknown) => {if ((e as {status?: number}).status === 401) onExpired(); else setError(e instanceof Error ? e.message : '教員を確認できません');};
   useEffect(() => {
     let live = true;
@@ -13,20 +14,20 @@ export function TeacherAccessCard({session, onExpired}: {session: TeacherSession
     }).catch(e => {if (live) failure(e);});
     return () => {live = false;};
   }, [retry]);
-  const update = async (method: 'POST' | 'DELETE', target: string) => {
+  const update = async (method: 'POST' | 'PUT' | 'DELETE', target: string, memo = '') => {
     if (busy) return;
     setBusy(true); setError('');
-    try {setList(await teacherMutation<Allowlist>('/api/teacher/allowlist', method, session, {email: target})); if (method === 'POST') setEmail('');}
+    try {setList(await teacherMutation<Allowlist>('/api/teacher/allowlist', method, session, {email: target, note: memo})); if (method === 'POST') {setEmail('');setNote('');} if(method === 'PUT') setEditing(null);}
     catch (e) {failure(e);} finally {setBusy(false);}
   };
-  const filtered = list?.emails.filter(value => value.includes(search.trim().toLowerCase())) ?? [];
+  const filtered = list?.emails.filter(value => (value+' '+(list.notes?.[value]??'')).toLowerCase().includes(search.trim().toLowerCase())) ?? [];
   return <section className="teacher-admin-card teacher-access-card" aria-labelledby="teacher-access-title">
     <div className="teacher-card-heading"><span className="teacher-card-symbol" aria-hidden="true">＋</span><div><p className="teacher-card-kicker">アクセスの管理</p><h2 id="teacher-access-title">許可教員の管理</h2></div><span className="teacher-count-badge">{list?.emails.length ?? '—'} / 100人</span></div>
     <p>登録したGoogleアカウントで、クラスコンペを作成できます。</p>
-    <form className="teacher-invite-form" onSubmit={e => {e.preventDefault(); void update('POST', email);}}><label htmlFor="teacher-email">教員のメールアドレス</label><div className="teacher-invite-row"><input id="teacher-email" type="email" autoComplete="email" placeholder="teacher@example.com" maxLength={254} required value={email} disabled={busy || !list} onChange={e => setEmail(e.target.value)}/><button type="submit" className="teacher-add-action" disabled={busy || !list || !email.trim()}>登録する</button></div></form>
+    <form className="teacher-invite-form" onSubmit={e => {e.preventDefault(); void update('POST', email, note);}}><label htmlFor="teacher-email">教員のメールアドレス</label><div className="teacher-invite-row"><input id="teacher-email" type="email" autoComplete="email" placeholder="teacher@example.com" maxLength={254} required value={email} disabled={busy || !list} onChange={e => setEmail(e.target.value)}/><label>メモ（任意）<input maxLength={100} value={note} disabled={busy} onChange={e=>setNote(e.target.value)}/></label><button type="submit" className="teacher-add-action" disabled={busy || !list || !email.trim()}>登録する</button></div></form>
     <div className="teacher-roster-heading"><h3>登録済みの教員</h3><button type="button" className="teacher-text-action" disabled={busy} onClick={() => setRetry(value => value + 1)}>再読み込み</button></div>
     {list && list.emails.length > 0 && <label className="lite-teacher-search">教員を検索<input type="search" value={search} onChange={e => setSearch(e.target.value)}/></label>}
-    <div className="teacher-roster" aria-busy={!list || busy}>{!list ? <p role="status">教員を確認しています…</p> : filtered.length === 0 ? <p className="teacher-empty-state">{search.trim() ? '該当する教員はいません。' : '許可教員はまだ登録されていません。'}</p> : <ul className="lite-teacher-list">{filtered.map(value => <li key={value}><span>{value}</span><button type="button" className="teacher-text-action" aria-label={`${value}の登録を解除`} disabled={busy} onClick={() => {if (window.confirm(`${value} の教員登録を解除しますか？`)) void update('DELETE', value);}}>解除</button></li>)}</ul>}</div>
+    <div className="teacher-roster" aria-busy={!list || busy}>{!list ? <p role="status">教員を確認しています…</p> : filtered.length === 0 ? <p className="teacher-empty-state">{search.trim() ? '該当する教員はいません。' : '許可教員はまだ登録されていません。'}</p> : <ul className="lite-teacher-list">{filtered.map(value => <li key={value}><div className="teacher-entry"><span>{value}</span>{editing===value ? <input aria-label={`${value}のメモ`} maxLength={100} value={draft} disabled={busy} onChange={e=>setDraft(e.target.value)}/> : <span>{list?.notes?.[value]??''}</span>}</div><div className="teacher-entry-actions">{editing===value ? <><button type="button" disabled={busy} onClick={()=>void update('PUT',value,draft)}>保存</button><button type="button" disabled={busy} onClick={()=>setEditing(null)}>キャンセル</button></> : <button type="button" className="teacher-text-action" disabled={busy} onClick={()=>{setEditing(value);setDraft(list?.notes?.[value]??'');}}>編集</button>}<button type="button" className="teacher-text-action" aria-label={`${value}の登録を解除`} disabled={busy} onClick={() => {if (window.confirm(`${value} の教員登録を解除しますか？`)) void update('DELETE', value);}}>解除</button></div></li>)}</ul>}</div>
     {error && <p role="alert" className="error">{error}</p>}
     <p className="teacher-master-identity">マスター教員<span>{list?.masterEmail ?? session.identity?.email}</span></p>
   </section>;

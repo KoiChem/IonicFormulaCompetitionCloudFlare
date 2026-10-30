@@ -23,7 +23,7 @@ await runtime.dispatchFetch(origin + '/api/auth/session');
 const storage = await runtime.unsafeGetDurableObjectStorage('lite-browser', 'LiteTeachers', {name: 'teachers'});
 const hash = value => createHash('sha256').update(value).digest('hex');
 await storage.exec('INSERT INTO sessions VALUES(?,?,?,?)', hash('A'.repeat(43)), 'test-master', 'master@example.com', Date.now() + 28800000);
-await storage.exec('INSERT INTO teachers VALUES(?)', 'teacher@example.com');
+await storage.exec('INSERT INTO teachers(email) VALUES(?)', 'teacher@example.com');
 await storage.exec('INSERT INTO sessions VALUES(?,?,?,?)', hash('B'.repeat(43)), 'test-teacher', 'teacher@example.com', Date.now() + 28800000);
 console.log('Lite browser fixture ready at ' + origin);
 for (const signal of ['SIGINT', 'SIGTERM']) process.on(signal, async () => {await runtime.dispose(); process.exit(0);});

@@ -71,7 +71,13 @@ it('lets only the master register teachers and revokes removed teacher sessions'
     const mutate = (method: string, email: string, headers = f.teacherHeaders) => f.fetch('/api/teacher/allowlist', {method, headers, body: JSON.stringify({email})});
     expect((await f.fetch('/api/teacher/allowlist')).status).toBe(401);
     const added = await mutate('POST', ' Teacher@Example.com ');
-    expect(await added.json()).toEqual({emails: ['teacher@example.com'], masterEmail: 'master@example.com'});
+    expect(await added.json()).toEqual({emails: ['teacher@example.com'], notes: {'teacher@example.com':''}, masterEmail: 'master@example.com'});
+    const saveNote = (note: unknown) => f.fetch('/api/teacher/allowlist', {method:'PUT',headers:f.teacherHeaders,body:JSON.stringify({email:'teacher@example.com',note})});
+    expect((await saveNote('田中先生')).status).toBe(200);
+    expect((await (await f.fetch('/api/teacher/allowlist',{headers:f.teacherHeaders})).json() as any).notes['teacher@example.com']).toBe('田中先生');
+    expect((await saveNote('x'.repeat(101))).status).toBe(400);
+    expect((await saveNote('a\nb')).status).toBe(400);
+    expect((await saveNote('')).status).toBe(200);
     expect((await mutate('POST', 'master@example.com')).status).toBe(400);
     expect((await mutate('POST', 'invalid')).status).toBe(400);
     expect((await mutate('POST', 'another@example.com', {...f.teacherHeaders, 'x-competition-csrf': ''})).status).toBe(403);
@@ -90,7 +96,7 @@ it('lets only the master register teachers and revokes removed teacher sessions'
 it('rejects roster overflow without dropping existing teachers', async () => {
   const f = await fixture(false);
   try {
-    for (let i = 0; i < 100; i++) await f.authStorage.exec('INSERT INTO teachers VALUES(?)', `teacher${i}@example.com`);
+    for (let i = 0; i < 100; i++) await f.authStorage.exec('INSERT INTO teachers(email) VALUES(?)', `teacher${i}@example.com`);
     const insert = (email: string) => f.fetch('/api/teacher/allowlist', {method: 'POST', headers: f.teacherHeaders, body: JSON.stringify({email})});
     expect((await insert('overflow@example.com')).status).toBe(409);
     expect((await insert('teacher0@example.com')).status).toBe(200);
@@ -135,7 +141,7 @@ it('rejects mismatched, expired, cancelled, and replayed OAuth requests', async 
 it('cleans expired login records with an alarm while keeping teacher permissions', async () => {
   const f = await fixture(false);
   try {
-    await f.authStorage.exec('INSERT INTO teachers VALUES(?)', 'teacher@example.com');
+    await f.authStorage.exec('INSERT INTO teachers(email) VALUES(?)', 'teacher@example.com');
     await f.authStorage.exec('UPDATE sessions SET expires_at=?', Date.now() + 200);
     await f.fetch('/api/auth/google/start');
     await f.authStorage.exec('UPDATE oauth SET expires_at=?', Date.now() - 1);
