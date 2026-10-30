@@ -1,3 +1,4 @@
+import {CollectingParade} from './CollectingParade';
 import { appPath } from '../../web/routing';
 "use client";
 import { useEffect, useRef, useState, type RefObject } from "react";
@@ -133,6 +134,6 @@ function ManagedRoom({ roomId }: { roomId: string }) {
   const interrupt = async () => { setBusy(true); const body = pendingInterrupt.current ?? { requestId: crypto.randomUUID(), expectedRevision: data.room.revision }; pendingInterrupt.current = body; try { await retryExact(`/api/rooms/${encodeURIComponent(roomId)}/interrupt`, body); await refresh(); pendingInterrupt.current = null; } catch (e: any) { if (e.status && e.status < 500 && e.code !== "database_conflict") { pendingInterrupt.current = null; await refresh(); } throw e; } finally { setBusy(false); } };
   if (data.room.state === "WAITING") return <main className="class-host-page"><Lobby room={data.room} participants={data.participants} joinCode={meta.joinCode} canStart={(data.participants?.length ?? 0) >= 1 && !settings} onStart={start} onRemove={remove} busy={busy||startControl.busy}/><StartStatusPanel start={startControl}/><EndRoomButton busy={busy||startControl.busy} onEnd={end}/><details className="panel settings-editor"><summary>競技設定を変更</summary><CompetitionSettingsForm value={activeSettings} onChange={setSettings} disabled={busy||startControl.busy}/><button className="primary-action" type="button" disabled={busy || startControl.busy || !settings} onClick={saveSettings}>設定を保存</button></details></main>;
   if (data.room.state === "PREPARING") return <main className="class-host-page"><PreparingStatus data={data} busy={busy||startControl.busy} onCancel={cancelPreparation} onRefresh={refresh}/></main>;
-  if (data.room.state === "COLLECTING") return <main className="class-host-page"><section className="panel wide"><h1>記録を確認しています</h1><p>参加者からの解答記録を回収しています。</p><CollectingProgress participants={data.participants} gradingMode={data.room.gradingMode}/></section></main>;
+  if (data.room.state === "COLLECTING") return <main className="class-host-page"><section className="panel wide"><CollectingParade roomId={data.room.id} participants={data.participants ?? []}/><CollectingProgress participants={data.participants} gradingMode={data.room.gradingMode}/></section></main>;
   return <ClassRunning data={data} clockRef={clockRef} busy={busy} onInterrupt={interrupt}/>;
 }
